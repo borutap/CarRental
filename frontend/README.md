@@ -1,0 +1,2 @@
+# Uruchamianie
+npm run start
