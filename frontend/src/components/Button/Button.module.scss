@@ -1,0 +1,22 @@
+@import '../../styles/global.scss';
+// https://fonts.google.com/specimen/Poppins?query=poppins#standard-styles
+
+.container {
+    /* background-color: #1b1e24; */
+    background-color: #aab4c2;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: white;
+    color: darkolivegreen;
+    
+    display: flex;
+    justify-content: center;
+    padding: 0.6em;
+    font-family: fantasy;
+    height: 45px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken(#aab4c2, 10%);
+    }
+}
