@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { FaBeer } from 'react-icons/fa';
+import { MainView } from '@components/MainView/MainView';
 
 export const App = () => {
   // Create the count state.
@@ -16,13 +16,10 @@ export const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <div className="App">
-            <header className="App-header">
-              <p>
-                Wypożyczalnia otwarta przez <code>{count}</code> sekund <FaBeer />.
-              </p>
-            </header>
-          </div>
+          <MainView testString="Wypożyczalnia"/>
+        </Route>
+        <Route exact path="/menu1">
+          <MainView testString="menu1"/>
         </Route>
         <Route path="*">
           <div>404</div>
@@ -30,4 +27,4 @@ export const App = () => {
       </Switch>
     </Router>
   );
-}
+};

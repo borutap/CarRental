@@ -1,0 +1,30 @@
+@import '../../styles/global.scss';
+
+.container {
+    display: flex;    
+    justify-content: space-around;
+    /* background-color: #1b1e24; */
+    background-color: #989ea8;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: darkslategray;
+    align-items: center;
+    padding: 0 10vw; // gora-dol lewo-prawo
+}
+
+.linkText {
+    width: 150px;
+    height: 100%;
+    padding: 1em;
+    color: $white;
+    background-color: transparent;
+    transition: background-color .3s ease-in-out;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        color: $black;
+        background-color: $white;
+        transition: background-color .3s ease-in-out;
+    }
+}
