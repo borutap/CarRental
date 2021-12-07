@@ -1,26 +1,47 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import styles from './Header.module.scss'
-// const style = {
-//     marginTop: "50%"
-// };
+import styles from './Header.module.scss';
+
+import { CarIcon } from '../CarIcon/CarIcon';
+import { UserIcon } from '../UserIcon/UserIcon';
 
 export const Header = () => {
-  return (
-    <nav className={styles.container}>      
-      <Link className={styles.linkText} to="/">
-        <span>Home</span>
-      </Link>                      
-      <Link className={styles.linkText} to="/menu1">
-        <span>menu1</span>
-      </Link>
-      <span>
-        menu2
-      </span>
-      <span>
-        menu3
-      </span>
-    </nav>
-  );    
+    return (
+        <nav className={styles.container}>
+            <div className={styles.innerContainer}>
+                <div className={styles.nameContainer}>
+                    <CarIcon />
+                    <div className={styles.nameText}>CAR RENTAL</div>
+                </div>
+                <div className={styles.menuContainer}>
+                    <NavLink
+                        exact
+                        activeClassName={styles.active}
+                        className={styles.linkText}
+                        to="/history"
+                    >
+                        <span>History</span>
+                    </NavLink>
+                    <NavLink
+                        exact
+                        activeClassName={styles.active}
+                        className={styles.linkText}
+                        to="/rented"
+                    >
+                        <span>Rented</span>
+                    </NavLink>
+                    <NavLink
+                        exact
+                        activeClassName={styles.active}
+                        className={styles.linkText}
+                        to="/"
+                    >
+                        <span>Search</span>
+                    </NavLink>
+                </div>
+                <UserIcon />
+            </div>
+        </nav>
+    );
 };

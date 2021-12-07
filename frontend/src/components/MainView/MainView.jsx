@@ -1,29 +1,77 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FaBeer } from 'react-icons/fa';
 import { Header } from '@components/Header/Header';
-import { ListItem } from '@components/ListItem/ListItem';
+import { ItemList } from '@components/ItemList/ItemList';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 import styles from './MainView.module.scss';
 
-import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg'
+// GET /vehicles
+const mockVehiclesResponse = {
+    vehiclesCount: 3,
+    vehicles: [
+        {
+            id: '3fa85f64-5717-4562-b3fc-2c963f66afa5',
+            brandName: 'Fiat',
+            modelName: 'Punto',
+            year: 1999,
+            enginePower: 696,
+            enginePowerType: 'string',
+            capacity: 42,
+            description:
+                'Dlugi opis hagikawoghawouighjaiguahgiuahgaiughaiughagiuahgaiughawiughaiguahgiauhg',
+        },
+        {
+            id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            brandName: 'Opel',
+            modelName: 'Szerszen',
+            year: 1969,
+            enginePower: 420,
+            enginePowerType: 'string',
+            capacity: 69,
+            description: 'string',
+        },
+        {
+            id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
+            brandName: 'Niemam',
+            modelName: 'Pojecia',
+            year: 2069,
+            enginePower: 0,
+            enginePowerType: 'string',
+            capacity: 0,
+            description: 'string',
+        },
+    ],
+};
+
+// POST /vehicle/{id}/GetPrice response
+const mockPricesResponse = {
+  "price": 1000,
+  "currency": "zł",
+  // "currency": "string",
+  "generatedAt": "2021-12-07T19:20:37.759Z",
+  "expiredAt": "2021-12-07T19:20:37.759Z",
+  "quotaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+};
 
 export const MainView = (props) => {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Update the count (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
-  return (
-    <>
-      <Header/>
-      <ListItem imageUrl={puntoImg}/>
-      <div className={styles.container}>
-        {props.testString} otwarta przez <code>{count}</code> sekund <FaBeer />.
-      </div>
-    </>
-  );
+    const [vehicles, setVehicles] = useState([]);
+    const [prices, setPrices] = useState(null);
+    const [query, setQuery] = useState('');
+
+    useEffect(() => {
+        setVehicles(mockVehiclesResponse['vehicles']);
+        setPrices(mockPricesResponse['price'])
+    }, []);
+
+    return (
+        <>
+            <Header />
+            <div className={styles.container}>
+                <ItemList query={query} vehicles={vehicles} />
+                <SearchBar setQuery={setQuery} />
+            </div>
+        </>
+    );
 };
