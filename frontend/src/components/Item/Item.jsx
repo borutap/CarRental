@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import styles from './Item.module.scss';
 
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
+import { RentModal } from '../RentModal/RentModal';
 
 export const Item = ({
     imageUrl,
@@ -15,6 +16,11 @@ export const Item = ({
     model,
 }) => {
     const [expanded, setExpanded] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    function toggleModal() {
+        setModalOpen(!modalOpen);
+    }
 
     return (
         // laczy styles.container ze styles.expaneded jezeli expanded true
@@ -41,12 +47,22 @@ export const Item = ({
                             <table>
                                 <Rental name="Rental hgw" price="1000 zł" />
                                 <Rental name="Dluzszanazwa" price="1400 zł" />
-                                <Rental name="bardzodluganazwa" price="1500 zł" />
+                                <Rental
+                                    name="bardzodluganazwa"
+                                    price="1500 zł"
+                                />
                                 <Rental name="Rental 4" price="1200 zł" />
                             </table>
-                            <div className={styles.rentButton}>
+                            <div
+                                className={styles.rentButton}
+                                onClick={toggleModal}
+                            >
                                 RENT
                             </div>
+                            <RentModal
+                                isOpen={modalOpen}
+                                onRequestClose={toggleModal}
+                            ></RentModal>
                         </div>
                     </>
                 )}
@@ -92,7 +108,10 @@ const Rental = ({ name, price }) => {
     return (
         <tr>
             <td className={styles.rentName}>{name}</td>
-            <td className={styles.rentPrice}>{price}</td>
-        </tr>  
+            {/* <td className={styles.rentPrice}>{price}</td> */}
+            <td>
+                <div className={styles.rentButton}>CHECK</div>
+            </td>
+        </tr>
     );
 };
