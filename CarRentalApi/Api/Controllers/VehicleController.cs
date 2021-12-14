@@ -27,36 +27,38 @@ namespace Car_Rental.Controllers
         }
 
         [HttpGet("vehicles")]
-        public IEnumerable<VehicleResponse> GetVehicles()
+        public IEnumerable<VehicleModelResponse> GetVehicles()
         {
-            var results = new List<VehicleResponse>();
+            var results = new List<VehicleModelResponse>();
 
-            foreach(var model in _vehiclesRepository.GetModels())
+            foreach(var vehicle in _vehiclesRepository.GetVehicles())
             {
-                results.AddRange(model.Vehicles.Select(x => new VehicleResponse
+
+                var modelFromDb = _vehiclesRepository.GetModel(vehicle.ModelId);
+                results.Add(new VehicleModelResponse
                 {
-                    Brand = model.Brand,
-                    Model = model.Model,
-                    Capacity = x.Capacity,
-                    Description = x.Description,
-                    EnginePower = x.EnginePower,
-                    EnginePowerType = x.EnginePowerType,
-                    Id = x.Id,
-                    Year = x.Year
-                }));
+                    Brand = modelFromDb.Brand,
+                    Model = modelFromDb.Model,
+                    Capacity = vehicle.Capacity,
+                    Description = vehicle.Description,
+                    EnginePower = vehicle.EnginePower,
+                    EnginePowerType = vehicle.EnginePowerType,
+                    Id = vehicle.Id,
+                    Year = vehicle.Year
+                });
             }
 
             return results;
         }
 
         [HttpPost("vehicle/{brand}/{model}")]
-        public CheckPriceResponse GetModel(string brand, string model,[FromBody] CheckPriceRequest request)
+        public CheckPriceResponse GetModel(string brand, string model, [FromBody] CheckPriceRequest request)
         {
             var modelFromDb = _vehiclesRepository.GetModel(brand, model);
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
-            
+
             var quoteFromDb = _quoteRepository.Create(price, modelFromDb.Currency, modelFromDb.Id);
-            
+
             return new CheckPriceResponse
             {
                 Currency = modelFromDb.Currency,
@@ -74,7 +76,7 @@ namespace Car_Rental.Controllers
             var modelFromDb = _vehiclesRepository.GetModelByVehicleId(id);
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _quoteRepository.Create(price, modelFromDb.Currency, modelFromDb.Id, id);
+            var quoteFromDb = _quoteRepository.Create(price, modelFromDb.Currency, modelFromDb.Id);
 
             return new CheckPriceResponse
             {
@@ -98,22 +100,12 @@ namespace Car_Rental.Controllers
                 StartDate = request.StartDate,
                 EndDate = request.EndDate
             };
-           
-            Vehicle vehicle;
-            
-            if(quoteFromDb.VehicleId is null)
-            {
-                vehicle = _vehiclesRepository.RentFirstAvailableVehicle(quoteFromDb.ModelId, request.StartDate, request.EndDate, rent.Id);
-            }
-            else
-            {
-                vehicle = _vehiclesRepository.RentVehicle(quoteFromDb.ModelId, quoteFromDb.VehicleId.Value, request.StartDate, request.EndDate, rent.Id);
-            }
+
+            Vehicle vehicle = _vehiclesRepository.RentFirstAvailableVehicle(quoteFromDb.ModelId, request.StartDate, request.EndDate, rent.Id, _rentsRepository);
 
             if (vehicle == null) return null;
 
             rent.VehicleId = vehicle.Id;
-            rent.ModelId = quoteFromDb.ModelId;
 
             _rentsRepository.Create(rent);
 
@@ -130,11 +122,9 @@ namespace Car_Rental.Controllers
         [HttpPost("vehicle/Return/{rentId}")]
         public ActionResult ReturnVehicle(Guid rentId)
         {
-            var rent = _rentsRepository.ReturnVehicle(rentId);
-            _vehiclesRepository.ReturnVehicle(rent.ModelId, rent.VehicleId, rentId, rent.ReturnTime);
-            
+            _rentsRepository.ReturnVehicle(rentId);
             return Ok();
-            
+
         }
 
     }

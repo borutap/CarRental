@@ -18,13 +18,16 @@ namespace CarRentalApi.Services.Services
             return rent;
         }
 
-        public Rent ReturnVehicle(Guid rentId)
+        public IEnumerable<Rent> GetRents()
+        {
+            return _quotes;
+        }
+
+        public void ReturnVehicle(Guid rentId)
         {
             var rent = _quotes.SingleOrDefault(x => x.Id == rentId);
             rent.ReturnTime = DateTime.UtcNow;
             _quotes[_quotes.IndexOf(rent)] = rent;
-
-            return rent;
         }
     }
 }

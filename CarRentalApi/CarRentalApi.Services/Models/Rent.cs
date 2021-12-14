@@ -14,7 +14,6 @@ namespace CarRentalApi.Services.Models
         public DateTime CreationTime { get; init; }
         public DateTime? ReturnTime { get; set; }
         public Guid QuoteId { get; init; }
-        public Guid ModelId { get; set; }
         public Guid VehicleId { get; set; }
     }
 }

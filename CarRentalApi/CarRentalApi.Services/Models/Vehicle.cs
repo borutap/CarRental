@@ -11,7 +11,7 @@ namespace Car_Rental.Models
         public string EnginePowerType { get; init; }
         public int Capacity { get; init; }
         public string Description { get; init; }
-        public List<RentDetails> RentDetails {get; set;}
+        public Guid ModelId { get; init; }
     }
 
     public record RentDetails

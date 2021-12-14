@@ -10,7 +10,7 @@ namespace CarRentalApi.Services.Services
         private const int ExpirationHours = 2;
         private List<Quote> _quotes = new List<Quote>();
 
-        public Quote Create(decimal price, string currency, Guid modelId, Guid? vehicleId = null)
+        public Quote Create(decimal price, string currency, Guid modelId)
         {
             var now = DateTime.UtcNow;
             var quote = new Quote
@@ -20,7 +20,6 @@ namespace CarRentalApi.Services.Services
                 ExpiredAt = now.AddHours(ExpirationHours),
                 ModelId = modelId,
                 Price = price,
-                VehicleId = vehicleId,
                 Currency = currency
             };
             _quotes.Add(quote);

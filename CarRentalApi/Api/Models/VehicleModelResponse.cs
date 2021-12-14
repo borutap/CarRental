@@ -2,7 +2,7 @@ using System;
 
 namespace Car_Rental.Models
 {
-    public record VehicleResponse
+    public record VehicleModelResponse
     {
         public Guid Id { get; init; }
         public int Year { get; init; }
