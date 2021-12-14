@@ -39,6 +39,24 @@ $rentButton-height: 35px;
     }    
 }
 
+.thicc {
+    font-weight: 600;
+}
+
+.checkButton {
+    text-decoration: underline;
+    font-family: $header-font;
+    cursor: pointer;
+    text-align: right;
+}
+
+.loadingPrice {
+    letter-spacing: 3px;
+    text-decoration: none;
+    text-align: center;
+    font-family: $main-font;
+}
+
 // check price
 td {
     &>.rentButton {
@@ -72,7 +90,6 @@ td {
     word-wrap: break-word;
     display: flex;
     flex-direction: column;
-    gap: 5px;
 
     &>p {
         margin: 0;
@@ -80,7 +97,7 @@ td {
 }
 
 .description {
-    padding-top: 10px;
+    padding-top: 25px;
     letter-spacing: 1px;
 }
 

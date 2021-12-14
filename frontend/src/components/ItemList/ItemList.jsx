@@ -4,7 +4,7 @@ import { Item } from '../Item/Item';
 import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './ItemList.module.scss';
 
-export const ItemList = ({ vehicles, prices, query }) => {
+export const ItemList = ({ vehicles, possibleRentals, query }) => {
     return (
         <div className={styles.container}>
             {vehicles.map((v) => {
@@ -23,6 +23,7 @@ export const ItemList = ({ vehicles, prices, query }) => {
                             description={v.description}
                             brand={v.brandName}
                             model={v.modelName}
+                            possibleRentals={possibleRentals}
                         />
                     );
                 }                

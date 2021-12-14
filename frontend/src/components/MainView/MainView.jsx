@@ -55,21 +55,48 @@ const mockPricesResponse = {
   "quotaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 };
 
+// CUSTOM
+const mockPossibleRentals = {
+    rentalsCount: 4,
+    rentals: [
+        {
+            "id": "12345",
+            "name": "Rental hgw",
+            "apiBaseUrl": "rentalhgw.com/api/"
+        },
+        {
+            "id": "21345",
+            "name": "Dluzszanazwa",
+            "apiBaseUrl": "Dluzszanazwa.com/api/"
+        },
+        {
+            "id": "31245",
+            "name": "bardzodluganazwa",
+            "apiBaseUrl": "bardzodluganazwa.com/api/"
+        },
+        {
+            "id": "23145",
+            "name": "Rental4",
+            "apiBaseUrl": "Rental.com/api/"
+        }
+    ]
+}
+
 export const MainView = (props) => {
     const [vehicles, setVehicles] = useState([]);
-    const [prices, setPrices] = useState(null);
+    const [possibleRentals, setPossibleRentals] = useState([]);
     const [query, setQuery] = useState('');
 
     useEffect(() => {
         setVehicles(mockVehiclesResponse['vehicles']);
-        setPrices(mockPricesResponse['price'])
+        setPossibleRentals(mockPossibleRentals['rentals'])
     }, []);
 
     return (
         <>
             <Header />
             <div className={styles.container}>
-                <ItemList query={query} vehicles={vehicles} />
+                <ItemList query={query} vehicles={vehicles} possibleRentals={possibleRentals}/>
                 <SearchBar setQuery={setQuery} />
             </div>
         </>

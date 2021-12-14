@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './Item.module.scss';
@@ -14,14 +14,18 @@ export const Item = ({
     description,
     brand,
     model,
+    possibleRentals
 }) => {
     const [expanded, setExpanded] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-
-    function toggleModal() {
+    
+    const toggleModal = () => {
         setModalOpen(!modalOpen);
     }
-
+    
+    // para klucz - nazwa wypozyczalni, wartosc - cena auta w niej
+    const [checkedPrices, setCheckedPrices] = useState({});
+    
     return (
         // laczy styles.container ze styles.expaneded jezeli expanded true
         // <div className={classNames(styles.container, {[styles.expanded] : expanded})}>
@@ -45,13 +49,19 @@ export const Item = ({
                         </div>
                         <div className={styles.bottomRentals}>
                             <table>
-                                <Rental name="Rental hgw" price="1000 zł" />
-                                <Rental name="Dluzszanazwa" price="1400 zł" />
-                                <Rental
-                                    name="bardzodluganazwa"
-                                    price="1500 zł"
-                                />
-                                <Rental name="Rental 4" price="1200 zł" />
+                                <tbody>
+                                {possibleRentals.map((r) => {
+                                    return (
+                                        <Rental
+                                            key={r.id}
+                                            name={r.name}
+                                            apiBaseUrl={r.apiBaseUrl}
+                                            checkedPrices={checkedPrices}
+                                            setCheckedPrices={setCheckedPrices}
+                                        />
+                                    );
+                                })}
+                                </tbody>
                             </table>
                             <div
                                 className={styles.rentButton}
@@ -88,15 +98,15 @@ const VehicleDetails = ({ year, power, capacity, description }) => {
     return (
         <>
             <p className={styles.mainDetails}>
-                <b>Year: </b>
+                <span className={styles.thicc}>Year: </span >
                 {year}
             </p>
             <p className={styles.mainDetails}>
-                <b>Power: </b>
+                <span className={styles.thicc}>Power: </span >
                 {power}
             </p>
             <p className={styles.mainDetails}>
-                <b>Capacity: </b>
+                <span className={styles.thicc}>Capacity: </span >
                 {capacity}
             </p>
             <p className={styles.description}>{description}</p>
@@ -104,14 +114,59 @@ const VehicleDetails = ({ year, power, capacity, description }) => {
     );
 };
 
-const Rental = ({ name, price }) => {
+const Rental = ({ name, apiBaseUrl, checkedPrices, setCheckedPrices }) => {
+    const [checked, setChecked] = useState(checkedPrices[name] !== undefined);
+    const [loading, setLoading] = useState(false);
+    const [outputText, setOutputText] = useState('CHECK')
+    
+    const [fakeFetch, setFakeFetch] = useState();
+
+    const handleCheckPrice = async () => {
+        // fetch(/api/nazwa)
+        setFakeFetch(new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 500);
+        }))
+    }
+
+    useEffect(() => {
+        if(fakeFetch) {
+            setLoading(true);
+            setOutputText('...');
+
+            fakeFetch.then(() => {
+                setChecked(true);
+            }).catch(() => {
+                setOutputText('ERROR');
+            });
+        }
+    }, [fakeFetch])
+
+    useEffect(() => {
+        if (checked) {
+            let price = (1000 + Math.random() * 600).toFixed();
+            setCheckedPrices({...checkedPrices, [name]: price});  
+        }        
+    }, [checked])
+
     return (
         <tr>
             <td className={styles.rentName}>{name}</td>
-            {/* <td className={styles.rentPrice}>{price}</td> */}
-            <td>
-                <div className={styles.rentButton}>CHECK</div>
-            </td>
+            {!checked ? (
+                <td>
+                    <div
+                        className={classNames(styles.checkButton, {[styles.loadingPrice]: loading})}
+                        onClick={handleCheckPrice}
+                    >
+                        {outputText}
+                    </div>
+                </td>
+            ) : (
+                <td className={styles.rentPrice}>{checkedPrices[name]} zł</td>
+            )}
+
+            {/* TODO - loading az zwroci */}
         </tr>
     );
 };

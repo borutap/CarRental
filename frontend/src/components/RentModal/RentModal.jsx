@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 export const RentModal = ({ isOpen, onRequestClose }) => {
     return (
         <Modal
+            ariaHideApp={false}
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             contentLabel="My dialog"
