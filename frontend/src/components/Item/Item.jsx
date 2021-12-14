@@ -58,21 +58,19 @@ export const Item = ({
                                             apiBaseUrl={r.apiBaseUrl}
                                             checkedPrices={checkedPrices}
                                             setCheckedPrices={setCheckedPrices}
+                                            modalOpen={modalOpen}
+                                            toggleModal={toggleModal}
                                         />
                                     );
                                 })}
                                 </tbody>
                             </table>
-                            <div
-                                className={styles.rentButton}
+                            {/* <div
+                                className={styles.oldRentButton}
                                 onClick={toggleModal}
                             >
                                 RENT
-                            </div>
-                            <RentModal
-                                isOpen={modalOpen}
-                                onRequestClose={toggleModal}
-                            ></RentModal>
+                            </div> */}
                         </div>
                     </>
                 )}
@@ -114,59 +112,99 @@ const VehicleDetails = ({ year, power, capacity, description }) => {
     );
 };
 
-const Rental = ({ name, apiBaseUrl, checkedPrices, setCheckedPrices }) => {
+const Rental = ({
+    name,
+    apiBaseUrl,
+    checkedPrices,
+    setCheckedPrices,
+    modalOpen,
+    toggleModal,
+}) => {
     const [checked, setChecked] = useState(checkedPrices[name] !== undefined);
     const [loading, setLoading] = useState(false);
-    const [outputText, setOutputText] = useState('CHECK')
-    
+    const [outputText, setOutputText] = useState('CHECK');
+
     const [fakeFetch, setFakeFetch] = useState();
 
     const handleCheckPrice = async () => {
         // fetch(/api/nazwa)
-        setFakeFetch(new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve();
-            }, 500);
-        }))
-    }
+        setFakeFetch(
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                }, 500);
+            })
+        );
+    };
 
     useEffect(() => {
-        if(fakeFetch) {
+        if (fakeFetch) {
             setLoading(true);
             setOutputText('...');
 
-            fakeFetch.then(() => {
-                setChecked(true);
-            }).catch(() => {
-                setOutputText('ERROR');
-            });
+            fakeFetch
+                .then(() => {
+                    setChecked(true);
+                })
+                .catch(() => {
+                    setOutputText('ERROR');
+                });
         }
-    }, [fakeFetch])
+    }, [fakeFetch]);
 
     useEffect(() => {
         if (checked) {
             let price = (1000 + Math.random() * 600).toFixed();
-            setCheckedPrices({...checkedPrices, [name]: price});  
-        }        
-    }, [checked])
+            setCheckedPrices({ ...checkedPrices, [name]: price });
+        }
+    }, [checked]);
 
     return (
         <tr>
             <td className={styles.rentName}>{name}</td>
             {!checked ? (
-                <td>
-                    <div
-                        className={classNames(styles.checkButton, {[styles.loadingPrice]: loading})}
-                        onClick={handleCheckPrice}
-                    >
-                        {outputText}
-                    </div>
-                </td>
+                <RentalPriceUnChecked
+                    handleCheckPrice={handleCheckPrice}
+                    outputText={outputText}
+                    loading={loading}
+                />
             ) : (
-                <td className={styles.rentPrice}>{checkedPrices[name]} zł</td>
+                <RentalPriceChecked
+                    price={checkedPrices[name]}
+                    modalOpen={modalOpen}
+                    toggleModal={toggleModal}
+                />
             )}
-
-            {/* TODO - loading az zwroci */}
         </tr>
+    );
+};
+
+const RentalPriceUnChecked = ({ handleCheckPrice, outputText, loading }) => {
+    return (
+        <td>
+            <div
+                className={classNames(styles.checkButton, {
+                    [styles.loadingPrice]: loading,
+                })}
+                onClick={handleCheckPrice}
+            >
+                {outputText}
+            </div>
+        </td>
+    );
+};
+
+const RentalPriceChecked = ({ price, modalOpen, toggleModal }) => {
+    return (
+        <>
+            <td className={styles.rentPrice}>{price} zł</td>
+            <td className={styles.rentButton} onClick={toggleModal}>
+                RENT
+            </td>
+            <RentModal
+                isOpen={modalOpen}
+                onRequestClose={toggleModal}
+            ></RentModal>
+        </>
     );
 };

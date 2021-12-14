@@ -15,29 +15,29 @@
 }
 
 $rentButton-height: 35px;
-.rentButton {   
-    width: 100px;
-    height: $rentButton-height;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
+// .oldRentButton {   
+//     width: 100px;
+//     height: $rentButton-height;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     user-select: none;
 
-    color: $accent;
-    font-family: $main-font;
-    background-color: $soft-accent;
-    border: 1px solid $accent;
-    border-radius: calc(#{$rentButton-height} / 2);    
-    cursor: pointer;
-    margin-left: auto;
-    margin-top: 10px;
-    transition: background-color .1s ease-in-out;
+//     color: $accent;
+//     font-family: $main-font;
+//     background-color: $soft-accent;
+//     border: 1px solid $accent;
+//     border-radius: calc(#{$rentButton-height} / 2);    
+//     cursor: pointer;
+//     margin-left: auto;
+//     margin-top: 10px;
+//     transition: background-color .1s ease-in-out;
 
-    &:hover {
-        transition: background-color .1s ease-in-out;
-        background-color: darken($soft-accent, 8%);
-    }    
-}
+//     &:hover {
+//         transition: background-color .1s ease-in-out;
+//         background-color: darken($soft-accent, 8%);
+//     }    
+// }
 
 .thicc {
     font-weight: 600;
@@ -86,7 +86,7 @@ td {
 
 .bottomCarDetails {
     flex-shrink: 1;
-    width: 50%;
+    width: 45%;
     word-wrap: break-word;
     display: flex;
     flex-direction: column;
@@ -107,7 +107,7 @@ td {
 }
 
 .bottomRentals {
-    width: 50%;
+    width: 55%;
     display: flex;
     flex-direction: column;
     padding-bottom: calc(40px + #{$rentButton-height});
@@ -125,13 +125,22 @@ td {
 }
 
 .rentName {
-    width: 70%;
+    width: 60%;
+}
+
+.rentButton {    
+    text-decoration: underline;
+    font-family: $header-font;
+    cursor: pointer;
+    text-align: right;
+    font-size: 18px;
+    padding-right: 5px;
 }
 
 .rentPrice {
-    text-overflow: clip !important;
-    width: max(75px, 30%); // cos nie dziala?
+    text-overflow: clip !important;    
     text-align: right;
+    width: max(75px, 40%); // cos nie dziala?
 }
 
 .imgContainer {
