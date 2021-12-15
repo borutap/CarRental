@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Item } from '../Item/Item';
 import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './ItemList.module.scss';
 
-export const ItemList = ({ vehicles, possibleRentals, query }) => {
+export const ItemList = ({ vehicles, possibleRentals, query, alphabetically }) => {
+
+    if (alphabetically) {
+        vehicles.sort((a, b) => a.brandName.localeCompare(b.brandName))
+    }
+    
     return (
         <div className={styles.container}>
             {vehicles.map((v) => {

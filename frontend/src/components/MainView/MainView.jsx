@@ -24,7 +24,7 @@ const mockVehiclesResponse = {
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            brandName: 'Opel',
+            brandName: 'Aiat',
             modelName: 'Szerszen',
             year: 1969,
             enginePower: 420,
@@ -86,6 +86,7 @@ export const MainView = (props) => {
     const [vehicles, setVehicles] = useState([]);
     const [possibleRentals, setPossibleRentals] = useState([]);
     const [query, setQuery] = useState('');
+    const [alphabetically, setAlphabetically] = useState(false);
 
     useEffect(() => {
         setVehicles(mockVehiclesResponse['vehicles']);
@@ -96,8 +97,24 @@ export const MainView = (props) => {
         <>
             <Header />
             <div className={styles.container}>
-                <ItemList query={query} vehicles={vehicles} possibleRentals={possibleRentals}/>
-                <SearchBar setQuery={setQuery} />
+                <ItemList
+                    alphabetically={alphabetically}
+                    query={query}
+                    vehicles={vehicles}
+                    possibleRentals={possibleRentals}
+                />
+                {/* TODO poprawic styl */}
+                <div className={styles.rightContainer}>
+                    <SearchBar setQuery={setQuery} />
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="alphabetically"
+                            onChange={() => setAlphabetically(!alphabetically)}
+                        />
+                        <label for="alphabetically">Alphabetically</label>
+                    </div>
+                </div>
             </div>
         </>
     );
