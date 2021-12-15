@@ -1,5 +1,4 @@
 using Car_Rental.Services;
-using CarRentalApi.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,9 +20,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IQuoteRepository, QuoteFakeMongoRepository>();
-            services.AddSingleton<IRentsRepository, RentsFakeMongoRepository>();
-            services.AddSingleton<IVehiclesRepository, VehiclesFakeMongoRepository>();
+            services.AddSingleton<IRentalService, RentalServiceFakeDb>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRental.Services\CarRental.Services.csproj" />
+    <ProjectReference Include="..\CarRentalApi.Services\CarRentalApi.Services.csproj" />
   </ItemGroup>
 
 </Project>
