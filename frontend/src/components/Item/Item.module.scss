@@ -1,0 +1,195 @@
+/* flex basis */
+@import '../../styles/global.scss';
+
+.container {
+    position: relative;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: clamp(375px, 35vw, 600px);
+    height: auto;
+    height: fit-content;
+    background-color: $white;
+    border: 1px solid $border-color;
+}
+
+$rentButton-height: 35px;
+// .oldRentButton {   
+//     width: 100px;
+//     height: $rentButton-height;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     user-select: none;
+
+//     color: $accent;
+//     font-family: $main-font;
+//     background-color: $soft-accent;
+//     border: 1px solid $accent;
+//     border-radius: calc(#{$rentButton-height} / 2);    
+//     cursor: pointer;
+//     margin-left: auto;
+//     margin-top: 10px;
+//     transition: background-color .1s ease-in-out;
+
+//     &:hover {
+//         transition: background-color .1s ease-in-out;
+//         background-color: darken($soft-accent, 8%);
+//     }    
+// }
+
+.thicc {
+    font-weight: 600;
+}
+
+.checkButton {
+    text-decoration: underline;
+    font-family: $header-font;
+    cursor: pointer;
+    text-align: right;
+}
+
+.loadingPrice {
+    letter-spacing: 3px;
+    text-decoration: none;
+    text-align: center;
+    font-family: $main-font;
+}
+
+// check price
+td {
+    &>.rentButton {
+        width: 60px;
+        margin-top: 0;
+        height: 30px;
+    }
+}
+
+.topContainer {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    gap: 20px;
+}
+
+.bottomContainer {
+    padding-top: 20px;
+    width: 100%;
+    height: auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.bottomCarDetails {
+    flex-shrink: 1;
+    width: 45%;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+
+    &>p {
+        margin: 0;
+    }
+}
+
+.description {
+    padding-top: 25px;
+    letter-spacing: 1px;
+}
+
+.mainDetails {
+    letter-spacing: 1px;
+    word-spacing: 7px;
+}
+
+.bottomRentals {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: calc(40px + #{$rentButton-height});
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.rentName {
+    width: 60%;
+}
+
+.rentButton {    
+    text-decoration: underline;
+    font-family: $header-font;
+    cursor: pointer;
+    text-align: right;
+    font-size: 18px;
+    padding-right: 5px;
+}
+
+.rentPrice {
+    text-overflow: clip !important;    
+    text-align: right;
+    width: max(75px, 40%); // cos nie dziala?
+}
+
+.imgContainer {
+    width: 40%;
+    border-radius: 15px;
+    height: auto;
+    overflow: hidden;
+
+    &>img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+    }
+}
+
+
+.header {
+    font-size: 20px;
+    font-weight: 600;
+    color: $black;
+}
+
+.expandToggle {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.expandIcon {
+    display: flex;
+    align-items: center;
+    transition: transform .2s ease-in-out;
+    height: fit-content;
+    
+    &>svg {
+        width: 15px;
+    }
+
+    &.expanded {
+        transition: transform .2s ease-in-out;
+        transform: scaleY(-1);
+    }
+}
