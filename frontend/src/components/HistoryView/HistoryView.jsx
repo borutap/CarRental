@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import { FaBeer } from 'react-icons/fa';
 import { Header } from '@components/Header/Header';
-import { ItemList } from '@components/ItemList/ItemList';
+import { HistoryItemList } from '@components/HistoryItemList/HistoryItemList';
 import { SearchBar } from '../SearchBar/SearchBar';
-
 import styles from './HistoryView.module.scss';
+
 
 // GET /vehicles
 const mockVehiclesResponse = {
@@ -13,34 +13,40 @@ const mockVehiclesResponse = {
     vehicles: [
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa5',
-            brandName: 'Fiat',
-            modelName: 'Punto',
+            brandName: 'Żubrówka',
+            modelName: 'Biała',
             year: 1999,
             enginePower: 696,
             enginePowerType: 'string',
             capacity: 42,
             description:
-                'Dlugi opis hagikawoghawouighjaiguahgiuahgaiughaiughagiuahgaiughawiughaiguahgiauhg',
+                'Pychotka pyszniutka mniam mniam',
+            endDate: '12/12/2021 20:20',
+            startDate: '12/12/2021 22:45',   
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            brandName: 'Gówno',
-            modelName: 'Szerszen',
+            brandName: 'Żołądkowa',
+            modelName: 'Gorzka',
             year: 1969,
             enginePower: 420,
             enginePowerType: 'string',
             capacity: 69,
             description: 'string',
+            endDate: '10/12/2021 8:50',
+            startDate: '10/12/2021 12:50',  
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-            brandName: 'Niemam',
-            modelName: 'Pojecia',
+            brandName: 'Kuflowe',
+            modelName: 'Mocne',
             year: 2069,
             enginePower: 0,
             enginePowerType: 'string',
             capacity: 0,
             description: 'string',
+            endDate: '20/11/2021 11:00',
+            startDate: '10/11/2021 13:30',  
         },
     ],
 };
@@ -69,8 +75,7 @@ export const HistoryView = (props) => {
         <>
             <Header />
             <div className={styles.container}>
-                <ItemList query={query} vehicles={vehicles} />
-                <SearchBar setQuery={setQuery} />
+                <HistoryItemList query={query} vehicles={vehicles} />
             </div>
         </>
     );

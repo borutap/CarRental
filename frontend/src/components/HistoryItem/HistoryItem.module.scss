@@ -1,0 +1,105 @@
+@import '../../styles/global.scss';
+
+.container {
+    position: relative;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: clamp(375px, 35vw, 600px);
+    height: auto;
+    height: fit-content;
+    background-color: $white;
+    border: 1px solid $border-color;
+}
+
+.topContainer {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    gap: 20px;
+}
+
+.bottomContainer {
+    padding-top: 20px;
+    width: 100%;
+    height: auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.bottomCarDetails {
+    flex-shrink: 1;
+    width: 50%;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    &>p {
+        margin: 0;
+    }
+}
+
+.imgContainer {
+    width: 40%;
+    border-radius: 15px;
+    height: auto;
+    overflow: hidden;
+
+    &>img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+    }
+}
+
+.expandToggle {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.expandIcon {
+    display: flex;
+    align-items: center;
+    transition: transform .2s ease-in-out;
+    height: fit-content;
+    
+    &>svg {
+        width: 15px;
+    }
+
+    &.expanded {
+        transition: transform .2s ease-in-out;
+        transform: scaleY(-1);
+    }
+}
+
+.header {
+    font-size: 20px;
+    font-weight: 600;
+    color: $black;
+}
+
+.description {
+    padding-top: 10px;
+    letter-spacing: 1px;
+}
+
+.mainDetails {
+    letter-spacing: 1px;
+    word-spacing: 7px;
+}
