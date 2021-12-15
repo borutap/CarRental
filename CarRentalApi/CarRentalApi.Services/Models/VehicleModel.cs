@@ -1,12 +1,13 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Car_Rental.Models
+namespace CarRentalApi.Services.Models
 {
     public record VehicleModel
     {
-        public Guid Id;
-        public string Brand  { get; init; }
+        [Key]
+        public Guid Id { get; set; }
+        public string Brand { get; init; }
         public string Model { get; init; }
         public decimal DefaultPrice { get; init; }
         public string Currency { get; init; }
