@@ -204,6 +204,7 @@ const RentalPriceChecked = ({ price, modalOpen, toggleModal }) => {
             <RentModal
                 isOpen={modalOpen}
                 onRequestClose={toggleModal}
+                pricePerDay={price}
             ></RentModal>
         </>
     );
