@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Car_Rental.Models;
 using CarRentalApi.Services.Models;
-using CarRentalApi.Services.Services;
 
 namespace Car_Rental.Services
 {
-    public class VehiclesFakeMongoRepository : IVehiclesRepository
+    public class RentalServiceFakeDb : IRentalService
     {
         private List<VehicleModel> _vehicleModels = new()
         {
@@ -63,10 +62,31 @@ namespace Car_Rental.Services
                 ModelId = Guid.Parse("84d23d56-6be7-48e7-b0e1-51166a558009")
             },
         };
+        private List<Rent> _quotes = new();
+        private List<Quote> _rents = new();
 
+        private const int ExpirationHours = 2;
 
-        private List<RentDetails> _rentDetails = new();
+        public Quote CreateQuote(decimal price, string currency, Guid modelId)
+        {
+            var now = DateTime.UtcNow;
+            var quote = new Quote
+            {
+                QuoteId = Guid.NewGuid(),
+                GeneratedAt = now,
+                ExpiredAt = now.AddHours(ExpirationHours),
+                ModelId = modelId,
+                Price = price,
+                Currency = currency
+            };
+            _rents.Add(quote);
+            return quote;
+        }
 
+        public Quote GetQuote(Guid id)
+        {
+            return _rents.SingleOrDefault(q => q.QuoteId == id);
+        }
         public IEnumerable<Vehicle> GetVehicles()
         {
             return _vehicles;
@@ -87,7 +107,7 @@ namespace Car_Rental.Services
             return GetModel(vehicle.ModelId);
         }
 
-        public Vehicle RentFirstAvailableVehicle(Guid modelId, DateTime startDate, DateTime endDate, Guid rentId, IRentsRepository rentsRepository)
+        public Vehicle RentFirstAvailableVehicle(Guid modelId, DateTime startDate, DateTime endDate, Guid rentId)
         {
             ValidateRentDates(startDate, endDate);
 
@@ -95,7 +115,7 @@ namespace Car_Rental.Services
 
             foreach (var vehicle in vehiclesFromDb)
             {
-                List<Rent> vehicleRents = rentsRepository.GetRents().Where(x => x.VehicleId == vehicle.Id).ToList();
+                List<Rent> vehicleRents = GetRents().Where(x => x.VehicleId == vehicle.Id).ToList();
                 if (IsVehicleUnavailable(startDate, endDate, vehicleRents))
                     continue;
 
@@ -112,10 +132,30 @@ namespace Car_Rental.Services
         }
         private static bool IsVehicleUnavailable(DateTime startDate, DateTime endDate, List<Rent> rents)
         {
-            List<RentDetails> selectedRents = new List<RentDetails>();
-
             return rents.Exists(x => !x.ReturnTime.HasValue && ((x.EndDate >= startDate && x.StartDate <= startDate) || (x.StartDate <= endDate && x.EndDate >= endDate)));
         }
+
+
+        public Rent CreateRent(Rent rent)
+        {
+            _quotes.Add(rent);
+
+            return rent;
+        }
+
+        public IEnumerable<Rent> GetRents()
+        {
+            return _quotes;
+        }
+
+        public void ReturnVehicle(Guid rentId)
+        {
+            var rent = _quotes.SingleOrDefault(x => x.Id == rentId);
+            rent.ReturnTime = DateTime.UtcNow;
+            _quotes[_quotes.IndexOf(rent)] = rent;
+        }
+
+
 
     }
 }

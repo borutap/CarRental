@@ -5,25 +5,22 @@ using Car_Rental.Models;
 using System.Linq;
 using CarRentalApi.WebApi.Models;
 using CarRentalApi.WebApi.Helpers;
-using CarRentalApi.Services.Services;
-using System;
 using CarRentalApi.Services.Models;
 using System.Net;
+using System;
 
 namespace Car_Rental.Controllers
 {
     [ApiController]
     public class VehiclesControler: ControllerBase
     {
-        private readonly IVehiclesRepository _vehiclesRepository;
-        private readonly IQuoteRepository _quoteRepository;
-        private readonly IRentsRepository _rentsRepository;
+        private readonly IRentalService _vehiclesRepository;
+        //private readonly IQuoteRepository _quoteRepository;
+        //private readonly IRentsRepository _rentsRepository;
 
-        public VehiclesControler(IVehiclesRepository vehiclesRepository, IQuoteRepository quoteRepository, IRentsRepository rentsRepository)
+        public VehiclesControler(IRentalService vehiclesRepository)
         {
             _vehiclesRepository = vehiclesRepository;
-            _quoteRepository = quoteRepository;
-            _rentsRepository = rentsRepository;
         }
 
         [HttpGet("vehicles")]
@@ -57,7 +54,7 @@ namespace Car_Rental.Controllers
             var modelFromDb = _vehiclesRepository.GetModel(brand, model);
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _quoteRepository.Create(price, modelFromDb.Currency, modelFromDb.Id);
+            var quoteFromDb = _vehiclesRepository.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
 
             return new CheckPriceResponse
             {
@@ -76,7 +73,7 @@ namespace Car_Rental.Controllers
             var modelFromDb = _vehiclesRepository.GetModelByVehicleId(id);
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _quoteRepository.Create(price, modelFromDb.Currency, modelFromDb.Id);
+            var quoteFromDb = _vehiclesRepository.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
 
             return new CheckPriceResponse
             {
@@ -91,7 +88,7 @@ namespace Car_Rental.Controllers
         [HttpPost("vehicle/Rent/{quoteId}")]
         public RentVehicleResponse RentVehicle(Guid quoteId, [FromBody] RentVehicleRequest request)
         {
-            var quoteFromDb = _quoteRepository.Get(quoteId);
+            var quoteFromDb = _vehiclesRepository.GetQuote(quoteId);
             var rent = new Rent
             {
                 Id = Guid.NewGuid(),
@@ -101,13 +98,13 @@ namespace Car_Rental.Controllers
                 EndDate = request.EndDate
             };
 
-            Vehicle vehicle = _vehiclesRepository.RentFirstAvailableVehicle(quoteFromDb.ModelId, request.StartDate, request.EndDate, rent.Id, _rentsRepository);
+            Vehicle vehicle = _vehiclesRepository.RentFirstAvailableVehicle(quoteFromDb.ModelId, request.StartDate, request.EndDate, rent.Id);
 
             if (vehicle == null) return null;
 
             rent.VehicleId = vehicle.Id;
 
-            _rentsRepository.Create(rent);
+            _vehiclesRepository.CreateRent(rent);
 
             return new RentVehicleResponse
             {
@@ -122,7 +119,7 @@ namespace Car_Rental.Controllers
         [HttpPost("vehicle/Return/{rentId}")]
         public ActionResult ReturnVehicle(Guid rentId)
         {
-            _rentsRepository.ReturnVehicle(rentId);
+            _vehiclesRepository.ReturnVehicle(rentId);
             return Ok();
 
         }

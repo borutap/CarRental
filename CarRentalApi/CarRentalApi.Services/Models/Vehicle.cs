@@ -13,12 +13,4 @@ namespace Car_Rental.Models
         public string Description { get; init; }
         public Guid ModelId { get; init; }
     }
-
-    public record RentDetails
-    {
-        public DateTime StartDate { get; init; }
-        public DateTime EndDate { get; init; }
-        public DateTime? ReturnDate { get; set; }
-        public Guid RentId { get; init; }
-    }
 }
