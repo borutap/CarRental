@@ -1,0 +1,156 @@
+/* flex basis */
+@import '../../styles/global.scss';
+
+.container {
+    position: relative;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: clamp(375px, 35vw, 600px);
+    height: auto;
+    height: fit-content;
+    background-color: $white;
+    border: 1px solid $border-color;
+}
+
+.topContainer {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    gap: 20px;
+}
+
+.imgContainer {
+    width: 40%;
+    border-radius: 15px;
+    height: auto;
+    overflow: hidden;
+
+    &>img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+    }
+}
+
+.topInfoContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.topNameAndButton {
+    display: flex;
+    height: 50%;
+}
+
+.header {
+    font-size: 20px;
+    font-weight: 600;
+    color: $black;
+}
+
+$rentButton-height: 35px;
+.returnButton {   
+    width: 100px;
+    height: $rentButton-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+
+    color: $accent;
+    font-family: $main-font;
+    background-color: $soft-accent;
+    border: 1px solid $accent;
+    border-radius: calc(#{$rentButton-height} / 2);    
+    cursor: pointer;
+    margin-left: auto;
+    margin-top: 10px;
+    transition: background-color .1s ease-in-out;
+
+    &:hover {
+        transition: background-color .1s ease-in-out;
+        background-color: darken($soft-accent, 8%);
+    }    
+}
+
+.rentInfo {
+    height: 50%;
+}
+
+.expandIcon {
+    display: flex;
+    align-items: center;
+    transition: transform .2s ease-in-out;
+    height: fit-content;
+    
+    &>svg {
+        width: 15px;
+    }
+
+    &.expanded {
+        transition: transform .2s ease-in-out;
+        transform: scaleY(-1);
+    }
+}
+
+.bottomContainer {
+    padding-top: 20px;
+    width: 100%;
+    height: auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.bottomCarDetails {
+    flex-shrink: 1;
+    width: 75%;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+
+    &>p {
+        margin: 0;
+    }
+}
+
+.description {
+    padding-top: 25px;
+    letter-spacing: 1px;
+}
+
+.mainDetails {
+    letter-spacing: 1px;
+    word-spacing: 7px;
+}
+
+.expandToggle {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.thicc {
+    font-weight: 600;
+}
+
+.loadingPrice {
+    letter-spacing: 3px;
+    text-decoration: none;
+    text-align: center;
+    font-family: $main-font;
+}
