@@ -7,7 +7,7 @@ import styles from './RentedView.module.scss';
 
 // GET /????
 const mockVehiclesResponse = {
-    vehiclesCount: 3,
+    vehiclesCount: 2,
     vehicles: [
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa5',
@@ -31,16 +31,6 @@ const mockVehiclesResponse = {
             description: 'string',
         },
     ],
-};
-
-// POST /vehicle/{id}/GetPrice response
-const mockPricesResponse = {
-  "price": 1000,
-  "currency": "zł",
-  // "currency": "string",
-  "generatedAt": "2021-12-07T19:20:37.759Z",
-  "expiredAt": "2021-12-07T19:20:37.759Z",
-  "quotaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 };
 
 export const RentedView = (props) => {
