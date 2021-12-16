@@ -10,10 +10,15 @@ export const Header = () => {
     return (
         <nav className={styles.container}>
             <div className={styles.innerContainer}>
-                <div className={styles.nameContainer}>
-                    <CarIcon />
-                    <div className={styles.nameText}>CAR RENTAL</div>
-                </div>
+                <NavLink
+                    exact
+                    to="/"
+                >
+                    <div className={styles.nameContainer}>
+                        <CarIcon />
+                        <div className={styles.nameText}>CAR RENTAL</div>
+                    </div>
+                </NavLink>
                 <div className={styles.menuContainer}>
                     <NavLink
                         exact
