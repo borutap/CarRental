@@ -3,12 +3,17 @@ import React from 'react';
 export const OkIcon = () => {
     return (
         <svg
+            width="25px"
+            height="25px"
+            viewBox="0 0 48 48"
+            version="1"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
+            enable-background="new 0 0 48 48"
         >
-            <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+            <polygon
+                fill="#43A047"
+                points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"
+            />
         </svg>
     );
 };

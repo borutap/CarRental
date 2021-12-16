@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import styles from './HistoryItem.module.scss';
@@ -33,12 +33,12 @@ export const HistoryItem = ({
             </div>
             <div className={styles.midContainer}>
                 {CheckDate(endDate) ? (
-                    <div>
+                    <div className={styles.returned}>
                         <OkIcon />
-                        Returned
+                        Returned        
                     </div>
                 ) : (
-                    <div>
+                    <div className={styles.notReturned}>
                         <NoIcon />
                         Not Returned
                     </div>
@@ -54,6 +54,9 @@ export const HistoryItem = ({
                                 capacity={capacity}
                                 description={description}
                             />
+                        </div>
+                        <div className={styles.bottomDownload}>
+                            <a href='rrz2.pdf' download>Documents.pdf</a>
                         </div>
                     </>
                 )}

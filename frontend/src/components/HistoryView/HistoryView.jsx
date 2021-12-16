@@ -21,8 +21,8 @@ const mockVehiclesResponse = {
             capacity: 42,
             description:
                 'Pychotka pyszniutka mniam mniam',
-            endDate: '12/24/2021 20:20',
-            startDate: '12/12/2021 22:45',   
+            endDate: '12/24/2021',
+            startDate: '12/12/2021',   
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -33,8 +33,8 @@ const mockVehiclesResponse = {
             enginePowerType: 'string',
             capacity: 69,
             description: 'string',
-            endDate: '10/12/2021 8:50',
-            startDate: '10/12/2021 12:50',  
+            endDate: '10/12/2021',
+            startDate: '10/12/2021',  
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
@@ -45,8 +45,8 @@ const mockVehiclesResponse = {
             enginePowerType: 'string',
             capacity: 0,
             description: 'string',
-            endDate: '11/20/2021 11:00',
-            startDate: '11/14/2021 13:30',  
+            endDate: '11/20/2021',
+            startDate: '11/14/2021',  
         },
     ],
 };

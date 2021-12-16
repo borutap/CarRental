@@ -51,9 +51,41 @@
     flex-direction: column;
     gap: 5px;
 
-    &>p {
+    & > p {
         margin: 0;
     }
+}
+
+.bottomDownload {
+    width: 50%;
+    display: flex;
+    padding-left: 10%;
+    flex-direction: column;
+    color: rgb(6, 69, 173);
+}
+
+a {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 24px;
+    height: 24px;
+    color: rgb(0, 0, 191);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.returned {
+    display: flex;
+    gap: 5px;
+    color: rgb(64, 149, 64,);
+}
+.notReturned {
+    display: flex;
+    gap: 5px;
+    color: rgb(231, 76, 60);
 }
 
 .imgContainer {
@@ -62,7 +94,7 @@
     height: auto;
     overflow: hidden;
 
-    &>img {
+    & > img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -87,15 +119,15 @@
 .expandIcon {
     display: flex;
     align-items: center;
-    transition: transform .2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
     height: fit-content;
-    
-    &>svg {
+
+    & > svg {
         width: 15px;
     }
 
     &.expanded {
-        transition: transform .2s ease-in-out;
+        transition: transform 0.2s ease-in-out;
         transform: scaleY(-1);
     }
 }
