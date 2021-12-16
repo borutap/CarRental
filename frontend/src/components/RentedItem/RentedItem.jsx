@@ -18,9 +18,50 @@ export const RentedItem = ({
     const [expanded, setExpanded] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
-    const rentStart = "14/12/2021";
-    const rentEnd = "17/12/2021";
-    const fullPrice = "1420zł";
+    const [fakeFetch, setFakeFetch] = useState();
+    const [info, setInfo] = useState({
+        rentStart: "...",
+        rentEnd: "...",
+        fullPrice: "...",
+        rentalName: "..."
+    });
+        
+    useEffect(() => {
+        handleCheckInfo();
+    })
+
+    const handleCheckInfo = async () => {
+        // fetch(/api/nazwa)
+        setFakeFetch(
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                }, 500);
+            })
+        );
+    };
+    
+    useEffect(() => {
+        if (fakeFetch) {
+            fakeFetch
+                .then(() => {
+                    setInfo({
+                        rentStart: "14/12/2021",
+                        rentEnd: "17/12/2021",
+                        fullPrice: "1000zł",
+                        rentalName: "Dluzszanazwa"
+                    });
+                })
+                .catch(() => {
+                    setInfo({
+                        rentStart: "unavailable",
+                        rentEnd: "unavailable",
+                        fullPrice: "unavailable",
+                        rentalName: "unavailable"
+                    });
+                });
+        }
+    }, [fakeFetch]);
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
@@ -35,17 +76,18 @@ export const RentedItem = ({
                     <img draggable={false} src={imageUrl} />
                 </div>
                 <div className={styles.topInfoContainer}>
-                    <div className={styles.topNameAndButton}>                    
+                    <div className={styles.topNameAndButton}>
                         <div className={styles.header}>
-                            {brand + ' ' + model}                                   
-                        </div>                
-                        <div className={styles.returnButton}>
-                            RETURN
+                            {brand + ' ' + model}
                         </div>
+                        <div className={styles.returnButton}>RETURN</div>
                     </div>
                     <div className={styles.rentInfo}>
-                        <p style={{margin: 0, wordSpacing: "4px"}}>Rented on {rentStart}</p>
-                        <p style={{margin: 0, wordSpacing: "4px"}}>Until {rentEnd} for {fullPrice}</p>
+                        <p>Rented on {info.rentStart}</p>
+                        <p>
+                            Until {info.rentEnd} for {info.fullPrice} from{' '}
+                            {info.rentalName}
+                        </p>
                     </div>
                 </div>
             </div>

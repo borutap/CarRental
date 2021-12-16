@@ -79,6 +79,10 @@ $rentButton-height: 35px;
 
 .rentInfo {
     height: 50%;
+    &>p {
+        margin: 0;
+        word-spacing: 4px;
+    }
 }
 
 .expandIcon {

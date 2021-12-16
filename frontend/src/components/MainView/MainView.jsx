@@ -112,7 +112,7 @@ export const MainView = (props) => {
                             id="alphabetically"
                             onChange={() => setAlphabetically(!alphabetically)}
                         />
-                        <label for="alphabetically">Alphabetically</label>
+                        <label htmlFor="alphabetically">Alphabetically</label>
                     </div>
                 </div>
             </div>
