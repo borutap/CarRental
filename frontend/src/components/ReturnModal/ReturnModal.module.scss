@@ -1,0 +1,102 @@
+@import '../../styles/global.scss';
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    height: 5%;
+    font-size: 14px;
+    font-family: $header-font;
+}
+
+.body {
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: $main-font;
+    // gap: 10px;
+}
+
+.barContainer {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.myWrapper {
+    background-color: red !important;    
+    .react-datepicker__input-container {     
+        background-color: red !important;
+        &>input {
+            background-color: red !important;
+        }
+    }
+}
+
+@mixin inputBar {
+    width: 250px;
+    height: 40px;
+    border-radius: 15px;
+    border: 1px solid $border-color;
+    background-color: $white;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 15px;
+
+    &>input {
+        width: 100%;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        font-size: 16px;
+
+        &::placeholder {
+            user-select: none;
+            opacity: .7;
+        }
+    }
+}
+
+.descriptionArea {
+    @include inputBar;
+    width: 350px;
+    height: 100px;
+}
+
+.odometerInput {
+    @include inputBar;
+}
+
+.filePicker {
+    display: flex;
+    flex-direction: row;
+
+    &>input {
+        margin: 0;
+        font-size: 16px;
+        #file-upload-button {
+            font-size: 12px;
+        }
+    }
+
+    &>input #file-upload-button {
+        font-size: 12px;        
+    }
+
+    &>p {
+        margin: 0;
+    }
+}
+
+
+
+.footer {
+    height: 10%;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}

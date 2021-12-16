@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import styles from './RentedItem.module.scss';
 
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
-import { RentModal } from '../RentModal/RentModal';
+import { ReturnModal } from '../ReturnModal/ReturnModal';
 
 export const RentedItem = ({
     imageUrl,
