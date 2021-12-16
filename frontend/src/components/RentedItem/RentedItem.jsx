@@ -17,6 +17,7 @@ export const RentedItem = ({
 }) => {
     const [expanded, setExpanded] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [fakeFetch, setFakeFetch] = useState();
     const [info, setInfo] = useState({
@@ -27,8 +28,10 @@ export const RentedItem = ({
     });
         
     useEffect(() => {
-        handleCheckInfo();
-    })
+        if (loading) {
+            handleCheckInfo();
+        }          
+    }, [loading])
 
     const handleCheckInfo = async () => {
         // fetch(/api/nazwa)
@@ -49,7 +52,7 @@ export const RentedItem = ({
                         rentStart: "14/12/2021",
                         rentEnd: "17/12/2021",
                         fullPrice: "1000zł",
-                        rentalName: "Dluzszanazwa"
+                        rentalName: "Dluzszanazwa",
                     });
                 })
                 .catch(() => {
@@ -57,11 +60,12 @@ export const RentedItem = ({
                         rentStart: "unavailable",
                         rentEnd: "unavailable",
                         fullPrice: "unavailable",
-                        rentalName: "unavailable"
+                        rentalName: "unavailable",
                     });
                 });
+            setLoading(false);
         }
-    }, [fakeFetch]);
+    }, [fakeFetch]);    
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
