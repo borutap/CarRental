@@ -21,7 +21,7 @@ const mockVehiclesResponse = {
             capacity: 42,
             description:
                 'Pychotka pyszniutka mniam mniam',
-            endDate: '12/12/2021 20:20',
+            endDate: '12/24/2021 20:20',
             startDate: '12/12/2021 22:45',   
         },
         {
@@ -45,8 +45,8 @@ const mockVehiclesResponse = {
             enginePowerType: 'string',
             capacity: 0,
             description: 'string',
-            endDate: '20/11/2021 11:00',
-            startDate: '10/11/2021 13:30',  
+            endDate: '11/20/2021 11:00',
+            startDate: '11/14/2021 13:30',  
         },
     ],
 };

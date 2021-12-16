@@ -19,6 +19,18 @@
     display: flex;
     gap: 20px;
 }
+.midContainer {
+    width: 100%;
+    padding-left: 40%;
+    height: 30px;
+    display: flex;
+    gap: 20px;
+    & > svg {
+        height: 50px;
+        width: auto;
+        width: fit-content;
+    }
+}
 
 .bottomContainer {
     padding-top: 20px;

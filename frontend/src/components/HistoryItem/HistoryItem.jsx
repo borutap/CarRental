@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './HistoryItem.module.scss';
-
+import { OkIcon } from '../OkIcon/OkIcon';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 
-export const HistoryItem =({
+export const HistoryItem = ({
     imageUrl,
     brand,
     model,
@@ -16,18 +16,31 @@ export const HistoryItem =({
     capacity,
     description,
 }) => {
-    const [expanded,setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-    return(
-        <div className ={styles.container}>
+    return (
+        <div className={styles.container}>
             <div className={styles.topContainer}>
                 <div className={styles.imgContainer}>
-                    <img draggable={false} src={imageUrl}/>
+                    <img draggable={false} src={imageUrl} />
                 </div>
-                <div className={styles.header}>{brand + ' ' +
-                    model}</div>
-                     <div className={styles.header}>{startDate 
-                     + ' - ' + endDate}</div>
+                <div className={styles.header}>{brand + ' ' + model}</div>
+                <div className={styles.header}>
+                    {startDate + ' - ' + endDate}
+                </div>
+            </div>
+            <div className={styles.midContainer}>
+                {CheckDate(endDate) ? (
+                    <div>
+                        <OkIcon />
+                        Returned
+                    </div>
+                ) : (
+                    <div>
+                        <OkIcon />
+                        Not Returned
+                    </div>
+                )}
             </div>
             <div className={styles.bottomContainer}>
                 {expanded && (
@@ -78,4 +91,12 @@ const VehicleDetails = ({ year, power, capacity, description }) => {
             <p className={styles.description}>{description}</p>
         </>
     );
+};
+
+const CheckDate = function (checkDate) {
+    if (Date.parse(checkDate) < new Date()) {
+        return true;
+    }
+
+    return false;
 };
