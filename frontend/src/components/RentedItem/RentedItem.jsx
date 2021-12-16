@@ -84,12 +84,23 @@ export const RentedItem = ({
                         <div className={styles.header}>
                             {brand + ' ' + model}
                         </div>
-                        <div className={styles.returnButton}>RETURN</div>
+                        <div
+                            className={styles.returnButton}
+                            onClick={toggleModal}
+                        >
+                            RETURN
+                        </div>
+                        <ReturnModal
+                            isOpen={modalOpen}
+                            onRequestClose={toggleModal}
+                        ></ReturnModal>
                     </div>
                     <div className={styles.rentInfo}>
-                        <p>Rented for {info.client} on {info.rentStart}</p>
                         <p>
-                            Until {info.rentEnd} for {info.fullPrice}                            
+                            Rented for {info.client} on {info.rentStart}
+                        </p>
+                        <p>
+                            Until {info.rentEnd} for {info.fullPrice}
                         </p>
                     </div>
                 </div>

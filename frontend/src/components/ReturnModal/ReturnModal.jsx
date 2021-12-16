@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
 import styles from './ReturnModal.module.scss';
-import "react-datepicker/dist/react-datepicker.css";
-//import "./DatePickerStyles.css"
 
 // jest mergowany z domyslnym
 const modalStyling = {
@@ -22,9 +20,10 @@ export const ReturnModal = ({ isOpen, onRequestClose }) => {
     const handleConfirm = () => {
         if (description && odometerValue) {
             // TODO Tutaj call do api
-            //handleSubmission()
-            console.log(description, odometerValue);            
+            // handleSubmission()          
             // zamykamy okno
+            console.log("OK");
+            onRequestClose();
         }
         if (!description && !odometerValue) {
             // TODO Lepszy error pokazac
@@ -42,8 +41,15 @@ export const ReturnModal = ({ isOpen, onRequestClose }) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
-	const changeHandler = (event) => {		
-        setSelectedFiles([...selectedFiles, event.target.files[0]]);
+	const changeHandler = (event) => {       
+        // max 2 pliki  
+        const file = event.target.files[0];
+        if (selectedFiles.length === 2) {
+            setSelectedFiles([file]);
+        }
+        else {
+            setSelectedFiles([...selectedFiles, file]);
+        }
 		setIsFilePicked(true);
 	};
 
@@ -80,21 +86,27 @@ export const ReturnModal = ({ isOpen, onRequestClose }) => {
                     <DescriptionInput setDescription={setDescription} />
                     <OdometerInput setOdometerValue={setOdometerValue} />
                     <div className={styles.filePicker}>
-                        <input
-                            type="file"
-                            name="file"
-                            onChange={changeHandler}
-                        />
-
+                        <label htmlFor="file" className={styles.uploadButton}>
+                            <input
+                                type="file"
+                                name="file"
+                                onChange={changeHandler}
+                            />
+                        </label>
                         {isFilePicked ? (
-                            selectedFiles.map((f) => {
-                                return (
-                                    <div>
-                                        <p>Filename: {f.name}</p>
-                                        <p>Size in bytes: {f.size}</p>
-                                    </div>
-                                );
-                            })
+                            <div className={styles.uploadedFilesContainer}>
+                                {selectedFiles.map((f, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <p>Filename: {f.name}</p>
+                                            <p>
+                                                Size:{' '}
+                                                {(f.size / 1024).toFixed(1)}KB
+                                            </p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         ) : (
                             <p>Select a file to show details</p>
                         )}

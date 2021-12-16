@@ -19,16 +19,17 @@ const modalStyling = {
 
 export const RentModal = ({ pricePerDay, isOpen, onRequestClose }) => {
     const [numberOfDays, setNumberOfDays] = useState(null);
+    const [location, setLocation] = useState(null);
 
     const handleConfirm = () => {
-        if (numberOfDays) {
+        if (numberOfDays && location) {
             // TODO Tutaj call do api
-            //console.log(onRequestClose);
-            //onRequestClose();
+            console.log("OK");
+            onRequestClose();
         }
         else {
             // TODO Lepszy error pokazac
-            alert("Date not set");
+            alert("Fields not set");
         }        
     };
 
@@ -44,7 +45,7 @@ export const RentModal = ({ pricePerDay, isOpen, onRequestClose }) => {
                 <div className={styles.header}>Rent details</div>
 
                 <div className={styles.body}>
-                    <LocationInput />
+                    <LocationInput setLocation={setLocation}/>
                     <DaysInput
                         numberOfDays={numberOfDays}
                         setNumberOfDays={setNumberOfDays}
@@ -61,13 +62,17 @@ export const RentModal = ({ pricePerDay, isOpen, onRequestClose }) => {
     );
 };
 
-const LocationInput = () => {
+const LocationInput = ({ setLocation }) => {
     return (
         <>
             Location
             <div className={styles.barContainer}>
                 <div className={styles.inputBar}>
-                    <input type="text" placeholder="Location" />
+                    <input
+                        onChange={(e) => setLocation(e.target.value)}
+                        type="text"
+                        placeholder="Location"
+                    />
                 </div>
             </div>
         </>

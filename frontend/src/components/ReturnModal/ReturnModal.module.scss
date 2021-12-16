@@ -74,21 +74,27 @@
     display: flex;
     flex-direction: row;
 
-    &>input {
-        margin: 0;
-        font-size: 16px;
-        #file-upload-button {
-            font-size: 12px;
-        }
-    }
-
-    &>input #file-upload-button {
-        font-size: 12px;        
-    }
-
     &>p {
         margin: 0;
     }
+}
+
+.uploadButton {
+    * {
+        font-size: 15px;
+        font-family: $main-font;
+    }
+    
+}
+
+.uploadedFilesContainer {
+    p {
+        margin: 0;
+    }
+    padding-left: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
 
 
