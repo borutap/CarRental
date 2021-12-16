@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+
 import classNames from 'classnames';
 
 import styles from './HistoryItem.module.scss';
 import { OkIcon } from '../OkIcon/OkIcon';
+import { NoIcon } from '../NoIcon/NoIcon';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 
 export const HistoryItem = ({
@@ -37,7 +39,7 @@ export const HistoryItem = ({
                     </div>
                 ) : (
                     <div>
-                        <OkIcon />
+                        <NoIcon />
                         Not Returned
                     </div>
                 )}
