@@ -24,7 +24,7 @@ export const RentedItem = ({
         rentStart: "...",
         rentEnd: "...",
         fullPrice: "...",
-        rentalName: "..."
+        client: "..."
     });
         
     useEffect(() => {
@@ -52,7 +52,7 @@ export const RentedItem = ({
                         rentStart: "14/12/2021",
                         rentEnd: "17/12/2021",
                         fullPrice: "1000zł",
-                        rentalName: "Dluzszanazwa",
+                        client: "clientName",
                     });
                 })
                 .catch(() => {
@@ -60,7 +60,7 @@ export const RentedItem = ({
                         rentStart: "unavailable",
                         rentEnd: "unavailable",
                         fullPrice: "unavailable",
-                        rentalName: "unavailable",
+                        client: "unavailable",
                     });
                 });
             setLoading(false);
@@ -87,10 +87,9 @@ export const RentedItem = ({
                         <div className={styles.returnButton}>RETURN</div>
                     </div>
                     <div className={styles.rentInfo}>
-                        <p>Rented on {info.rentStart}</p>
+                        <p>Rented for {info.client} on {info.rentStart}</p>
                         <p>
-                            Until {info.rentEnd} for {info.fullPrice} from{' '}
-                            {info.rentalName}
+                            Until {info.rentEnd} for {info.fullPrice}                            
                         </p>
                     </div>
                 </div>
