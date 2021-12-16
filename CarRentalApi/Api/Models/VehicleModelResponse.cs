@@ -1,6 +1,6 @@
 using System;
 
-namespace Car_Rental.Models
+namespace CarRentalApi.WebApi.Models
 {
     public record VehicleModelResponse
     {

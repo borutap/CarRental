@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 
-namespace CarRentalApi.Tests.Api.Helpers
+namespace CarRentalApi.Tests.WebApi.Helpers
 {
     [TestClass]
     public class CalculatePriceHelperTests

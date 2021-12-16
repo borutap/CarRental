@@ -1,10 +1,11 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Car_Rental.Models
+namespace CarRentalApi.Services.Models
 {
     public record Vehicle
     {
+        [Key]
         public Guid Id { get; init; }
         public int Year { get; init; }
         public int EnginePower { get; init; }
@@ -12,5 +13,6 @@ namespace Car_Rental.Models
         public int Capacity { get; init; }
         public string Description { get; init; }
         public Guid ModelId { get; init; }
+        public virtual VehicleModel Model { get; init; }
     }
 }

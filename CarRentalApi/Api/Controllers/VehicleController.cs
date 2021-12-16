@@ -1,26 +1,23 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Car_Rental.Services;
-using Car_Rental.Models;
-using System.Linq;
 using CarRentalApi.WebApi.Models;
 using CarRentalApi.WebApi.Helpers;
 using CarRentalApi.Services.Models;
-using System.Net;
 using System;
+using CarRentalApi.Services.Repositories;
 
-namespace Car_Rental.Controllers
+namespace CarRentalApi.WebApi.Controllers
 {
     [ApiController]
-    public class VehiclesControler: ControllerBase
+    public class VehiclesControler : ControllerBase
     {
-        private readonly IRentalService _vehiclesRepository;
+        private readonly IRentalRepository _rentalService;
         //private readonly IQuoteRepository _quoteRepository;
         //private readonly IRentsRepository _rentsRepository;
 
-        public VehiclesControler(IRentalService vehiclesRepository)
+        public VehiclesControler(IRentalRepository rentalService)
         {
-            _vehiclesRepository = vehiclesRepository;
+            _rentalService = rentalService;
         }
 
         [HttpGet("vehicles")]
@@ -28,10 +25,9 @@ namespace Car_Rental.Controllers
         {
             var results = new List<VehicleModelResponse>();
 
-            foreach(var vehicle in _vehiclesRepository.GetVehicles())
+            foreach (var vehicle in _rentalService.GetVehicles())
             {
-
-                var modelFromDb = _vehiclesRepository.GetModel(vehicle.ModelId);
+                var modelFromDb = _rentalService.GetModel(vehicle.Model.Id);
                 results.Add(new VehicleModelResponse
                 {
                     Brand = modelFromDb.Brand,
@@ -51,10 +47,13 @@ namespace Car_Rental.Controllers
         [HttpPost("vehicle/{brand}/{model}")]
         public CheckPriceResponse GetModel(string brand, string model, [FromBody] CheckPriceRequest request)
         {
-            var modelFromDb = _vehiclesRepository.GetModel(brand, model);
+            var modelFromDb = _rentalService.GetModel(brand, model);
+
+            if (modelFromDb == null) throw new InvalidOperationException($"VehicleModel with Brand {brand} and Model {model} does not exist");
+
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _vehiclesRepository.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
+            var quoteFromDb = _rentalService.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
 
             return new CheckPriceResponse
             {
@@ -62,7 +61,7 @@ namespace Car_Rental.Controllers
                 ExpiredAt = quoteFromDb.ExpiredAt,
                 GeneratedAt = quoteFromDb.GeneratedAt,
                 Price = price,
-                QuoteId = quoteFromDb.QuoteId
+                QuoteId = quoteFromDb.Id
             };
 
         }
@@ -70,10 +69,13 @@ namespace Car_Rental.Controllers
         [HttpPost("vehicle/{id}")]
         public CheckPriceResponse GetModelByID(Guid id, [FromBody] CheckPriceRequest request)
         {
-            var modelFromDb = _vehiclesRepository.GetModelByVehicleId(id);
+            var modelFromDb = _rentalService.GetModelByVehicleId(id);
+
+            if (modelFromDb == null) throw new InvalidOperationException($"Vehicle with Id {id} does not exist");
+
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _vehiclesRepository.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
+            var quoteFromDb = _rentalService.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
 
             return new CheckPriceResponse
             {
@@ -81,35 +83,39 @@ namespace Car_Rental.Controllers
                 ExpiredAt = quoteFromDb.ExpiredAt,
                 GeneratedAt = quoteFromDb.GeneratedAt,
                 Price = price,
-                QuoteId = quoteFromDb.QuoteId
+                QuoteId = quoteFromDb.Id
             };
         }
 
         [HttpPost("vehicle/Rent/{quoteId}")]
         public RentVehicleResponse RentVehicle(Guid quoteId, [FromBody] RentVehicleRequest request)
         {
-            var quoteFromDb = _vehiclesRepository.GetQuote(quoteId);
+            var quoteFromDb = _rentalService.GetQuote(quoteId);
+            if (quoteFromDb == null) throw new InvalidOperationException($"Quote with Id {quoteId} does not exist");
+
             var rent = new Rent
             {
                 Id = Guid.NewGuid(),
                 CreationTime = DateTime.UtcNow,
-                QuoteId = quoteFromDb.QuoteId,
+                Quote = quoteFromDb,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate
             };
 
-            Vehicle vehicle = _vehiclesRepository.RentFirstAvailableVehicle(quoteFromDb.ModelId, request.StartDate, request.EndDate, rent.Id);
+            RentDateValidator.Validate(request.StartDate, request.EndDate);
+
+            Vehicle vehicle = _rentalService.GetFirstAvailableVehicle(quoteFromDb.Model.Id, request.StartDate, request.EndDate, rent.Id);
 
             if (vehicle == null) return null;
 
-            rent.VehicleId = vehicle.Id;
+            rent.Vehicle = vehicle;
 
-            _vehiclesRepository.CreateRent(rent);
+            _rentalService.CreateRent(rent);
 
             return new RentVehicleResponse
             {
                 RentId = rent.Id,
-                QuoteId = rent.QuoteId,
+                QuoteId = rent.Quote.Id,
                 StartDate = rent.StartDate,
                 EndDate = rent.EndDate,
                 RentAt = rent.CreationTime
@@ -119,9 +125,8 @@ namespace Car_Rental.Controllers
         [HttpPost("vehicle/Return/{rentId}")]
         public ActionResult ReturnVehicle(Guid rentId)
         {
-            _vehiclesRepository.ReturnVehicle(rentId);
+            if (!_rentalService.ReturnVehicle(rentId)) throw new InvalidOperationException($"Cannot return vehicle with rentId {rentId}");
             return Ok();
-
         }
 
     }
