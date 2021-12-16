@@ -88,8 +88,18 @@ export const MainView = (props) => {
     const [query, setQuery] = useState('');
     const [alphabetically, setAlphabetically] = useState(false);
 
+    const fetchVehicles = () => {
+        fetch('http://localhost:8010/proxy/vehicles')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setVehicles(data);
+            });
+    }
+
     useEffect(() => {
-        setVehicles(mockVehiclesResponse['vehicles']);
+        //setVehicles(mockVehiclesResponse['vehicles']);
+        fetchVehicles();
         setPossibleRentals(mockPossibleRentals['rentals'])
     }, []);
 

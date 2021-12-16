@@ -13,16 +13,36 @@ const modalStyling = {
     }
 }
 
-export const ReturnModal = ({ isOpen, onRequestClose }) => {
+export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
     const [description, setDescription] = useState(null);
     const [odometerValue, setOdometerValue] = useState(null);
+
+    const returnRequest = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        fetch(
+            `http://localhost:8010/proxy/vehicle/Return/${rentId}`,
+            requestOptions
+        ).then((res) => {
+            console.log(res.status);
+            if (res.status !== 200) {
+                console.log("ERROR");
+            }
+            else {                
+                console.log("OK");
+                setHidden(true);
+            }
+        });
+    }
 
     const handleConfirm = () => {
         if (description && odometerValue) {
             // TODO Tutaj call do api
             // handleSubmission()          
             // zamykamy okno
-            console.log("OK");
+            returnRequest();
             onRequestClose();
         }
         if (!description && !odometerValue) {
@@ -80,7 +100,7 @@ export const ReturnModal = ({ isOpen, onRequestClose }) => {
             style={modalStyling}
         >
             <div className={styles.container}>
-                <div className={styles.header}>Rent details</div>
+                <div className={styles.header}>Return</div>
 
                 <div className={styles.body}>
                     <DescriptionInput setDescription={setDescription} />

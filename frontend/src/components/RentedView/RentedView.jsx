@@ -34,10 +34,20 @@ const mockVehiclesResponse = {
 };
 
 export const RentedView = (props) => {
-    const [vehicles, setVehicles] = useState([]);
+    const [rentInfo, setRentInfo] = useState([]);
+
+    const fetchVehicles = () => {
+        fetch('http://localhost:8010/proxy/rentedvehicles')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setRentInfo(data);
+            });
+    }
 
     useEffect(() => {
-        setVehicles(mockVehiclesResponse['vehicles']);
+        fetchVehicles();
+        //setVehicles(mockVehiclesResponse['vehicles']);
     }, []);
 
     return (
@@ -45,7 +55,7 @@ export const RentedView = (props) => {
             <Header />
             <div className={styles.container}>
                 <RentedItemList
-                    vehicles={vehicles}
+                    rentInfo={rentInfo}
                 />
             </div>
         </>

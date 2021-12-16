@@ -7,6 +7,7 @@ import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { RentModal } from '../RentModal/RentModal';
 
 export const Item = ({
+    id,
     imageUrl,
     year,
     power,
@@ -25,7 +26,7 @@ export const Item = ({
     
     // para klucz - nazwa wypozyczalni, wartosc - cena auta w niej
     const [checkedPrices, setCheckedPrices] = useState({});
-    
+
     return (
         // laczy styles.container ze styles.expaneded jezeli expanded true
         // <div className={classNames(styles.container, {[styles.expanded] : expanded})}>
@@ -55,7 +56,7 @@ export const Item = ({
                                         <Rental
                                             key={r.id}
                                             name={r.name}
-                                            apiBaseUrl={r.apiBaseUrl}
+                                            vehicleId={id}
                                             checkedPrices={checkedPrices}
                                             setCheckedPrices={setCheckedPrices}
                                             modalOpen={modalOpen}
@@ -114,11 +115,11 @@ const VehicleDetails = ({ year, power, capacity, description }) => {
 
 const Rental = ({
     name,
-    apiBaseUrl,
     checkedPrices,
     setCheckedPrices,
     modalOpen,
     toggleModal,
+    vehicleId
 }) => {
     const [checked, setChecked] = useState(checkedPrices[name] !== undefined);
     const [loading, setLoading] = useState(false);
@@ -170,6 +171,7 @@ const Rental = ({
                 />
             ) : (
                 <RentalPriceChecked
+                    vehicleId={vehicleId}
                     price={checkedPrices[name]}
                     modalOpen={modalOpen}
                     toggleModal={toggleModal}
@@ -194,7 +196,7 @@ const RentalPriceUnChecked = ({ handleCheckPrice, outputText, loading }) => {
     );
 };
 
-const RentalPriceChecked = ({ price, modalOpen, toggleModal }) => {
+const RentalPriceChecked = ({ vehicleId, price, modalOpen, toggleModal }) => {
     return (
         <>
             <td className={styles.rentPrice}>{price} zł</td>
@@ -205,6 +207,7 @@ const RentalPriceChecked = ({ price, modalOpen, toggleModal }) => {
                 isOpen={modalOpen}
                 onRequestClose={toggleModal}
                 pricePerDay={price}
+                vehicleId={vehicleId}
             ></RentModal>
         </>
     );
