@@ -7,31 +7,36 @@ import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { ReturnModal } from '../ReturnModal/ReturnModal';
 
 export const RentedItem = ({
+    rentId,
     imageUrl,
     year,
     power,
     capacity,
     description,
     brand,
-    model
+    model,
+    rentStart,
+    rentEnd,
 }) => {
     const [expanded, setExpanded] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const [hidden, setHidden] = useState(false);
+
     const [fakeFetch, setFakeFetch] = useState();
     const [info, setInfo] = useState({
-        rentStart: "...",
-        rentEnd: "...",
-        fullPrice: "...",
-        client: "..."
+        rentStart: '...',
+        rentEnd: '...',
+        fullPrice: '...',
+        client: '...',
     });
-        
+
     useEffect(() => {
         if (loading) {
             handleCheckInfo();
-        }          
-    }, [loading])
+        }
+    }, [loading]);
 
     const handleCheckInfo = async () => {
         // fetch(/api/nazwa)
@@ -43,35 +48,37 @@ export const RentedItem = ({
             })
         );
     };
-    
+
     useEffect(() => {
         if (fakeFetch) {
             fakeFetch
                 .then(() => {
                     setInfo({
-                        rentStart: "14/12/2021",
-                        rentEnd: "17/12/2021",
-                        fullPrice: "1000zł",
-                        client: "clientName",
+                        rentStart: '14/12/2021',
+                        rentEnd: '17/12/2021',
+                        fullPrice: '1000zł',
+                        client: 'clientName',
                     });
                 })
                 .catch(() => {
                     setInfo({
-                        rentStart: "unavailable",
-                        rentEnd: "unavailable",
-                        fullPrice: "unavailable",
-                        client: "unavailable",
+                        rentStart: 'unavailable',
+                        rentEnd: 'unavailable',
+                        fullPrice: 'unavailable',
+                        client: 'unavailable',
                     });
                 });
             setLoading(false);
         }
-    }, [fakeFetch]);    
+    }, [fakeFetch]);
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
-    }
-        
-    return (
+    };
+
+    return hidden ? (
+        <></>
+    ) : (
         // laczy styles.container ze styles.expaneded jezeli expanded true
         // <div className={classNames(styles.container, {[styles.expanded] : expanded})}>
         <div className={styles.container}>
@@ -91,16 +98,18 @@ export const RentedItem = ({
                             RETURN
                         </div>
                         <ReturnModal
+                            rentId={rentId}
+                            setHidden={setHidden}
                             isOpen={modalOpen}
                             onRequestClose={toggleModal}
                         ></ReturnModal>
                     </div>
                     <div className={styles.rentInfo}>
                         <p>
-                            Rented for {info.client} on {info.rentStart}
+                            Rented for {info.client} on {rentStart}
                         </p>
                         <p>
-                            Until {info.rentEnd} for {info.fullPrice}
+                            Until {rentEnd} for {info.fullPrice}
                         </p>
                     </div>
                 </div>

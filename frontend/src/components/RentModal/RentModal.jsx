@@ -17,15 +17,70 @@ const modalStyling = {
     }
 }
 
-export const RentModal = ({ pricePerDay, isOpen, onRequestClose }) => {
+export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) => {
     const [numberOfDays, setNumberOfDays] = useState(null);
     const [location, setLocation] = useState(null);
+    
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+    const [startRequest, setStartRequest] = useState(false);
 
+    const fetchQuoteIdJson = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                age: 20,
+                yearsOfHavingDriverLicense: 5,
+                rentDuration: numberOfDays,
+                location: location,
+                currentlyRentedCount: 0,
+                overallRentedCount: 0
+            }),
+        };
+        const response = await fetch(
+            `https://localhost:44329/vehicle/${vehicleId}`,
+            requestOptions
+        );
+        return await response.json();
+    }
+
+    const fetchRentIdJson = async (quoteId) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                startDate: startDate,
+                endDate: endDate
+            }),
+        };
+        const response = await fetch(
+            `https://localhost:44329/vehicle/Rent/${quoteId}`,
+            requestOptions
+        );
+        return await response.json();
+    }
+
+    useEffect(() => {
+        if (!startRequest) {
+            return;
+        }
+        fetchQuoteIdJson().then(responseJson => {
+            console.log(responseJson);                                  
+            let quoteId = responseJson['quoteId'];
+            fetchRentIdJson(quoteId).then(respJson => {
+                console.log(respJson);
+            })
+        });                      
+        onRequestClose();  
+    }, [startRequest])
+    
     const handleConfirm = () => {
         if (numberOfDays && location) {
             // TODO Tutaj call do api
             console.log("OK");
-            onRequestClose();
+            console.log(startDate, endDate, pricePerDay * numberOfDays)
+            setStartRequest(true);
         }
         else {
             // TODO Lepszy error pokazac
@@ -47,6 +102,10 @@ export const RentModal = ({ pricePerDay, isOpen, onRequestClose }) => {
                 <div className={styles.body}>
                     <LocationInput setLocation={setLocation}/>
                     <DaysInput
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
                         numberOfDays={numberOfDays}
                         setNumberOfDays={setNumberOfDays}
                     />
@@ -79,10 +138,15 @@ const LocationInput = ({ setLocation }) => {
     );
 };
 
-const DaysInput = ({numberOfDays, setNumberOfDays}) => {
+const DaysInput = ({
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    numberOfDays,
+    setNumberOfDays,
+}) => {
     const today = new Date();
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
     const oneDay = 24 * 60 * 60 * 1000;
 
     const onChange = (dates) => {

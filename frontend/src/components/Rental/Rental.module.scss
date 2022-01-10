@@ -1,0 +1,42 @@
+@import '../../styles/global.scss';
+
+.rentName {
+    width: 60%;
+}
+
+.checkButton {
+    text-decoration: underline;
+    font-family: $header-font;
+    cursor: pointer;
+    text-align: right;
+}
+
+.loadingPrice {
+    letter-spacing: 3px;
+    text-decoration: none;
+    text-align: center;
+    font-family: $main-font;
+}
+
+.rentPrice {
+    text-overflow: clip !important;    
+    text-align: right;
+    width: max(75px, 40%); // cos nie dziala?
+}
+
+.rentButton {    
+    text-decoration: underline;
+    font-family: $header-font;
+    cursor: pointer;
+    text-align: right;
+    font-size: 18px;
+    padding-right: 5px;
+}
+
+td {
+    &>.rentButton {
+        width: 60px;
+        margin-top: 0;
+        height: 30px;
+    }
+}

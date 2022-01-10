@@ -10,6 +10,7 @@ namespace CarRentalApi.Services.Repositories
         VehicleModel GetModel(Guid id);
         VehicleModel GetModel(string brand, string Model);
         List<Vehicle> GetVehicles();
+        List<Tuple<Rent, Vehicle>> GetRentedVehicles();
         Vehicle GetFirstAvailableVehicle(Guid modelId, DateTime startDate, DateTime endDate, Guid rentId);
         Rent CreateRent(Rent rent);
         bool ReturnVehicle(Guid rentId);
