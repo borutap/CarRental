@@ -13,8 +13,8 @@ const mockVehiclesResponse = {
     vehicles: [
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa5',
-            brandName: 'Fiat',
-            modelName: 'Punto',
+            brand: 'Fiat',
+            model: 'Punto',
             year: 1999,
             enginePower: 696,
             enginePowerType: 'string',
@@ -24,8 +24,8 @@ const mockVehiclesResponse = {
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            brandName: 'Aiat',
-            modelName: 'Szerszen',
+            brand: 'Aiat',
+            model: 'Szerszen',
             year: 1969,
             enginePower: 420,
             enginePowerType: 'string',
@@ -34,8 +34,8 @@ const mockVehiclesResponse = {
         },
         {
             id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-            brandName: 'Niemam',
-            modelName: 'Pojecia',
+            brand: 'Niemam',
+            model: 'Pojecia',
             year: 2069,
             enginePower: 0,
             enginePowerType: 'string',
@@ -89,7 +89,7 @@ export const MainView = (props) => {
     const [alphabetically, setAlphabetically] = useState(false);
 
     const fetchVehicles = () => {
-        fetch('http://localhost:8010/proxy/vehicles')
+        fetch('https://localhost:44329/vehicles')
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);

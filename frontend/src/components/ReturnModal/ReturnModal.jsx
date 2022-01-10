@@ -23,7 +23,7 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
             headers: { 'Content-Type': 'application/json' }
         };
         fetch(
-            `http://localhost:8010/proxy/vehicle/Return/${rentId}`,
+            `https://localhost:44329/vehicle/Return/${rentId}`,
             requestOptions
         ).then((res) => {
             console.log(res.status);

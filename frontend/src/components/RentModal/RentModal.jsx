@@ -39,7 +39,7 @@ export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) =>
             }),
         };
         const response = await fetch(
-            `http://localhost:8010/proxy/vehicle/${vehicleId}`,
+            `https://localhost:44329/vehicle/${vehicleId}`,
             requestOptions
         );
         return await response.json();
@@ -55,7 +55,7 @@ export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) =>
             }),
         };
         const response = await fetch(
-            `http://localhost:8010/proxy/vehicle/Rent/${quoteId}`,
+            `https://localhost:44329/vehicle/Rent/${quoteId}`,
             requestOptions
         );
         return await response.json();
@@ -66,12 +66,10 @@ export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) =>
             return;
         }
         fetchQuoteIdJson().then(responseJson => {
-            console.log(responseJson);      
-            console.log(responseJson['quoteId']);                               
+            console.log(responseJson);                                  
             let quoteId = responseJson['quoteId'];
             fetchRentIdJson(quoteId).then(respJson => {
                 console.log(respJson);
-                console.log(respJson['rentId']);
             })
         });                      
         onRequestClose();  

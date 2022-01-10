@@ -37,7 +37,7 @@ export const RentedView = (props) => {
     const [rentInfo, setRentInfo] = useState([]);
 
     const fetchVehicles = () => {
-        fetch('http://localhost:8010/proxy/rentedvehicles')
+        fetch('https://localhost:44329/rentedvehicles')
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
