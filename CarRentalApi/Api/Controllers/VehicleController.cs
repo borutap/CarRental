@@ -70,6 +70,33 @@ namespace CarRentalApi.WebApi.Controllers
             return results;
         }
 
+        [HttpGet("rentedhistory")]
+        public IEnumerable<HistoricallyRentedVehiclesResponse> GetHistoricallyRentedVehicles()
+        {
+            var results = new List<HistoricallyRentedVehiclesResponse>();
+
+            foreach (var tuple in _rentalService.GetHistoricallyRentedVehicles())
+            {
+                var modelFromDb = _rentalService.GetModel(tuple.Item2.Model.Id);
+                results.Add(new HistoricallyRentedVehiclesResponse
+                {
+                    RentId = tuple.Item1.Id,
+                    Year = tuple.Item2.Year,
+                    Brand = modelFromDb.Brand,
+                    Model = modelFromDb.Model,
+                    EnginePower = tuple.Item2.EnginePower,
+                    EnginePowerType = tuple.Item2.EnginePowerType,
+                    Capacity = tuple.Item2.Capacity,
+                    Description = tuple.Item2.Description,
+                    StartDate = tuple.Item1.StartDate,
+                    EndDate = tuple.Item1.EndDate,
+                    ReturnTime = tuple.Item1.ReturnTime
+                });
+            }
+
+            return results;
+        }
+
         [HttpPost("vehicle/{brand}/{model}")]
         public CheckPriceResponse GetModel(string brand, string model, [FromBody] CheckPriceRequest request)
         {

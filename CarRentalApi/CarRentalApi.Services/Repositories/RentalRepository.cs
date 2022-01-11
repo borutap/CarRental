@@ -86,6 +86,18 @@ namespace CarRentalApi.Services.Repositories
             return query.ToList();
         }
 
+        public List<Tuple<Rent, Vehicle>> GetHistoricallyRentedVehicles()
+        {
+            var vehicles = _dbContext.Vehicles;
+            var rents = _dbContext.Rents;
+
+            var query = from vehicle in vehicles
+                        join rent in rents on vehicle.Id equals rent.Vehicle.Id
+                        select new Tuple<Rent, Vehicle>(rent, vehicle);
+
+            return query.ToList();
+        }
+
         public Vehicle GetFirstAvailableVehicle(Guid modelId, DateTime startDate, DateTime endDate, Guid rentId)
         {
             var modelFromDb = GetModel(modelId);
