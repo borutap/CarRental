@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import formatJsonDate from '@lib/formatJsonDate';
 
 import styles from './HistoryItem.module.scss';
 import { OkIcon } from '../OkIcon/OkIcon';
@@ -9,14 +10,16 @@ import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
 
 export const HistoryItem = ({
     imageUrl,
+    rentId,
     brand,
     model,
-    startDate,
-    endDate,
+    rentStart,
+    rentEnd,
     year,
     power,
     capacity,
     description,
+    returnTime
 }) => {
     const [expanded, setExpanded] = useState(false);
 
@@ -31,15 +34,18 @@ export const HistoryItem = ({
                         {brand + ' ' + model}
                     </div>
                     <div>
-                        {startDate + ' - ' + endDate}
+                        From {formatJsonDate(rentStart)}
+                    </div>
+                    <div>
+                        Until {formatJsonDate(rentEnd)}
                     </div>
                 </div>
             </div>
             <div className={styles.midContainer}>
-                {CheckDate(endDate) ? (
+                {checkDate(returnTime) ? (
                     <div className={styles.returned}>
                         <OkIcon />
-                        Returned
+                        Returned ({formatJsonDate(returnTime)})
                     </div>
                 ) : (
                     <div className={styles.notReturned}>
@@ -84,10 +90,6 @@ export const HistoryItem = ({
     );
 };
 
-const CheckDate = function (checkDate) {
-    if (Date.parse(checkDate) < new Date()) {
-        return true;
-    }
-
-    return false;
+const checkDate = (returnTime) => {
+    return returnTime === null ? false : true;
 };

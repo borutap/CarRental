@@ -22,6 +22,7 @@ export default {
   alias: {
     '@components': './src/components',
     '@assets': './src/assets',
-    '@styles': './src/styles'
+    '@styles': './src/styles',
+    '@lib': './src/lib'
   }
 };

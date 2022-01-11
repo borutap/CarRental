@@ -50,17 +50,28 @@ const mockVehiclesResponse = {
 };
 
 export const HistoryView = (props) => {
-    const [vehicles, setVehicles] = useState([]);
+    const [rentInfo, setRentInfo] = useState([]);
+    //const [vehicles, setVehicles] = useState([]);
+
+    const fetchVehicles = () => {
+        fetch('https://localhost:44329/rentedhistory')
+            .then((response) => response.json())
+            .then((data) => {
+                //console.log(data);
+                setRentInfo(data);
+            });
+    }
 
     useEffect(() => {
-        setVehicles(mockVehiclesResponse['vehicles']);
+        fetchVehicles();
+        //setVehicles(mockVehiclesResponse['vehicles']);
     }, []);
 
     return (
         <>
             <Header />
             <div className={styles.container}>
-                <HistoryItemList vehicles={vehicles} />
+                <HistoryItemList rentInfo={rentInfo} />
             </div>
         </>
     );
