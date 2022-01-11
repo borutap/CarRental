@@ -26,16 +26,20 @@ export const HistoryItem = ({
                 <div className={styles.imgContainer}>
                     <img draggable={false} src={imageUrl} />
                 </div>
-                <div className={styles.header}>{brand + ' ' + model}</div>
-                <div className={styles.header}>
-                    {startDate + ' - ' + endDate}
+                <div className={styles.topRight}>
+                    <div className={styles.topTextContainer}>
+                        {brand + ' ' + model}
+                    </div>
+                    <div>
+                        {startDate + ' - ' + endDate}
+                    </div>
                 </div>
             </div>
             <div className={styles.midContainer}>
                 {CheckDate(endDate) ? (
                     <div className={styles.returned}>
                         <OkIcon />
-                        Returned        
+                        Returned
                     </div>
                 ) : (
                     <div className={styles.notReturned}>
@@ -56,7 +60,9 @@ export const HistoryItem = ({
                             />
                         </div>
                         <div className={styles.bottomDownload}>
-                            <a href='rrz2.pdf' download>Documents.pdf</a>
+                            <a href="rrz2.pdf" download>
+                                Documents.pdf
+                            </a>
                         </div>
                     </>
                 )}
