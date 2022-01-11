@@ -124,16 +124,6 @@ $rentButton-height: 35px;
     }
 }
 
-.description {
-    padding-top: 25px;
-    letter-spacing: 1px;
-}
-
-.mainDetails {
-    letter-spacing: 1px;
-    word-spacing: 7px;
-}
-
 .expandToggle {
     user-select: none;
     cursor: pointer;
@@ -146,10 +136,6 @@ $rentButton-height: 35px;
     align-items: center;
     font-size: 15px;
     font-weight: 300;
-}
-
-.thicc {
-    font-weight: 600;
 }
 
 .loadingPrice {
