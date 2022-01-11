@@ -5,6 +5,7 @@ import styles from './Item.module.scss';
 
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { Rental } from '../Rental/Rental';
+import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
 
 export const Item = ({
     id,
@@ -84,25 +85,5 @@ export const Item = ({
                 </div>
             </div>
         </div>
-    );
-};
-
-const VehicleDetails = ({ year, power, capacity, description }) => {
-    return (
-        <>
-            <p className={styles.mainDetails}>
-                <span className={styles.thicc}>Year: </span >
-                {year}
-            </p>
-            <p className={styles.mainDetails}>
-                <span className={styles.thicc}>Power: </span >
-                {power}
-            </p>
-            <p className={styles.mainDetails}>
-                <span className={styles.thicc}>Capacity: </span >
-                {capacity}
-            </p>
-            <p className={styles.description}>{description}</p>
-        </>
     );
 };

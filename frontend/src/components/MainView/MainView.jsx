@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { FaBeer } from 'react-icons/fa';
 import { Header } from '@components/Header/Header';
 import { ItemList } from '@components/ItemList/ItemList';
 import { SearchBar } from '../SearchBar/SearchBar';
