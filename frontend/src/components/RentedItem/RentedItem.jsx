@@ -5,6 +5,7 @@ import styles from './RentedItem.module.scss';
 
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { ReturnModal } from '../ReturnModal/ReturnModal';
+import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
 
 export const RentedItem = ({
     rentId,
@@ -142,25 +143,5 @@ export const RentedItem = ({
                 </div>
             </div>
         </div>
-    );
-};
-
-const VehicleDetails = ({ year, power, capacity, description }) => {
-    return (
-        <>
-            <p className={styles.mainDetails}>
-                <span className={styles.thicc}>Year: </span >
-                {year}
-            </p>
-            <p className={styles.mainDetails}>
-                <span className={styles.thicc}>Power: </span >
-                {power}
-            </p>
-            <p className={styles.mainDetails}>
-                <span className={styles.thicc}>Capacity: </span >
-                {capacity}
-            </p>
-            <p className={styles.description}>{description}</p>
-        </>
     );
 };

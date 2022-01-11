@@ -39,10 +39,6 @@ $rentButton-height: 35px;
 //     }    
 // }
 
-.thicc {
-    font-weight: 600;
-}
-
 .checkButton {
     text-decoration: underline;
     font-family: $header-font;
@@ -94,16 +90,6 @@ td {
     &>p {
         margin: 0;
     }
-}
-
-.description {
-    padding-top: 25px;
-    letter-spacing: 1px;
-}
-
-.mainDetails {
-    letter-spacing: 1px;
-    word-spacing: 7px;
 }
 
 .bottomRentals {

@@ -19,9 +19,21 @@
     display: flex;
     gap: 20px;
 }
+
+.topRight {
+    display: flex;
+    flex-direction: column;
+}
+
+.topTextContainer {
+    font-size: 20px;
+    font-weight: 600;
+    color: $black;
+}
+
 .midContainer {
     width: 100%;
-    padding-left: 40%;
+    padding-left: 44%;
     height: 30px;
     display: flex;
     gap: 20px;
@@ -130,20 +142,4 @@ a:hover {
         transition: transform 0.2s ease-in-out;
         transform: scaleY(-1);
     }
-}
-
-.header {
-    font-size: 20px;
-    font-weight: 600;
-    color: $black;
-}
-
-.description {
-    padding-top: 10px;
-    letter-spacing: 1px;
-}
-
-.mainDetails {
-    letter-spacing: 1px;
-    word-spacing: 7px;
 }

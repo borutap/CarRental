@@ -8,7 +8,7 @@ export const OkIcon = () => {
             viewBox="0 0 48 48"
             version="1"
             xmlns="http://www.w3.org/2000/svg"
-            enable-background="new 0 0 48 48"
+            enableBackground="new 0 0 48 48"
         >
             <polygon
                 fill="#43A047"

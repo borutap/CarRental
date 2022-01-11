@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import styles from './HistoryItem.module.scss';
 import { OkIcon } from '../OkIcon/OkIcon';
 import { NoIcon } from '../NoIcon/NoIcon';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
+import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
 
 export const HistoryItem = ({
     imageUrl,
@@ -26,16 +26,20 @@ export const HistoryItem = ({
                 <div className={styles.imgContainer}>
                     <img draggable={false} src={imageUrl} />
                 </div>
-                <div className={styles.header}>{brand + ' ' + model}</div>
-                <div className={styles.header}>
-                    {startDate + ' - ' + endDate}
+                <div className={styles.topRight}>
+                    <div className={styles.topTextContainer}>
+                        {brand + ' ' + model}
+                    </div>
+                    <div>
+                        {startDate + ' - ' + endDate}
+                    </div>
                 </div>
             </div>
             <div className={styles.midContainer}>
                 {CheckDate(endDate) ? (
                     <div className={styles.returned}>
                         <OkIcon />
-                        Returned        
+                        Returned
                     </div>
                 ) : (
                     <div className={styles.notReturned}>
@@ -56,7 +60,9 @@ export const HistoryItem = ({
                             />
                         </div>
                         <div className={styles.bottomDownload}>
-                            <a href='rrz2.pdf' download>Documents.pdf</a>
+                            <a href="rrz2.pdf" download>
+                                Documents.pdf
+                            </a>
                         </div>
                     </>
                 )}
@@ -75,26 +81,6 @@ export const HistoryItem = ({
                 </div>
             </div>
         </div>
-    );
-};
-
-const VehicleDetails = ({ year, power, capacity, description }) => {
-    return (
-        <>
-            <p className={styles.mainDetails}>
-                <b>Year: </b>
-                {year}
-            </p>
-            <p className={styles.mainDetails}>
-                <b>Power: </b>
-                {power}
-            </p>
-            <p className={styles.mainDetails}>
-                <b>Capacity: </b>
-                {capacity}
-            </p>
-            <p className={styles.description}>{description}</p>
-        </>
     );
 };
 
