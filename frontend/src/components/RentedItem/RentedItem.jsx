@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import formatJsonDate from '@lib/formatJsonDate';
 
 import styles from './RentedItem.module.scss';
 
@@ -107,10 +108,10 @@ export const RentedItem = ({
                     </div>
                     <div className={styles.rentInfo}>
                         <p>
-                            Rented for {info.client} on {rentStart}
+                            Rented for {info.client} on {formatJsonDate(rentStart)}
                         </p>
                         <p>
-                            Until {rentEnd} for {info.fullPrice}
+                            Until {formatJsonDate(rentStart)} for {info.fullPrice}
                         </p>
                     </div>
                 </div>

@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { HistoryItem } from '../HistoryItem/HistoryItem';
 import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './HistoryItemList.module.scss';
 
-export const HistoryItemList = ({ vehicles }) => {
+export const HistoryItemList = ({ rentInfo }) => {
+    // sortowanie po starcie wypozyczenia
+    rentInfo.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+    // rentId chyba nie potrzebne tutaj
     return (
         <div className={styles.container}>
-            {vehicles.map((v) => {
+            {rentInfo.map((v) => {
                 return (
                     <HistoryItem
-                        key={v.id}
+                        key={v.rentId}
+                        rentId={v.rentId}
                         imageUrl={puntoImg}
                         year={v.year}
                         power={v.enginePower}
@@ -18,8 +23,9 @@ export const HistoryItemList = ({ vehicles }) => {
                         description={v.description}
                         brand={v.brand}
                         model={v.model}
-                        startDate={v.startDate}
-                        endDate={v.endDate}
+                        rentStart={v.startDate}
+                        rentEnd={v.endDate}
+                        returnTime={v.returnTime}
                     />
                 );            
             })}
