@@ -49,7 +49,7 @@ namespace CarRentalApi.Services.Databases
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseLazyLoadingProxies();
+            => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Server=localhost;Database=RentalDb;Trusted_Connection=True;");
 
 
 
