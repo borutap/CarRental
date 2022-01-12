@@ -87,17 +87,19 @@ export const MainView = (props) => {
     const [query, setQuery] = useState('');
     const [alphabetically, setAlphabetically] = useState(false);
 
-    const fetchVehicles = () => {
-        fetch('https://localhost:44329/vehicles')
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setVehicles(data);
-            });
+    const fetchVehicles = async () => {
+        try {
+            const response = await fetch('https://localhost:44329/vehicles');
+            const data = await response.json();
+            setVehicles(data);
+        } catch (e) {
+            alert('Could not fetch vehicles: ' + e.message);
+        }
     }
 
     useEffect(() => {
         //setVehicles(mockVehiclesResponse['vehicles']);
+         // nie potrzebujemy rezultatu wiec nie trzeba await
         fetchVehicles();
         setPossibleRentals(mockPossibleRentals['rentals'])
     }, []);

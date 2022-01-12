@@ -53,13 +53,14 @@ export const HistoryView = (props) => {
     const [rentInfo, setRentInfo] = useState([]);
     //const [vehicles, setVehicles] = useState([]);
 
-    const fetchVehicles = () => {
-        fetch('https://localhost:44329/rentedhistory')
-            .then((response) => response.json())
-            .then((data) => {
-                //console.log(data);
-                setRentInfo(data);
-            });
+    const fetchVehicles = async () => {
+        try {
+            const response = await fetch('https://localhost:44329/rentedhistory');
+            const data = await response.json();
+            setRentInfo(data);
+        } catch (e) {
+            alert('Could not fetch historical vehicles: ' + e.message);
+        }
     }
 
     useEffect(() => {

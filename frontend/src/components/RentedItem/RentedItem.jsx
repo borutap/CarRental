@@ -111,7 +111,7 @@ export const RentedItem = ({
                             Rented for {info.client} on {formatJsonDate(rentStart)}
                         </p>
                         <p>
-                            Until {formatJsonDate(rentStart)} for {info.fullPrice}
+                            Until {formatJsonDate(rentEnd)} for {info.fullPrice}
                         </p>
                     </div>
                 </div>
