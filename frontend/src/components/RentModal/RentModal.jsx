@@ -23,9 +23,8 @@ export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) =>
     
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
-    const [startRequest, setStartRequest] = useState(false);
 
-    const fetchQuoteIdJson = async () => {
+    const fetchQuoteId = async () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -42,10 +41,24 @@ export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) =>
             `https://localhost:44329/vehicle/${vehicleId}`,
             requestOptions
         );
-        return await response.json();
+
+        if (!response.ok) {
+            alert('Could not fetch quote ID: ' + e.message);
+        }
+
+        const quoteJson = await response.json();
+        return quoteJson['quoteId'];
     }
 
-    const fetchRentIdJson = async (quoteId) => {
+    const rent = async () => {
+        const quoteId = await fetchQuoteId();
+        // const quote = quoteJson['quoteId']
+        console.log("quoteId: " + quoteId);
+        const rentId = await fetchRentId(quoteId);
+        console.log("rentId: " + rentId);
+    }
+
+    const fetchRentId = async (quoteId) => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -54,33 +67,32 @@ export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) =>
                 endDate: endDate
             }),
         };
-        const response = await fetch(
-            `https://localhost:44329/vehicle/Rent/${quoteId}`,
-            requestOptions
-        );
-        return await response.json();
+        
+        // TODO - api powinno zwracac inny kod
+        try {
+            const response = await fetch(
+                `https://localhost:44329/vehicle/Rent/${quoteId}`,
+                requestOptions
+            );
+            
+            if (!response.ok) {
+                alert('Could not fetch rent ID');
+                return;
+            }
+    
+            const rentJson = await response.json();
+            return rentJson['rentId'];
+        } catch(e) {
+            alert('Car has already been rented: ' + e.message);
+        }        
     }
-
-    useEffect(() => {
-        if (!startRequest) {
-            return;
-        }
-        fetchQuoteIdJson().then(responseJson => {
-            console.log(responseJson);                                  
-            let quoteId = responseJson['quoteId'];
-            fetchRentIdJson(quoteId).then(respJson => {
-                console.log(respJson);
-            })
-        });                      
-        onRequestClose();  
-    }, [startRequest])
     
     const handleConfirm = () => {
         if (numberOfDays && location) {
-            // TODO Tutaj call do api
-            console.log("OK");
+            console.log("input OK");
             console.log(startDate, endDate, pricePerDay * numberOfDays)
-            setStartRequest(true);
+            rent();
+            onRequestClose();
         }
         else {
             // TODO Lepszy error pokazac

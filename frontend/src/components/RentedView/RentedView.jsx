@@ -36,13 +36,14 @@ const mockVehiclesResponse = {
 export const RentedView = (props) => {
     const [rentInfo, setRentInfo] = useState([]);
 
-    const fetchVehicles = () => {
-        fetch('https://localhost:44329/rentedvehicles')
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setRentInfo(data);
-            });
+    const fetchVehicles = async () => {
+        try {
+            const response = await fetch('https://localhost:44329/rentedvehicles');
+            const data = await response.json();
+            setRentInfo(data);
+        } catch (e) {
+            alert('Could not fetch rented vehicles: ' + e.message);
+        }
     }
 
     useEffect(() => {

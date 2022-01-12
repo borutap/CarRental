@@ -20,21 +20,19 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
     const returnRequest = async () => {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
         };
-        fetch(
+        const response = await fetch(
             `https://localhost:44329/vehicle/Return/${rentId}`,
             requestOptions
-        ).then((res) => {
-            console.log(res.status);
-            if (res.status !== 200) {
-                console.log("ERROR");
-            }
-            else {                
-                console.log("OK");
-                setHidden(true);
-            }
-        });
+        );
+
+        if (response.status !== 200) {
+            alert('Could not return the car, code: ' + response.status);
+        } else {
+            console.log('Returned the car');
+            setHidden(true);
+        }
     }
 
     const handleConfirm = () => {
