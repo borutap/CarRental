@@ -26,6 +26,7 @@ const sanitizeFileName = (fileName, rentId) => {
 export const uploadFilesToBlob = async (files, rentId) => {
     if (!files) {
         alert('uploadFileToBlob: Bad argument');
+        return;
     }
     // tak bedzie na produkcji:
     //let data = await getUploadToken();
