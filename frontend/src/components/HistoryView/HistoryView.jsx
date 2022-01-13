@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Header } from '@components/Header/Header';
 import { HistoryItemList } from '@components/HistoryItemList/HistoryItemList';
+import { getClient, getBlobsNamesInContainer } from '@lib/AzureBlob';
 import styles from './HistoryView.module.scss';
 
 
@@ -51,7 +52,8 @@ const mockVehiclesResponse = {
 
 export const HistoryView = (props) => {
     const [rentInfo, setRentInfo] = useState([]);
-    //const [vehicles, setVehicles] = useState([]);
+    const [attachments, setAttachments] = useState([]);
+    const [blobClient, setBlobClient] = useState(null);
 
     const fetchVehicles = async () => {
         try {
@@ -63,16 +65,32 @@ export const HistoryView = (props) => {
         }
     }
 
+    const fetchAttachments = async () => {
+        try {
+            const client = getClient();
+            setBlobClient(client);
+            const blobNames = await getBlobsNamesInContainer(client);
+            console.log("Fetched attachments' names");
+            setAttachments(blobNames);
+        } catch (e) {
+            alert('Could not fetch attachments: ' + e.message);
+        }
+    }
+
     useEffect(() => {
+        fetchAttachments();
         fetchVehicles();
-        //setVehicles(mockVehiclesResponse['vehicles']);
     }, []);
 
     return (
         <>
             <Header />
             <div className={styles.container}>
-                <HistoryItemList rentInfo={rentInfo} />
+                <HistoryItemList
+                    rentInfo={rentInfo}
+                    attachments={attachments}
+                    blobClient={blobClient}
+                />
             </div>
         </>
     );

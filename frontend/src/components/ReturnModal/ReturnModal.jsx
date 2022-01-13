@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import { uploadFilesToBlob } from '@lib/AzureBlob';
 
 import styles from './ReturnModal.module.scss';
 
@@ -38,9 +39,10 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
     const handleConfirm = () => {
         if (description && odometerValue) {
             // TODO Tutaj call do api
-            // handleSubmission()          
-            // zamykamy okno
+            
+            uploadFilesToBlob(selectedFiles, rentId);
             returnRequest();
+            // zamykamy okno
             onRequestClose();
         }
         if (!description && !odometerValue) {
@@ -81,24 +83,6 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
             setSelectedFiles([...selectedFiles, file]);
         }
 		setIsFilePicked(true);
-	};
-
-	const handleSubmission = () => {
-        // const formData = new FormData();
-
-        // formData.append('File', selectedFile);
-
-        // fetch('https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>', {
-        //     method: 'POST',
-        //     body: formData,
-        // })
-        //     .then((response) => response.json())
-        //     .then((result) => {
-        //         console.log('Success:', result);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
 	};
 
     return (

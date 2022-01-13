@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { HistoryItem } from '../HistoryItem/HistoryItem';
 import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './HistoryItemList.module.scss';
 
-export const HistoryItemList = ({ rentInfo }) => {
+export const HistoryItemList = ({ rentInfo, attachments, blobClient }) => {
+
     // sortowanie po starcie wypozyczenia
     rentInfo.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
-    // rentId chyba nie potrzebne tutaj
     return (
         <div className={styles.container}>
             {rentInfo.map((v) => {
@@ -26,6 +26,8 @@ export const HistoryItemList = ({ rentInfo }) => {
                         rentStart={v.startDate}
                         rentEnd={v.endDate}
                         returnTime={v.returnTime}
+                        attachments={attachments}
+                        blobClient={blobClient}
                     />
                 );            
             })}
