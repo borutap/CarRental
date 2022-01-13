@@ -62,6 +62,18 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
 	const changeHandler = (event) => {       
         // max 2 pliki  
         const file = event.target.files[0];
+        // to jest naiwne, tak naprawde na serwerze powinnismy sprawdzac
+        // https://stackoverflow.com/a/29672957
+        const extension = file.name.split('.').at(-1);
+        const mimeFileType = file.type.split('/')[0];
+        if (mimeFileType !== "image" && extension !== "pdf") {
+            alert("Only images and pdfs allowed");
+            return;
+        }        
+        if (file.size > 5*1024*1024) {
+            alert("File size can't be greater than 5MB");
+            return;
+        }
         if (selectedFiles.length === 2) {
             setSelectedFiles([file]);
         }
