@@ -59,24 +59,24 @@ const mockPossibleRentals = {
     rentalsCount: 4,
     rentals: [
         {
-            "id": "12345",
-            "name": "Rental hgw",
-            "apiBaseUrl": "rentalhgw.com/api/"
+            "id": "1",
+            "name": "Our Rental",
+            "baseApiUrl": "https://localhost:44329"
         },
         {
-            "id": "21345",
+            "id": "2",
             "name": "Dluzszanazwa",
-            "apiBaseUrl": "Dluzszanazwa.com/api/"
+            "baseApiUrl": "Dluzszanazwa.com/api/"
         },
         {
-            "id": "31245",
+            "id": "3",
             "name": "bardzodluganazwa",
-            "apiBaseUrl": "bardzodluganazwa.com/api/"
+            "baseApiUrl": "bardzodluganazwa.com/api/"
         },
         {
-            "id": "23145",
+            "id": "4",
             "name": "Rental4",
-            "apiBaseUrl": "Rental.com/api/"
+            "baseApiUrl": "Rental.com/api/"
         }
     ]
 }

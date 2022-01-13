@@ -57,6 +57,7 @@ export const Item = ({
                                         <Rental
                                             key={r.id}
                                             name={r.name}
+                                            baseApiUrl={r.baseApiUrl}
                                             vehicleId={id}
                                             checkedPrices={checkedPrices}
                                             setCheckedPrices={setCheckedPrices}

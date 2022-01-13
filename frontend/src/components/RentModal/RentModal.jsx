@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-
+import fetchQuoteJson from '@lib/fetchQuoteJson';
 import DatePicker from "react-datepicker";
 
 import styles from './RentModal.module.scss';
@@ -17,42 +17,16 @@ const modalStyling = {
     }
 }
 
-export const RentModal = ({ vehicleId, pricePerDay, isOpen, onRequestClose }) => {
+export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onRequestClose }) => {
     const [numberOfDays, setNumberOfDays] = useState(null);
     const [location, setLocation] = useState(null);
     
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
 
-    const fetchQuoteId = async () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                age: 20,
-                yearsOfHavingDriverLicense: 5,
-                rentDuration: numberOfDays,
-                location: location,
-                currentlyRentedCount: 0,
-                overallRentedCount: 0
-            }),
-        };
-        const response = await fetch(
-            `https://localhost:44329/vehicle/${vehicleId}`,
-            requestOptions
-        );
-
-        if (!response.ok) {
-            alert('Could not fetch quote ID: ' + e.message);
-        }
-
-        const quoteJson = await response.json();
-        return quoteJson['quoteId'];
-    }
-
     const rent = async () => {
-        const quoteId = await fetchQuoteId();
-        // const quote = quoteJson['quoteId']
+        const quoteJson = await fetchQuoteJson(baseApiUrl, vehicleId);
+        const quoteId = quoteJson['quoteId'];
         console.log("quoteId: " + quoteId);
         const rentId = await fetchRentId(quoteId);
         console.log("rentId: " + rentId);

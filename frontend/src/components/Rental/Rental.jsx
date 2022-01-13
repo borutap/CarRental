@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { RentModal } from '../RentModal/RentModal';
+import fetchQuoteJson from '@lib/fetchQuoteJson';
 
 import styles from './Rental.module.scss';
 
 export const Rental = ({
     name,
+    baseApiUrl,
     checkedPrices,
     setCheckedPrices,
     modalOpen,
@@ -18,8 +20,13 @@ export const Rental = ({
 
     const [fakeFetch, setFakeFetch] = useState();
 
-    const handleCheckPrice = async () => {
-        // fetch(/api/nazwa)
+    const handleCheckPrice = async () => {        
+        if (name === "Our Rental") {
+            setLoading(true);
+            setOutputText('...');    
+            setOurPrice();        
+            return;
+        }
         setFakeFetch(
             new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -44,10 +51,28 @@ export const Rental = ({
         }
     }, [fakeFetch]);
 
+    const setOurPrice = async () => {
+        try {
+            const quoteJson = await fetchQuoteJson(baseApiUrl, vehicleId);
+            const price = quoteJson['price'];
+            console.log(`Our price: ${price}`);
+            setChecked(true);
+            setLoading(false);
+            setCheckedPrices({ ...checkedPrices, [name]: price }); 
+        } catch (e) {
+            alert(e.message);
+            setLoading(false);
+            setOutputText('ERROR');
+        }
+    }
+
     useEffect(() => {
         if (checked && checkedPrices[name] === undefined) {
-            let price = (1000 + Math.random() * 600).toFixed();
-            setCheckedPrices({ ...checkedPrices, [name]: price });                        
+            let price = 0;
+            if (name !== "Our Rental") {                
+                price = (1000 + Math.random() * 600).toFixed();
+                setCheckedPrices({ ...checkedPrices, [name]: price }); 
+            }                                   
         }
     }, [checked]);
 
@@ -63,6 +88,7 @@ export const Rental = ({
             ) : (
                 <RentalPriceChecked
                     vehicleId={vehicleId}
+                    baseApiUrl={baseApiUrl}
                     price={checkedPrices[name]}
                     modalOpen={modalOpen}
                     toggleModal={toggleModal}
@@ -87,7 +113,7 @@ const RentalPriceUnChecked = ({ handleCheckPrice, outputText, loading }) => {
     );
 };
 
-const RentalPriceChecked = ({ vehicleId, price, modalOpen, toggleModal }) => {
+const RentalPriceChecked = ({ vehicleId, baseApiUrl, price, modalOpen, toggleModal }) => {
     return (
         <>
             <td className={styles.rentPrice}>{price} zł</td>
@@ -99,6 +125,7 @@ const RentalPriceChecked = ({ vehicleId, price, modalOpen, toggleModal }) => {
                 onRequestClose={toggleModal}
                 pricePerDay={price}
                 vehicleId={vehicleId}
+                baseApiUrl={baseApiUrl}
             ></RentModal>
         </>
     );
