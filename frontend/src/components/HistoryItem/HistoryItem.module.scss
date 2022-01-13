@@ -74,6 +74,11 @@
     padding-left: 10%;
     flex-direction: column;
     color: rgb(6, 69, 173);
+    p {
+        text-decoration: underline;
+        cursor: pointer;
+        margin: 0;
+    }
 }
 
 a {
