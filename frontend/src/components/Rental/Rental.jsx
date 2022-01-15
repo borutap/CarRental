@@ -53,7 +53,15 @@ export const Rental = ({
 
     const setOurPrice = async () => {
         try {
-            const quoteJson = await fetchQuoteJson(baseApiUrl, vehicleId);
+            // bazowe parametry tutaj
+            const quoteJson = await fetchQuoteJson(
+                baseApiUrl,
+                0,
+                0,
+                1,
+                '',
+                vehicleId
+            );
             const price = quoteJson['price'];
             console.log(`Our price: ${price}`);
             setChecked(true);
