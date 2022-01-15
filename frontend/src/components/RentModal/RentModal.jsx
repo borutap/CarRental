@@ -19,13 +19,28 @@ const modalStyling = {
 
 export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onRequestClose }) => {
     const [numberOfDays, setNumberOfDays] = useState(null);
+    const [age, setAge] = useState(null);
+    const [yearsOfHavingLicence, setYearsOfHavingLicennce] = useState(null);
     const [location, setLocation] = useState(null);
     
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
 
     const rent = async () => {
-        const quoteJson = await fetchQuoteJson(baseApiUrl, vehicleId);
+        let quoteJson;
+        try {
+            quoteJson = await fetchQuoteJson(
+                baseApiUrl,
+                age,
+                yearsOfHavingLicence,
+                numberOfDays,
+                location,
+                vehicleId
+            );
+        } catch (e) {
+            alert("In RentModal: " + e.message);
+            return;
+        }    
         const quoteId = quoteJson['quoteId'];
         console.log("quoteId: " + quoteId);
         const rentId = await fetchRentId(quoteId);
@@ -62,14 +77,13 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
     }
     
     const handleConfirm = () => {
-        if (numberOfDays && location) {
+        if (numberOfDays && location && age && yearsOfHavingLicence) {
             console.log("input OK");
             console.log(startDate, endDate, pricePerDay * numberOfDays)
             rent();
             onRequestClose();
         }
         else {
-            // TODO Lepszy error pokazac
             alert("Fields not set");
         }        
     };
@@ -86,7 +100,19 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
                 <div className={styles.header}>Rent details</div>
 
                 <div className={styles.body}>
-                    <LocationInput setLocation={setLocation}/>
+                    <LocationInput setLocation={setLocation} />
+                    <NumericalInput
+                        min={18}
+                        max={130}
+                        stringToShow={'Age'}
+                        setter={setAge}
+                    />
+                    <NumericalInput
+                        min={0}
+                        max={130}
+                        stringToShow={'Years having licence'}
+                        setter={setYearsOfHavingLicennce}
+                    />
                     <DaysInput
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -117,6 +143,25 @@ const LocationInput = ({ setLocation }) => {
                         onChange={(e) => setLocation(e.target.value)}
                         type="text"
                         placeholder="Location"
+                    />
+                </div>
+            </div>
+        </>
+    );
+};
+
+const NumericalInput = ({ min, max, stringToShow, setter }) => {
+    return (
+        <>
+            {stringToShow}
+            <div className={styles.barContainer}>
+                <div className={styles.inputBar}>
+                    <input
+                        onChange={(e) => setter(e.target.value)}
+                        min={min}
+                        max={max}
+                        type="number"
+                        placeholder={stringToShow}
                     />
                 </div>
             </div>
