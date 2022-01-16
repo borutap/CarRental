@@ -14,7 +14,7 @@ namespace CarRentalApi.Services.Repositories
         {
             _dbContext = dbContext;
         }
-        public Quote CreateQuote(decimal price, string currency, Guid modelId)
+        public Quote CreateQuote(decimal price, string currency, Guid modelId, string teamName)
         {
             var now = DateTime.UtcNow;
             var model = _dbContext.VehicleModels.First(x => x.Id == modelId);
@@ -25,7 +25,8 @@ namespace CarRentalApi.Services.Repositories
                 Currency = currency,
                 Model = model,
                 ExpiredAt = now.AddHours(ExpirationHours),
-                GeneratedAt = now
+                GeneratedAt = now,
+                TeamName = teamName
             };
 
             var quotaFromDb = _dbContext.Add(quote).Entity;
@@ -63,9 +64,19 @@ namespace CarRentalApi.Services.Repositories
             return _dbContext.Quotes.FirstOrDefault(x => x.Id == id);
         }
 
+        public List<Quote> GetQuotesByTeam(string teamName)
+        {
+            return _dbContext.Quotes.Where(x => x.TeamName == teamName).ToList();
+        }
+
         public List<Rent> GetRents()
         {
             return _dbContext.Rents.ToList();
+        }
+
+        public Rent GetRent(Guid id)
+        {
+            return _dbContext.Rents.FirstOrDefault(x => x.Id == id);
         }
 
         public List<Vehicle> GetVehicles()

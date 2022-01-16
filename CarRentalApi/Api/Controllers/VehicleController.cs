@@ -106,7 +106,9 @@ namespace CarRentalApi.WebApi.Controllers
 
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _rentalService.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
+            string teamName = "teamC";
+
+            var quoteFromDb = _rentalService.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id, teamName);
 
             return new CheckPriceResponse
             {
@@ -128,7 +130,9 @@ namespace CarRentalApi.WebApi.Controllers
 
             var price = CalculatePriceHelper.Calculate(modelFromDb.DefaultPrice, request.Age, request.YearsOfHavingDriverLicense);
 
-            var quoteFromDb = _rentalService.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id);
+            string teamName = "teamC";
+
+            var quoteFromDb = _rentalService.CreateQuote(price, modelFromDb.Currency, modelFromDb.Id, teamName);
 
             return new CheckPriceResponse
             {

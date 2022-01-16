@@ -9,6 +9,7 @@ namespace CarRentalApi.Services.Models
         public Guid Id { get; init; }
         public DateTime GeneratedAt { get; init; }
         public DateTime ExpiredAt { get; init; }
+        public string TeamName { get; init; }
         public virtual VehicleModel Model { get; init; }
         public Guid? RentId { get; init; }
         public decimal Price { get; init; }
