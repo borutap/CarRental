@@ -1,4 +1,5 @@
-﻿using CarRentalApi.Services.Repositories;
+﻿using CarRentalApi.Services.Models;
+using CarRentalApi.Services.Repositories;
 using CarRentalApi.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -50,6 +51,42 @@ namespace CarRentalApi.WebApi.Controllers
             }
 
             return result;
+        }
+
+        [HttpPost("vehicles/AddModel")]
+        public void AddNewModel([FromBody] AddModelRequest request)
+        {
+            var vehicleModel = new VehicleModel
+            {
+                Id = Guid.NewGuid(),
+                DefaultPrice = request.DefaultPrice,
+                Brand = request.Brand,
+                Currency = request.Currency,
+                Model = request.Model
+            };
+            _rentalService.CreateModel(vehicleModel);
+        }
+
+        [HttpPost("vehicles/AddVehicle")]
+
+        public void AddNewVehicle([FromBody] AddVehicleRequest request)
+        {
+            var desc = request.Description.Split();
+            var model = _rentalService.GetModel(desc[0], desc[1]);
+            if (model is null)
+                return;
+            var vehicle = new Vehicle
+            {
+                Id = Guid.NewGuid(),
+                Capacity = request.Capacity,
+                Description = request.Description,
+                EnginePower = request.EnginePower,
+                EnginePowerType = request.EnginePowerType,
+                Year = request.Year,
+                ModelId = model.Id
+            };
+
+            _rentalService.CreateVehicle(vehicle);
         }
     }
 }
