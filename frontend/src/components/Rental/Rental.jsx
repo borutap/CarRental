@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames';
 import { RentModal } from '../RentModal/RentModal';
+import { UserContext } from '../../app/App';
 import fetchQuoteJson from '@lib/fetchQuoteJson';
 
 import styles from './Rental.module.scss';
@@ -19,6 +20,8 @@ export const Rental = ({
     const [outputText, setOutputText] = useState('CHECK');
 
     const [fakeFetch, setFakeFetch] = useState();
+
+    const role = useContext(UserContext);
 
     const handleCheckPrice = async () => {        
         if (name === "Our Rental") {
@@ -87,7 +90,8 @@ export const Rental = ({
     return (
         <tr>
             <td className={styles.rentName}>{name}</td>
-            {!checked ? (
+            {role === "client" && (
+            !checked ? (
                 <RentalPriceUnChecked
                     handleCheckPrice={handleCheckPrice}
                     outputText={outputText}
@@ -101,7 +105,7 @@ export const Rental = ({
                     modalOpen={modalOpen}
                     toggleModal={toggleModal}
                 />
-            )}
+            ))}
         </tr>
     );
 };

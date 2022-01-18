@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './Item.module.scss';
-
+import { UserContext } from '../../app/App';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { Rental } from '../Rental/Rental';
 import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
@@ -20,7 +20,7 @@ export const Item = ({
 }) => {
     const [expanded, setExpanded] = useState(false);    
     const [modalOpen, setModalOpen] = useState(false);
-    
+    const role = useContext(UserContext);
     const toggleModal = () => {
         setModalOpen(!modalOpen);
     }
@@ -41,7 +41,7 @@ export const Item = ({
             <div className={styles.bottomContainer}>
                 {expanded && (
                     <>
-                        <div className={styles.bottomCarDetails}>
+                        <div className={styles.bottomCarDetails}>                            
                             <VehicleDetails
                                 year={year}
                                 power={power}
@@ -49,26 +49,28 @@ export const Item = ({
                                 description={description}
                             />
                         </div>
-                        <div className={styles.bottomRentals}>
-                            <table>
-                                <tbody>
-                                {possibleRentals.map((r) => {
-                                    return (
-                                        <Rental
-                                            key={r.id}
-                                            name={r.name}
-                                            baseApiUrl={r.baseApiUrl}
-                                            vehicleId={id}
-                                            checkedPrices={checkedPrices}
-                                            setCheckedPrices={setCheckedPrices}
-                                            modalOpen={modalOpen}
-                                            toggleModal={toggleModal}
-                                        />
-                                    );
-                                })}
-                                </tbody>
-                            </table>
-                        </div>
+                        {role !== "guest" &&                        
+                            <div className={styles.bottomRentals}>
+                                <table>
+                                    <tbody>
+                                    {possibleRentals.map((r) => {
+                                        return (
+                                            <Rental
+                                                key={r.id}
+                                                name={r.name}
+                                                baseApiUrl={r.baseApiUrl}
+                                                vehicleId={id}
+                                                checkedPrices={checkedPrices}
+                                                setCheckedPrices={setCheckedPrices}
+                                                modalOpen={modalOpen}
+                                                toggleModal={toggleModal}
+                                            />
+                                        );
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        }                        
                     </>
                 )}
             </div>

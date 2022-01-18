@@ -81,7 +81,9 @@ const mockPossibleRentals = {
     ]
 }
 
-export const MainView = (props) => {
+
+
+export const MainView = ({ setRole }) => {
     const [vehicles, setVehicles] = useState([]);
     const [possibleRentals, setPossibleRentals] = useState([]);
     const [query, setQuery] = useState('');
@@ -106,27 +108,28 @@ export const MainView = (props) => {
 
     return (
         <>
-            <Header />
-            <div className={styles.container}>
-                <ItemList
-                    alphabetically={alphabetically}
-                    query={query}
-                    vehicles={vehicles}
-                    possibleRentals={possibleRentals}
-                />
-                {/* TODO poprawic styl */}
-                <div className={styles.rightContainer}>
-                    <SearchBar setQuery={setQuery} />
-                    <div>
-                        <input
-                            type="checkbox"
-                            id="alphabetically"
-                            onChange={() => setAlphabetically(!alphabetically)}
-                        />
-                        <label htmlFor="alphabetically">Alphabetically</label>
+            
+                <Header setRole={setRole}/>
+                <div className={styles.container}>
+                    <ItemList
+                        alphabetically={alphabetically}
+                        query={query}
+                        vehicles={vehicles}
+                        possibleRentals={possibleRentals}
+                    />
+                    {/* TODO poprawic styl */}
+                    <div className={styles.rightContainer}>
+                        <SearchBar setQuery={setQuery} />
+                        <div>
+                            <input
+                                type="checkbox"
+                                id="alphabetically"
+                                onChange={() => setAlphabetically(!alphabetically)}
+                            />
+                            <label htmlFor="alphabetically">Alphabetically</label>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div>            
         </>
     );
 };

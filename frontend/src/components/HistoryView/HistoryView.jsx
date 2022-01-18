@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { Header } from '@components/Header/Header';
 import { HistoryItemList } from '@components/HistoryItemList/HistoryItemList';
+import { UserContext } from '../../app/App'
 import { getClient, getBlobsNamesInContainer } from '@lib/AzureBlob';
 import styles from './HistoryView.module.scss';
 
@@ -50,10 +51,12 @@ const mockVehiclesResponse = {
     ],
 };
 
-export const HistoryView = (props) => {
+export const HistoryView = ({ setRole }) => {
     const [rentInfo, setRentInfo] = useState([]);
     const [attachments, setAttachments] = useState([]);
     const [blobClient, setBlobClient] = useState(null);
+
+    const role = useContext(UserContext);
 
     const fetchVehicles = async () => {
         try {
@@ -78,19 +81,26 @@ export const HistoryView = (props) => {
     }
 
     useEffect(() => {
+        if (role === "guest") {
+            return;
+        }
         fetchAttachments();
         fetchVehicles();
     }, []);
 
     return (
         <>
-            <Header />
+            <Header setRole={setRole} />
             <div className={styles.container}>
-                <HistoryItemList
-                    rentInfo={rentInfo}
-                    attachments={attachments}
-                    blobClient={blobClient}
-                />
+                {role !== 'guest' ? (
+                    <HistoryItemList
+                        rentInfo={rentInfo}
+                        attachments={attachments}
+                        blobClient={blobClient}
+                    />
+                ) : (
+                    <p>You are unauthorized to view this page</p>
+                )}
             </div>
         </>
     );
