@@ -16,7 +16,12 @@ namespace CarRentalApi.Services.Repositories
         Rent CreateRent(Rent rent);
         bool ReturnVehicle(Guid rentId);
         List<Rent> GetRents();
-        Quote CreateQuote(decimal price, string currency, Guid modelId);
+        Rent GetRent(Guid id);
+        void CreateModel(VehicleModel model);
+        void CreateVehicle(Vehicle vehicle);
+
+        Quote CreateQuote(decimal price, string currency, Guid modelId, string teamName);
+        List<Quote> GetQuotesByTeam(string teamName);
         Quote GetQuote(Guid id);
     }
 }

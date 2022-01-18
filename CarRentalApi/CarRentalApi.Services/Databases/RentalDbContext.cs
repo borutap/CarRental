@@ -113,7 +113,7 @@ namespace CarRentalApi.Services.Databases
             modelBuilder.Entity<Vehicle>().HasData(vehicles);
         }
 
-        public void AddCascadingObject(object rootEntity) //Place inside DbContext.cs
+        public void AddCascadingObject(object rootEntity)
         {
             ChangeTracker.TrackGraph(
                 rootEntity,

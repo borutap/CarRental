@@ -44,6 +44,9 @@ namespace CarRentalApi.Services.Migrations
                     b.Property<Guid?>("RentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("TeamName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
@@ -83,7 +86,7 @@ namespace CarRentalApi.Services.Migrations
                     b.ToTable("Rents");
                 });
 
-            modelBuilder.Entity("Car_Rental.Models.Vehicle", b =>
+            modelBuilder.Entity("CarRentalApi.Services.Models.Vehicle", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,6 +112,8 @@ namespace CarRentalApi.Services.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id");
+
                     b.HasIndex("ModelId");
 
                     b.ToTable("Vehicles");
@@ -116,7 +121,7 @@ namespace CarRentalApi.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("43fa46d1-1475-4650-83f5-a93334ea1624"),
+                            Id = new Guid("00d9804c-a5ad-4c44-94fc-d4a2e93c54ab"),
                             Capacity = 5,
                             Description = "Fiat Punto",
                             EnginePower = 120,
@@ -126,7 +131,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ea5a9930-fc9d-40d9-92ed-43da8a33997e"),
+                            Id = new Guid("fc16aa0a-47ca-4bb3-a3cd-083fde26ffe2"),
                             Capacity = 6,
                             Description = "Fiat Punto",
                             EnginePower = 140,
@@ -136,7 +141,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c8f352d4-e6ab-48a2-9968-072df520dd46"),
+                            Id = new Guid("064890bd-84d6-4263-b031-43a7a1641511"),
                             Capacity = 7,
                             Description = "Audi RS7",
                             EnginePower = 220,
@@ -146,14 +151,14 @@ namespace CarRentalApi.Services.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Car_Rental.Models.VehicleModel", b =>
+            modelBuilder.Entity("CarRentalApi.Services.Models.VehicleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Brand")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Currency")
                         .HasColumnType("nvarchar(max)");
@@ -163,9 +168,11 @@ namespace CarRentalApi.Services.Migrations
                         .HasColumnType("decimal(14,2)");
 
                     b.Property<string>("Model")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Brand", "Model");
 
                     b.ToTable("VehicleModels");
 
@@ -190,7 +197,7 @@ namespace CarRentalApi.Services.Migrations
 
             modelBuilder.Entity("CarRentalApi.Services.Models.Quote", b =>
                 {
-                    b.HasOne("Car_Rental.Models.VehicleModel", "Model")
+                    b.HasOne("CarRentalApi.Services.Models.VehicleModel", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId");
 
@@ -203,16 +210,16 @@ namespace CarRentalApi.Services.Migrations
 
             modelBuilder.Entity("CarRentalApi.Services.Models.Rent", b =>
                 {
-                    b.HasOne("Car_Rental.Models.Vehicle", "Vehicle")
+                    b.HasOne("CarRentalApi.Services.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId");
 
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("Car_Rental.Models.Vehicle", b =>
+            modelBuilder.Entity("CarRentalApi.Services.Models.Vehicle", b =>
                 {
-                    b.HasOne("Car_Rental.Models.VehicleModel", "Model")
+                    b.HasOne("CarRentalApi.Services.Models.VehicleModel", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
