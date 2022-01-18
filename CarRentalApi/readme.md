@@ -36,5 +36,5 @@ Open Visual Studio and right-click on given project and select  `Manage user sec
     "introspectionEndpoint":  "secret"
 }
 ```
-Example request for token
+##Example request for token
 ![TokenRequest](.resources/Token.png)
