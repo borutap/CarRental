@@ -7,11 +7,14 @@ namespace IdentityServer
     {
         internal static string userPassword;
         internal static string userClientId;
+        internal static string workerPassword;
+        internal static string workerClientId;
         internal static string introspectionSecret;
 
         public static IEnumerable<ApiScope> ApiScopes => new[] 
         {
-            new ApiScope("carrentalapi.user")
+            new ApiScope("carrentalapi.user"),
+            new ApiScope("carrentalapi.worker")
         };
 
         public static IEnumerable<ApiResource> ApiResources => new[]
@@ -20,7 +23,8 @@ namespace IdentityServer
             {
                 Scopes = new List <string>
                 {
-                    "carrentalapi.user"
+                    "carrentalapi.user",
+                    "carrentalapi.worker"
                 },
                 ApiSecrets = new List <Secret>
                 {
@@ -48,7 +52,21 @@ namespace IdentityServer
                 AllowedScopes = {
                     "carrentalapi.user"
                 }
-            }        
+            },
+            new Client
+            {
+                ClientId = workerClientId,
+                ClientName = "Client Credentials Worker",
+
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = {
+                    new Secret(workerPassword.Sha256())
+                },
+
+                AllowedScopes = {
+                    "carrentalapi.worker"
+                }
+            }
         };
     }
 }

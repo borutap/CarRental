@@ -21,6 +21,8 @@ namespace IdentityServer
         {
             Config.userClientId = Configuration["userClientId"];
             Config.userPassword = Configuration["userPassword"];
+            Config.workerClientId = Configuration["workerClientId"];
+            Config.workerPassword = Configuration["workerPassword"];
             Config.introspectionSecret = Configuration["introspectionSecret"];
 
             // DeveloperSigningCredential musi zostac usuniete na produkcji
