@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { Header } from '@components/Header/Header';
 import { RentedItemList } from '@components/RentedItemList/RentedItemList';
-
+import { UserContext } from '../../app/App'
 import styles from './RentedView.module.scss';
 
 // GET /????
@@ -33,8 +33,10 @@ const mockVehiclesResponse = {
     ],
 };
 
-export const RentedView = (props) => {
+export const RentedView = ({setRole}) => {
     const [rentInfo, setRentInfo] = useState([]);
+
+    const role = useContext(UserContext);
 
     const fetchVehicles = async () => {
         try {
@@ -47,17 +49,22 @@ export const RentedView = (props) => {
     }
 
     useEffect(() => {
+        if (role === "guest") {
+            return;
+        }
         fetchVehicles();
         //setVehicles(mockVehiclesResponse['vehicles']);
     }, []);
 
     return (
         <>
-            <Header />
+            <Header setRole={setRole} />
             <div className={styles.container}>
-                <RentedItemList
-                    rentInfo={rentInfo}
-                />
+                {role !== 'guest' ? (
+                    <RentedItemList rentInfo={rentInfo} />
+                ) : (
+                    <p>You are unauthorized to view this page</p>
+                )}
             </div>
         </>
     );

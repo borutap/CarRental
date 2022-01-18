@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import formatJsonDate from '@lib/formatJsonDate';
 
 import styles from './RentedItem.module.scss';
 
+import { UserContext } from '../../app/App';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { ReturnModal } from '../ReturnModal/ReturnModal';
 import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
@@ -34,6 +35,8 @@ export const RentedItem = ({
         client: '...',
     });
 
+    const role = useContext(UserContext);
+
     useEffect(() => {
         if (loading) {
             handleCheckInfo();
@@ -59,7 +62,7 @@ export const RentedItem = ({
                         rentStart: '14/12/2021',
                         rentEnd: '17/12/2021',
                         fullPrice: '1000zł',
-                        client: 'clientName',
+                        client: 'client',
                     });
                 })
                 .catch(() => {
@@ -93,25 +96,29 @@ export const RentedItem = ({
                         <div className={styles.header}>
                             {brand + ' ' + model}
                         </div>
-                        <div
-                            className={styles.returnButton}
-                            onClick={toggleModal}
-                        >
-                            RETURN
-                        </div>
-                        <ReturnModal
-                            rentId={rentId}
-                            setHidden={setHidden}
-                            isOpen={modalOpen}
-                            onRequestClose={toggleModal}
-                        ></ReturnModal>
+                        {role === "worker" &&
+                        <>
+                            <div
+                                className={styles.returnButton}
+                                onClick={toggleModal}
+                            >
+                                RETURN
+                            </div>
+                            <ReturnModal
+                                rentId={rentId}
+                                setHidden={setHidden}
+                                isOpen={modalOpen}
+                                onRequestClose={toggleModal}
+                            ></ReturnModal>
+                        </>
+                        }                        
                     </div>
                     <div className={styles.rentInfo}>
                         <p>
                             Rented for {info.client} on {formatJsonDate(rentStart)}
                         </p>
                         <p>
-                            Until {formatJsonDate(rentEnd)} for {info.fullPrice}
+                            Until {formatJsonDate(rentEnd)}
                         </p>
                     </div>
                 </div>
