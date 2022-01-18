@@ -1,5 +1,6 @@
 using CarRentalApi.Services.Databases;
 using CarRentalApi.Services.Repositories;
+using CarRentalApi.WebApi.Login;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IRentalRepository, RentalRepository>();
+            services.AddScoped<ILoginService, LoginService>();
 
             services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
