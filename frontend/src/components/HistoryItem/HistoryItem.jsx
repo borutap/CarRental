@@ -13,8 +13,8 @@ import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
 export const HistoryItem = ({
     imageUrl,
     rentId,
-    brand,
-    model,
+    brandName,
+    modelName,
     rentStart,
     rentEnd,
     year,
@@ -43,7 +43,7 @@ export const HistoryItem = ({
                 </div>
                 <div className={styles.topRight}>
                     <div className={styles.topTextContainer}>
-                        {brand + ' ' + model}
+                        {brandName + ' ' + modelName}
                     </div>
                     <div>
                         From {formatJsonDate(rentStart)}

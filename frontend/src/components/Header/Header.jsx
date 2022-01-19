@@ -31,6 +31,7 @@ export const Header = ({setRole}) => {
         console.log('logout success');
         localStorage.removeItem("googleIdToken");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("t_access_token");
         setIsLoggedIn(false);
     };
 
@@ -77,9 +78,24 @@ export const Header = ({setRole}) => {
         try {
             console.log(requestOptions);
             const response = await fetch('https://localhost:44329/login', requestOptions);
-            const data = await response.json();
+            const data = await response.json();            
             console.log(data);
-            localStorage.setItem("access_token", data.access_token);
+            if (data[0].access_token === null && data[1].access_token === null) {
+                alert('Both identity servers are probably down');
+                return;
+            }
+            if (data[0].access_token === null) {
+                alert('Our identity server is probably down');
+                localStorage.setItem("t_access_token", data[1].access_token);
+                return;
+            }
+            if (data[1].access_token === null) {
+                alert('Teacher\'s identity server is probably down');
+                localStorage.setItem("access_token", data[0].access_token);
+                return;
+            }
+            localStorage.setItem("access_token", data[0].access_token);
+            localStorage.setItem("t_access_token", data[1].access_token);
         } catch (e) {
             alert('Could not fetch access token: ' + e.message);
         }

@@ -30,8 +30,8 @@ namespace CarRentalApi.WebApi.Controllers
                 var modelFromDb = _rentalService.GetModel(vehicle.Model.Id);
                 results.Add(new VehicleModelResponse
                 {
-                    Brand = modelFromDb.Brand,
-                    Model = modelFromDb.Model,
+                    BrandName = modelFromDb.Brand,
+                    ModelName = modelFromDb.Model,
                     Capacity = vehicle.Capacity,
                     Description = vehicle.Description,
                     EnginePower = vehicle.EnginePower,
@@ -56,8 +56,8 @@ namespace CarRentalApi.WebApi.Controllers
                 {
                     RentId = tuple.Item1.Id,
                     Year = tuple.Item2.Year,
-                    Brand = modelFromDb.Brand,
-                    Model = modelFromDb.Model,
+                    BrandName = modelFromDb.Brand,
+                    ModelName = modelFromDb.Model,
                     EnginePower = tuple.Item2.EnginePower,
                     EnginePowerType = tuple.Item2.EnginePowerType,
                     Capacity = tuple.Item2.Capacity,
@@ -82,8 +82,8 @@ namespace CarRentalApi.WebApi.Controllers
                 {
                     RentId = tuple.Item1.Id,
                     Year = tuple.Item2.Year,
-                    Brand = modelFromDb.Brand,
-                    Model = modelFromDb.Model,
+                    BrandName = modelFromDb.Brand,
+                    ModelName = modelFromDb.Model,
                     EnginePower = tuple.Item2.EnginePower,
                     EnginePowerType = tuple.Item2.EnginePowerType,
                     Capacity = tuple.Item2.Capacity,

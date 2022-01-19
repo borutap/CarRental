@@ -21,10 +21,14 @@ namespace CarRentalApi.WebApi.Controllers
                 UserClientId = configuration["userClientId"],
                 UserPassword = configuration["userPassword"],
                 UserScope = configuration["userScope"],
+                UserTeacherClientId = configuration["userTeacherClientId"],
+                UserTeacherPassword = configuration["userTeacherPassword"],
+                UserTeacherScope = configuration["userTeacherScope"],
                 WorkerClientId = configuration["workerClientId"],
                 WorkerPassword = configuration["workerPassword"],
                 WorkerScope = configuration["workerScope"],
                 IdentityServerUrl = configuration["identityServerUrl"],
+                TeacherIdentityServerUrl = configuration["teacherIdentityServerUrl"],
                 // TODO na produkcji inny googleClientId - uzupelnic appsettings.json
                 GoogleClientId = configuration["googleClientId"]
             };
@@ -48,12 +52,22 @@ namespace CarRentalApi.WebApi.Controllers
             if (!tokenValid)
                 return Unauthorized();
 
-            var res = await _loginService.RequestTokenAsync(isWorker);
-            if (res == null)
+            var ourRes = await _loginService.RequestOurTokenAsync(isWorker);
+            var teacherRes = await _loginService.RequestTeacherTokenAsync();
+            var invalidResponse = new LoginResponse();
+            if (ourRes == null && teacherRes == null)
             {
                 return NotFound(new { Error = "Identity server probably down" });
             }
-            return Ok(res);
+            if (ourRes == null)
+            {            
+                return Ok(new[] { invalidResponse, teacherRes });
+            }
+            if (teacherRes == null)
+            {
+                return Ok(new[] { ourRes, invalidResponse });
+            }
+            return Ok(new[] { ourRes, teacherRes });
         }
     }
 }

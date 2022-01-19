@@ -16,8 +16,8 @@ export const RentedItem = ({
     power,
     capacity,
     description,
-    brand,
-    model,
+    brandName,
+    modelName,
     rentStart,
     rentEnd,
 }) => {
@@ -94,7 +94,7 @@ export const RentedItem = ({
                 <div className={styles.topInfoContainer}>
                     <div className={styles.topNameAndButton}>
                         <div className={styles.header}>
-                            {brand + ' ' + model}
+                            {brandName + ' ' + modelName}
                         </div>
                         {role === "worker" &&
                         <>

@@ -14,8 +14,8 @@ export const Item = ({
     power,
     capacity,
     description,
-    brand,
-    model,
+    brandName,
+    modelName,
     possibleRentals
 }) => {
     const [expanded, setExpanded] = useState(false);    
@@ -36,7 +36,7 @@ export const Item = ({
                 <div className={styles.imgContainer}>
                     <img draggable={false} src={imageUrl} />
                 </div>
-                <div className={styles.header}>{brand + ' ' + model}</div>
+                <div className={styles.header}>{brandName + ' ' + modelName}</div>
             </div>
             <div className={styles.bottomContainer}>
                 {expanded && (

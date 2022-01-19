@@ -41,8 +41,8 @@ namespace CarRentalApi.WebApi.Controllers
                 }
                 result.Add(new RentHistoryResponse
                 {
-                    Brand = quote.Model.Brand,
-                    Model = quote.Model.Model,
+                    BrandName = quote.Model.Brand,
+                    ModelName = quote.Model.Model,
                     JustQuote = justQuote,
                     RentEnded = ended,
                     QuoteId = quote.Id,

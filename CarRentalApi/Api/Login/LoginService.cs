@@ -12,7 +12,9 @@ namespace CarRentalApi.WebApi.Login
         private readonly HttpClient client = new();
         private readonly Dictionary<string, string> userBody = new();
         private readonly Dictionary<string, string> workerBody = new();
+        private readonly Dictionary<string, string> userTeacherBody = new();
         private string identityServer;
+        private string teacherIdentityServer;
         private string googleClientId;
 
         public LoginService()
@@ -23,6 +25,7 @@ namespace CarRentalApi.WebApi.Login
         {
             // TODO na produkcji dodac identityServerUrl do appsettings.json
             identityServer = $"{config.IdentityServerUrl}/connect/token";
+            teacherIdentityServer = $"{config.TeacherIdentityServerUrl}/connect/token";
             googleClientId = config.GoogleClientId;
 
             userBody.Add("client_id", config.UserClientId);
@@ -34,6 +37,11 @@ namespace CarRentalApi.WebApi.Login
             workerBody.Add("scope", config.WorkerScope);
             workerBody.Add("client_secret", config.WorkerPassword);
             workerBody.Add("grant_type", "client_credentials");
+
+            userTeacherBody.Add("client_id", config.UserTeacherClientId);
+            userTeacherBody.Add("scope", config.UserTeacherScope);
+            userTeacherBody.Add("client_secret", config.UserTeacherPassword);
+            userTeacherBody.Add("grant_type", "client_credentials");
         }
 
         public async Task<bool> ValidateTokenAsync(string idToken)
@@ -53,12 +61,25 @@ namespace CarRentalApi.WebApi.Login
             return true;
         }
 
-        public async Task<LoginResponse> RequestTokenAsync(bool isWorker)
+        public async Task<LoginResponse> RequestOurTokenAsync(bool isWorker)
         {
             var req = new HttpRequestMessage(HttpMethod.Post, identityServer) { Content = new FormUrlEncodedContent(isWorker ? workerBody : userBody) };
+            var response = await RequestTokenAsync(req);
+            return response;
+        }
+
+        public async Task<LoginResponse> RequestTeacherTokenAsync()
+        {
+            var req = new HttpRequestMessage(HttpMethod.Post, teacherIdentityServer) { Content = new FormUrlEncodedContent(userTeacherBody) };
+            var response = await RequestTokenAsync(req);
+            return response;
+        }
+
+        private async Task<LoginResponse> RequestTokenAsync(HttpRequestMessage request)
+        {
             try
             {
-                var res = await client.SendAsync(req);
+                var res = await client.SendAsync(request);
                 var resString = await res.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<LoginResponse>(resString);
                 return result;
@@ -66,8 +87,7 @@ namespace CarRentalApi.WebApi.Login
             catch
             {
                 return null;
-            }            
+            }
         }
-
     }
 }

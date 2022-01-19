@@ -7,17 +7,17 @@ import styles from './ItemList.module.scss';
 export const ItemList = ({ vehicles, possibleRentals, query, alphabetically }) => {
 
     if (alphabetically) {
-        vehicles.sort((a, b) => a.brand.localeCompare(b.brand))
+        vehicles.sort((a, b) => a.brandName.localeCompare(b.brandName))
     }
     
     return (
         <div className={styles.container}>
             {vehicles.map((v) => {
-                const brand = v.brand.toLowerCase()
-                const model = v.model.toLowerCase()
+                const brandName = v.brandName.toLowerCase()
+                const modelName = v.modelName.toLowerCase()
                 query = query.toLowerCase()
 
-                if(query === '' || brand.includes(query) || model.includes(query)) {
+                if(query === '' || brandName.includes(query) || modelName.includes(query)) {
                     return (
                         <Item
                             key={v.id}
@@ -27,8 +27,8 @@ export const ItemList = ({ vehicles, possibleRentals, query, alphabetically }) =
                             power={v.enginePower}
                             capacity={v.capacity}
                             description={v.description}
-                            brand={v.brand}
-                            model={v.model}
+                            brandName={v.brandName}
+                            modelName={v.modelName}
                             possibleRentals={possibleRentals}
                         />
                     );

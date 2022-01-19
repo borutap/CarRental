@@ -6,6 +6,7 @@ namespace CarRentalApi.WebApi.Login
     {
         void OnStartup(Config config);
         Task<bool> ValidateTokenAsync(string idToken);
-        Task<LoginResponse> RequestTokenAsync(bool isWorker);
+        Task<LoginResponse> RequestOurTokenAsync(bool isWorker);
+        Task<LoginResponse> RequestTeacherTokenAsync();
     }
 }

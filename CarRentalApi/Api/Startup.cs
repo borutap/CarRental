@@ -32,13 +32,13 @@ namespace Api
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
 
-            services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+            services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration["connectionString"]));
 
             services.AddControllers(configure =>
-                {
-                    AuditConfiguration.ConfigureAudit(services);
-                    AuditConfiguration.AddAudit(configure);
-                });
+            {
+                AuditConfiguration.ConfigureAudit(services);
+                AuditConfiguration.AddAudit(configure);
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
@@ -91,7 +91,7 @@ namespace Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
                 app.UseCors(
                     options => options.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader()
-                ); ;
+                );
             }
 
             app.UseHttpsRedirection();

@@ -41,13 +41,15 @@ Open Visual Studio and right-click on given project and select  `Manage user sec
 ## Example request for token
 ![TokenRequest](.resources/Token.png)
 
-Also add to the `WebApi` project the following secrets with the same value as above:
+Additionaly, we need to add credentials to `WebApi` project for both teacher's API: `userTeacherClientId`, `userTeacherPassword` and our API - following secrets with the same value as above:
 ```json
 {
     "userClientId": "user",
     "userPassword":  "secret",
     "workerClientId": "worker",
     "workerPassword":  "secret",
+    "userTeacherClientId": "teamName",
+    "userTeacherPassword": "secret",
     "blobConnectionString": "secret"
 }
 ```
