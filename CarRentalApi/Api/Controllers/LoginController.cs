@@ -24,7 +24,9 @@ namespace CarRentalApi.WebApi.Controllers
                 WorkerClientId = configuration["workerClientId"],
                 WorkerPassword = configuration["workerPassword"],
                 WorkerScope = configuration["workerScope"],
-                IdentityServerUrl = configuration["identityServerUrl"]
+                IdentityServerUrl = configuration["identityServerUrl"],
+                // TODO na produkcji inny googleClientId - uzupelnic appsettings.json
+                GoogleClientId = configuration["googleClientId"]
             };
 
             loginService.OnStartup(config);
@@ -42,7 +44,7 @@ namespace CarRentalApi.WebApi.Controllers
             else if (request.Role != "client")
                 return Unauthorized();
 
-            bool tokenValid = _loginService.ValidateToken(request.GoogleIdToken);
+            bool tokenValid = await _loginService.ValidateTokenAsync(request.GoogleIdToken);
             if (!tokenValid)
                 return Unauthorized();
 

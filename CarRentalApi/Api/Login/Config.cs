@@ -9,5 +9,6 @@
         public string WorkerPassword { get; set; }
         public string WorkerScope { get; set; }
         public string IdentityServerUrl { get; set; }
+        public string GoogleClientId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System;
+using Google.Apis.Auth;
 
 namespace CarRentalApi.WebApi.Login
 {
@@ -12,6 +13,7 @@ namespace CarRentalApi.WebApi.Login
         private readonly Dictionary<string, string> userBody = new();
         private readonly Dictionary<string, string> workerBody = new();
         private string identityServer;
+        private string googleClientId;
 
         public LoginService()
         {
@@ -21,6 +23,7 @@ namespace CarRentalApi.WebApi.Login
         {
             // TODO na produkcji dodac identityServerUrl do appsettings.json
             identityServer = $"{config.IdentityServerUrl}/connect/token";
+            googleClientId = config.GoogleClientId;
 
             userBody.Add("client_id", config.UserClientId);
             userBody.Add("scope", config.UserScope);
@@ -33,10 +36,17 @@ namespace CarRentalApi.WebApi.Login
             workerBody.Add("grant_type", "client_credentials");
         }
 
-        public bool ValidateToken(string idToken)
+        public async Task<bool> ValidateTokenAsync(string idToken)
         {
-            // Tu bedzie Google
-            if (idToken != "abcd1234")
+            var validationSettings = new GoogleJsonWebSignature.ValidationSettings
+            {
+                Audience = new string[] { googleClientId }
+            };
+            try
+            {                
+                var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, validationSettings);
+            }
+            catch
             {
                 return false;
             }
@@ -45,9 +55,9 @@ namespace CarRentalApi.WebApi.Login
 
         public async Task<LoginResponse> RequestTokenAsync(bool isWorker)
         {
+            var req = new HttpRequestMessage(HttpMethod.Post, identityServer) { Content = new FormUrlEncodedContent(isWorker ? workerBody : userBody) };
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, identityServer) { Content = new FormUrlEncodedContent(isWorker ? workerBody : userBody) };
                 var res = await client.SendAsync(req);
                 var resString = await res.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<LoginResponse>(resString);

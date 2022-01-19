@@ -99,9 +99,9 @@ export const Header = ({setRole}) => {
                 </div>
                 {!isLoggedIn && (
                     <RoleChoice
-                    currentRole={placeholderRole}
-                    setPlaceholderRole={setPlaceHolderRole}
-                />
+                        currentRole={placeholderRole}
+                        setPlaceholderRole={setPlaceHolderRole}
+                    />
                 )}
                 {/* <UserIcon /> */}
                 {isLoggedIn && (
