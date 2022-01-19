@@ -54,5 +54,17 @@ namespace CarRentalApi.Tests.Integration.Services.Repositories
             vehicles.Should().HaveCount(4);
         }
 
+        [TestMethod]
+        public void GetAudit_ReturnLastAudit_WhenGetVehiclesCalled()
+        {
+            var currentNumberOfAudit = _repository.GetAudit().Count;
+            var cars = _repository.GetVehicles();
+
+            var audit = _repository.GetAudit();
+            var expectedNumberOfAudit = currentNumberOfAudit + 1;
+            audit.Should().HaveCount(expectedNumberOfAudit);
+
+        }
+
     }
 }

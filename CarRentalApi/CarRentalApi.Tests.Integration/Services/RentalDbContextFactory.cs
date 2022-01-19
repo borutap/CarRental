@@ -18,15 +18,12 @@ namespace CarRentalApi.Tests.Integration.Services
            .AddEntityFrameworkProxies()
            .BuildServiceProvider();
 
-            //This creates the SQLite connection string to in-memory database
             var connectionStringBuilder = new SqliteConnectionStringBuilder
             { DataSource = ":memory:" };
             var connectionString = connectionStringBuilder.ToString();
 
-            //This creates a SqliteConnectionwith that string
             var connection = new SqliteConnection(connectionString);
 
-            //The connection MUST be opened here
             connection.Open();
             var builder = new DbContextOptionsBuilder<RentalDbContext>();
 
@@ -35,7 +32,6 @@ namespace CarRentalApi.Tests.Integration.Services
 
             var context = new RentalDbContext(builder.Options);
             context.Database.EnsureCreated();
-            //context.Database.Migrate();
 
             _context =  context;
         }
