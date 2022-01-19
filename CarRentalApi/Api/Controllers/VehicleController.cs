@@ -88,6 +88,8 @@ namespace CarRentalApi.WebApi.Controllers
                     EnginePowerType = tuple.Item2.EnginePowerType,
                     Capacity = tuple.Item2.Capacity,
                     Description = tuple.Item2.Description,
+                    ReturnDescription = tuple.Item1.ReturnDescription,
+                    OdometerValue = (int)tuple.Item1.OdometerValue,
                     StartDate = tuple.Item1.StartDate,
                     EndDate = tuple.Item1.EndDate,
                     ReturnTime = tuple.Item1.ReturnTime
@@ -180,9 +182,12 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/Return/{rentId}")]
-        public ActionResult ReturnVehicle(Guid rentId)
+        public ActionResult ReturnVehicle(Guid rentId, [FromBody] ReturnVehicleRequest request)
         {
-            if (!_rentalService.ReturnVehicle(rentId)) throw new InvalidOperationException($"Cannot return vehicle with rentId {rentId}");
+            if (!_rentalService.ReturnVehicle(rentId, request.Description, request.OdometerValue))
+            {
+                throw new InvalidOperationException($"Cannot return vehicle with rentId {rentId}");
+            }            
             return Ok();
         }
 

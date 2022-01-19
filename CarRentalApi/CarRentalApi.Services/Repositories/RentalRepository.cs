@@ -156,13 +156,15 @@ namespace CarRentalApi.Services.Repositories
             return null;
         }
 
-        public bool ReturnVehicle(Guid rentId)
+        public bool ReturnVehicle(Guid rentId, string description, int odometerValue)
         {
             var rentFromDb = _dbContext.Rents.FirstOrDefault(x => x.Id == rentId);
 
             if (rentFromDb == null || rentFromDb.ReturnTime.HasValue) return false;
 
             rentFromDb.ReturnTime = DateTime.UtcNow;
+            rentFromDb.ReturnDescription = description;
+            rentFromDb.OdometerValue = odometerValue;
             _dbContext.SaveChanges();
 
             return true;

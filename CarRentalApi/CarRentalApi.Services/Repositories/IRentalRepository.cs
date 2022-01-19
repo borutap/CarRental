@@ -16,7 +16,7 @@ namespace CarRentalApi.Services.Repositories
         Rent CreateRent(Rent rent);
         List<string> GetAudit(int count);
         List<string> GetAudit();
-        bool ReturnVehicle(Guid rentId);
+        bool ReturnVehicle(Guid rentId, string description, int odometerValue);
         List<Rent> GetRents();
         Rent GetRent(Guid id);
         void CreateModel(VehicleModel model);

@@ -22,6 +22,10 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                description: description,
+                odometerValue: odometerValue
+            }),
         };
         const response = await fetch(
             `https://localhost:44329/vehicle/Return/${rentId}`,

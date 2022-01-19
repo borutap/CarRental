@@ -12,6 +12,8 @@ namespace CarRentalApi.WebApi.Models
         public string EnginePowerType { get; init; }
         public int Capacity { get; init; }
         public string Description { get; init; }
+        public string ReturnDescription { get; init; }
+        public int OdometerValue { get; init; }
         public DateTime StartDate { get; init; }
         public DateTime EndDate { get; init; }
         public DateTime? ReturnTime { get; init; }

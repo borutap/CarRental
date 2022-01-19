@@ -71,10 +71,11 @@
 .bottomDownload {
     width: 50%;
     display: flex;
-    padding-left: 10%;
+    //padding-left: 10%;
     flex-direction: column;
-    color: rgb(6, 69, 173);
-    p {
+    padding-bottom: 18px;
+    p {        
+        color: rgb(6, 69, 173);
         text-decoration: underline;
         cursor: pointer;
         margin: 0;

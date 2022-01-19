@@ -21,6 +21,8 @@ export const HistoryItem = ({
     power,
     capacity,
     description,
+    returnDescription,
+    odometerValue,
     returnTime,
     attachments,
     blobClient
@@ -79,6 +81,12 @@ export const HistoryItem = ({
                         </div>
                         <div className={styles.bottomDownload}>
                             <Attachments attachments={att} blobClient={blobClient}/>
+                            <div>
+                                {returnDescription}
+                            </div>
+                            <div>
+                                <u>Odometer value</u>: {odometerValue}
+                            </div>
                         </div>
                     </>
                 )}

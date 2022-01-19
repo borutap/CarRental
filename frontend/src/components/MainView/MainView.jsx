@@ -65,8 +65,8 @@ const mockPossibleRentals = {
         },
         {
             "id": "2",
-            "name": "Dluzszanazwa",
-            "baseApiUrl": "Dluzszanazwa.com/api/"
+            "name": "Teacher Rental",
+            "baseApiUrl": "https://mini.rentcar.api.snet.com.pl"
         },
         {
             "id": "3",
