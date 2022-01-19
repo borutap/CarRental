@@ -14,6 +14,23 @@ namespace CarRentalApi.Services.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public List<string> GetAudit(int count)
+        {
+            return _dbContext.Audits
+                .OrderByDescending(x => x.AuditID)
+                .Take(count)
+                ?.Select(x => x.Data)
+                ?.ToList() ?? new List<string>();
+        }
+        public List<string> GetAudit()
+        {
+            return _dbContext.Audits
+                .OrderByDescending(x => x.AuditID)
+                ?.Select(x => x.Data)
+                ?.ToList() ?? new List<string>();
+        }
+
         public Quote CreateQuote(decimal price, string currency, Guid modelId, string teamName)
         {
             var now = DateTime.UtcNow;

@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarRentalApi.WebApi.Helpers;
+using Audit.WebApi;
 
 namespace CarRentalApi.WebApi.Controllers
 {
@@ -87,6 +89,27 @@ namespace CarRentalApi.WebApi.Controllers
             };
 
             _rentalService.CreateVehicle(vehicle);
+        }
+
+        [HttpGet("team/{teamName}/audit")]
+        [AuditIgnore]
+        public List<AuditResponse> GetTeamAudit(string teamName, int count)
+        {
+            var auditFromDb = _rentalService.GetAudit().Select(x => AuditMapper.Map(x));
+            List<AuditResponse> response = auditFromDb
+                ?.Where(x => x.TeamName == teamName)
+                ?.Take(count).ToList() ?? new List<AuditResponse>();
+
+            return response;
+        }
+        
+
+        [HttpGet("teams/audit")]
+        [AuditIgnore]
+        public List<AuditResponse> GetAllAudit(int count)
+        {
+            var auditFromDb = _rentalService.GetAudit(count).Select(x => AuditMapper.Map(x));
+            return auditFromDb.ToList();
         }
     }
 }

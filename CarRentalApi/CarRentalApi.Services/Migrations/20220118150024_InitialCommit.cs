@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarRentalApi.Services.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Audits",
+                columns: table => new
+                {
+                    AuditID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Audits", x => x.AuditID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "VehicleModels",
                 columns: table => new
@@ -110,17 +123,17 @@ namespace CarRentalApi.Services.Migrations
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Capacity", "Description", "EnginePower", "EnginePowerType", "ModelId", "Year" },
-                values: new object[] { new Guid("00d9804c-a5ad-4c44-94fc-d4a2e93c54ab"), 5, "Fiat Punto", 120, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2005 });
+                values: new object[] { new Guid("93766d8c-9f61-42bf-ac1c-c62346601040"), 5, "Fiat Punto", 120, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2005 });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Capacity", "Description", "EnginePower", "EnginePowerType", "ModelId", "Year" },
-                values: new object[] { new Guid("fc16aa0a-47ca-4bb3-a3cd-083fde26ffe2"), 6, "Fiat Punto", 140, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2002 });
+                values: new object[] { new Guid("dbe28e09-94ba-4f3d-99e5-7eaa15c2fb02"), 6, "Fiat Punto", 140, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2002 });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Capacity", "Description", "EnginePower", "EnginePowerType", "ModelId", "Year" },
-                values: new object[] { new Guid("064890bd-84d6-4263-b031-43a7a1641511"), 7, "Audi RS7", 220, "PB", new Guid("84d23d56-6be7-48e7-b0e1-51166a558009"), 2015 });
+                values: new object[] { new Guid("5511e3a6-c900-4e33-b593-1f8d21943882"), 7, "Audi RS7", 220, "PB", new Guid("84d23d56-6be7-48e7-b0e1-51166a558009"), 2015 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quotes_ModelId",
@@ -157,6 +170,9 @@ namespace CarRentalApi.Services.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Audits");
+
             migrationBuilder.DropTable(
                 name: "Quotes");
 
