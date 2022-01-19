@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using CarRentalApi.WebApi.AuditConfiguration;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,11 @@ namespace Api
 
             services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
-            services.AddControllers();
+            services.AddControllers((configure =>
+                {
+                    AuditConfiguration.ConfigureAudit(services);
+                    AuditConfiguration.AddAudit(configure);
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
