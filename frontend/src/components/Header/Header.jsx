@@ -56,7 +56,6 @@ export const Header = ({setRole}) => {
             if (localStorage.getItem("role") !== "guest") {
                 return;
             }
-            setRole(placeholderRole);
             localStorage.setItem("role", placeholderRole);
             console.log("Logged in");
             setAccessToken();
@@ -94,8 +93,10 @@ export const Header = ({setRole}) => {
                 localStorage.setItem("access_token", data[0].access_token);
                 return;
             }
+
             localStorage.setItem("access_token", data[0].access_token);
             localStorage.setItem("t_access_token", data[1].access_token);
+            setRole(placeholderRole);
         } catch (e) {
             alert('Could not fetch access token: ' + e.message);
         }
