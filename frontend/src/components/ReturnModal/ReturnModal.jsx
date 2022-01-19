@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { uploadFilesToBlob } from '@lib/AzureBlob';
-
+import.meta.hot;
 import styles from './ReturnModal.module.scss';
 
 // jest mergowany z domyslnym
@@ -28,7 +28,11 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
             }),
         };
         const response = await fetch(
-            `https://localhost:44329/vehicle/Return/${rentId}`,
+            `${
+                __SNOWPACK_ENV__.MODE === 'development'
+                    ? __SNOWPACK_ENV__.DEV_API_URL
+                    : __SNOWPACK_ENV__.API_URL
+            }/vehicle/Return/${rentId}`,
             requestOptions
         );
 

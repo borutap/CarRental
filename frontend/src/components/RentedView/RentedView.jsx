@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-
+import.meta.hot;
 import { Header } from '@components/Header/Header';
 import { RentedItemList } from '@components/RentedItemList/RentedItemList';
 import { UserContext } from '../../app/App'
@@ -40,7 +40,13 @@ export const RentedView = ({setRole}) => {
 
     const fetchVehicles = async () => {
         try {
-            const response = await fetch('https://localhost:44329/rentedvehicles');
+            const response = await fetch(
+                `${
+                    __SNOWPACK_ENV__.MODE === 'development'
+                        ? __SNOWPACK_ENV__.DEV_API_URL
+                        : __SNOWPACK_ENV__.API_URL
+                }/rentedvehicles`
+            );
             const data = await response.json();
             setRentInfo(data);
         } catch (e) {

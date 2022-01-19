@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import.meta.hot;
 import { Header } from '@components/Header/Header';
 import { ItemList } from '@components/ItemList/ItemList';
 import { SearchBar } from '../SearchBar/SearchBar';
@@ -61,7 +61,11 @@ const mockPossibleRentals = {
         {
             "id": "1",
             "name": "Our Rental",
-            "baseApiUrl": "https://localhost:44329"
+            "baseApiUrl": `${
+                __SNOWPACK_ENV__.MODE === 'development'
+                    ? __SNOWPACK_ENV__.DEV_API_URL
+                    : __SNOWPACK_ENV__.API_URL
+            }`
         },
         {
             "id": "2",
@@ -91,7 +95,13 @@ export const MainView = ({ setRole }) => {
 
     const fetchVehicles = async () => {
         try {
-            const response = await fetch('https://localhost:44329/vehicles');
+            const response = await fetch(
+                `${
+                    __SNOWPACK_ENV__.MODE === 'development'
+                        ? __SNOWPACK_ENV__.DEV_API_URL
+                        : __SNOWPACK_ENV__.API_URL
+                }/vehicles`
+            );
             const data = await response.json();
             setVehicles(data);
         } catch (e) {
