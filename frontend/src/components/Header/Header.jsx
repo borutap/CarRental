@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { UserContext } from '../../app/App'
 import { CarIcon } from '../CarIcon/CarIcon';
-
+import { getUploadToken } from '../../lib/AzureBlob';
 import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
 
@@ -19,15 +19,18 @@ export const Header = ({setRole}) => {
     const [imageUrl, setImageUrl] = useState('');
 
     const googleResponse = (resp) => {
-        const profile = resp.profileObj;
+        const profile = resp.profileObj;        
         setName(`${profile.familyName} ${profile.givenName}`);
         setEmail(profile.email);
         setImageUrl(profile.imageUrl);
+        localStorage.setItem("googleIdToken", resp.tokenId);
         setIsLoggedIn(true);
     }
 
     const onLogoutSuccess = () => {
         console.log('logout success');
+        localStorage.removeItem("googleIdToken");
+        localStorage.removeItem("access_token");
         setIsLoggedIn(false);
     };
 
@@ -53,13 +56,34 @@ export const Header = ({setRole}) => {
                 return;
             }
             setRole(placeholderRole);
-            console.log("Logged in");
             localStorage.setItem("role", placeholderRole);
+            console.log("Logged in");
+            setAccessToken();
         } else {
             setRole("guest");
             localStorage.setItem("role", "guest");
         }       
     }, [isLoggedIn])
+
+    const setAccessToken = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                googleIdToken: localStorage.getItem("googleIdToken"),
+                role: localStorage.getItem("role")
+            }),
+        };
+        try {
+            console.log(requestOptions);
+            const response = await fetch('https://localhost:44329/login', requestOptions);
+            const data = await response.json();
+            console.log(data);
+            localStorage.setItem("access_token", data.access_token);
+        } catch (e) {
+            alert('Could not fetch access token: ' + e.message);
+        }
+    }
 
     return (
         <nav className={styles.container}>

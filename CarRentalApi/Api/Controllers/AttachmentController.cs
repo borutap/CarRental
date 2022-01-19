@@ -31,6 +31,7 @@ namespace CarRentalApi.WebApi.Controllers
 
         [HttpGet("uploadtoken")]
         [Authorize("carrentalapi.worker")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUploadToken()
         {
             try
