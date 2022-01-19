@@ -9,13 +9,13 @@ using CarRentalApi.Services.Repositories;
 namespace CarRentalApi.WebApi.Controllers
 {
     [ApiController]
-    public class VehiclesControler : ControllerBase
+    public class VehiclesController : ControllerBase
     {
         private readonly IRentalRepository _rentalService;
         //private readonly IQuoteRepository _quoteRepository;
         //private readonly IRentsRepository _rentsRepository;
 
-        public VehiclesControler(IRentalRepository rentalService)
+        public VehiclesController(IRentalRepository rentalService)
         {
             _rentalService = rentalService;
         }
