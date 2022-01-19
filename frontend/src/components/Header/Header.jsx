@@ -47,8 +47,11 @@ export const Header = ({setRole}) => {
     }
 
     useEffect(() => {
-        console.log(isLoggedIn);
+        console.log(`isLogged: ${isLoggedIn}`);
         if (isLoggedIn) {
+            if (localStorage.getItem("role") !== "guest") {
+                return;
+            }
             setRole(placeholderRole);
             console.log("Logged in");
             localStorage.setItem("role", placeholderRole);
