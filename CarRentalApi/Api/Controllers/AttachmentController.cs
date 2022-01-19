@@ -1,5 +1,6 @@
 ﻿using CarRentalApi.WebApi.Attachment;
 using CarRentalApi.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ namespace CarRentalApi.WebApi.Controllers
             _attachmentService = attachmentService;
 
             attachmentService.OnStartup(
-                configuration["blobConnectionString"], configuration["containerName"], int.Parse(configuration["tokenExpirationMinutes"]));
+                configuration["blobConnectionString"], configuration["containerName"], int.Parse(configuration["blobTokenExpirationMinutes"]));
         }
 
         [HttpGet("attachments")]
@@ -29,6 +30,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("uploadtoken")]
+        [Authorize("carrentalapi.worker")]
         public IActionResult GetUploadToken()
         {
             try
