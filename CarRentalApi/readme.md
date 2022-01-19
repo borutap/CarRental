@@ -48,7 +48,8 @@ Also add to the `WebApi` project the following secrets with the same value as ab
     "userPassword":  "secret",
     "workerClientId": "worker",
     "workerPassword":  "secret",
+    "blobConnectionString": "secret"
 }
 ```
 
-For testing run multiple startup projects in Visual Studio: `WebApi` and `IdentityServer`
+For testing run multiple startup projects in Visual Studio: `WebApi` and `IdentityServer`.
