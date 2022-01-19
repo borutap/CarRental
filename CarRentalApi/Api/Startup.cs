@@ -1,5 +1,6 @@
 using CarRentalApi.Services.Databases;
 using CarRentalApi.Services.Repositories;
+using CarRentalApi.WebApi.Attachment;
 using CarRentalApi.WebApi.Login;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using System;
+using System.Collections.Generic;
 
 namespace Api
 {
@@ -25,6 +29,7 @@ namespace Api
         {
             services.AddScoped<IRentalRepository, RentalRepository>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IAttachmentService, AttachmentService>();
 
             services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
@@ -32,8 +37,43 @@ namespace Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Description = "Application: API - Swagger",
+                    Flows = new OpenApiOAuthFlows()
+                    {
+                        ClientCredentials = new OpenApiOAuthFlow()
+                        {
+                            TokenUrl = new Uri($"{Configuration["identityServerUrl"]}/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { Configuration["userScope"], "API Client access" },
+                                { Configuration["workerScope"], "API Worker access" }
+                            }
+                        }
+                    }
+                });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
             });
             services.AddCors();
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication("Bearer", options =>
+                {
+                    options.ApiName = "carrentalapi";
+                    options.Authority = Configuration["identityServerUrl"];
+                });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("carrentalapi.worker", policy =>
+                {
+                    policy.RequireClaim("scope", Configuration["workerScope"]);
+                });
+                options.AddPolicy("carrentalapi.user", policy =>
+                {
+                    policy.RequireClaim("scope", Configuration["userScope"]);
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +93,7 @@ namespace Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

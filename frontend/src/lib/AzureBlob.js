@@ -1,19 +1,42 @@
 import { BlobServiceClient } from '@azure/storage-blob';
 // TODO tu bedzie token tylko do czytania/pobierania
 // on moze wszystko, raczej token juz jest przedawniony, wazny do 13.01.2022 23:59
-var sasToken =
-    'secret'; //"";
 const containerName = `testrentalcontainer`;
 const storageAccountName = 'testrentalstorageaccount';
 
 const getUploadToken = async () => {
     try {
-        // endpoint dodam pozniej (jest juz zrobiony)
-        const response = await fetch('https://localhost:44329/uploadtoken');        
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            },
+        };
+        const response = await fetch('https://localhost:44329/uploadtoken', requestOptions);
         const data = await response.json();
-        return data;
+        console.log("Got uploadSasToken");
+        console.log(data);
+        return data.sasToken;
     } catch (e) {
         alert('Could not fetch upload token: ' + e.message);
+    }
+};
+
+export const getDownloadToken = async () => {
+    try {
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            },
+        };
+        const response = await fetch('https://localhost:44329/downloadtoken', requestOptions);
+        const data = await response.json();
+        console.log("Got downloadSasToken");
+        console.log(data);
+        return data.sasToken;
+    } catch (e) {
+        alert('Could not fetch download token: ' + e.message);
     }
 };
 
@@ -28,12 +51,9 @@ export const uploadFilesToBlob = async (files, rentId) => {
         alert('uploadFileToBlob: Bad argument');
         return;
     }
-    // tak bedzie na produkcji:
-    //let data = await getUploadToken();
-    //console.log(data);
-    //sasToken = data.sasToken;
-    //const containerClient = getClient(sasToken);
-    const containerClient = getClient();
+    
+    const sasToken = await getUploadToken();
+    const containerClient = getClient(sasToken);
 
     //upload files
     for (const file of files) {
@@ -47,8 +67,7 @@ export const uploadFilesToBlob = async (files, rentId) => {
     }
 };
 
-// bedzie przyjmowal sasToken
-export const getClient = () => {
+export const getClient = (sasToken) => {
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
     const blobService = new BlobServiceClient(
         `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
@@ -58,7 +77,7 @@ export const getClient = () => {
     return containerClient;
 };
 
-export const createBlobInContainer = async (
+const createBlobInContainer = async (
     containerClient,
     file,
     customFileName
@@ -73,7 +92,7 @@ export const createBlobInContainer = async (
     await blobClient.uploadData(file, options);
 };
 
-export const getBlobsUrlsInContainer = async (containerClient) => {
+const getBlobsUrlsInContainer = async (containerClient) => {
     const returnedBlobUrls = [];
 
     // get list of blobs in container
@@ -101,7 +120,7 @@ export const getBlobsNamesInContainer = async (containerClient) => {
     return returnedBlobNames;
 };
 
-export const downloadBlobFromContainer = async (containerClient, fileName) => {
+const downloadBlobFromContainer = async (containerClient, fileName) => {
     const blobClient = containerClient.getBlockBlobClient(fileName);
     // Download and convert a blob to a string
     const downloadBlockBlobResponse = await blobClient.download();
