@@ -22,7 +22,7 @@ namespace CarRentalApi.Tests.WebApi.Controllers
             using (RentalDbContext ctx = new(optionsBuilder.Options))
             {
                 RentalRepository repo = new RentalRepository(ctx);
-                var controller = new VehiclesControler(repo);
+                var controller = new VehiclesController(repo);
                 result = controller.GetVehicles();
             }
 

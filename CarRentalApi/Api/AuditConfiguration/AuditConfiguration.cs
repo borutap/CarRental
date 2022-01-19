@@ -25,30 +25,30 @@ namespace CarRentalApi.WebApi.AuditConfiguration
             Audit.Core.Configuration.Setup()
                 .UseSqlServer(_ => _
                 .ConnectionString("Server=localhost;Database=RentalDb;Trusted_Connection=True;")
-                .TableName("Audit")
+                .TableName("Audits")
                 .IdColumnName("AuditID")
                 .JsonColumnName("Data"));
 
-            Audit.Core.Configuration.AddCustomAction(ActionType.OnEventSaving, scope =>
-            {
-                var auditAction = scope.Event.GetWebApiAuditAction();
-                if (auditAction == null)
-                {
-                    return;
-                }
+            //Audit.Core.Configuration.AddCustomAction(ActionType.OnEventSaving, scope =>
+            //{
+            //    var auditAction = scope.Event.GetWebApiAuditAction();
+            //    if (auditAction == null)
+            //    {
+            //        return;
+            //    }
 
-                // Removing sensitive headers
-                auditAction.Headers.Remove("Authorization");
+            //    // Removing sensitive headers
+            //    auditAction.Headers.Remove("Authorization");
 
-                // Adding custom details to the log
-                scope.Event.CustomFields.Add("User", new { Name = "UserName", Id = "1234" });
+            //    // Adding custom details to the log
+            //    scope.Event.CustomFields.Add("User", new { Name = "UserName", Id = "1234" });
 
-                // Removing request body conditionally as an example
-                if (auditAction.HttpMethod.Equals("DELETE"))
-                {
-                    auditAction.RequestBody = null;
-                }
-            });
+            //    // Removing request body conditionally as an example
+            //    if (auditAction.HttpMethod.Equals("DELETE"))
+            //    {
+            //        auditAction.RequestBody = null;
+            //    }
+            //});
         }
     }
 }

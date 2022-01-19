@@ -14,6 +14,8 @@ namespace CarRentalApi.Services.Repositories
         List<Tuple<Rent, Vehicle>> GetHistoricallyRentedVehicles();
         Vehicle GetFirstAvailableVehicle(Guid modelId, DateTime startDate, DateTime endDate, Guid rentId);
         Rent CreateRent(Rent rent);
+        List<string> GetAudit(int count);
+
         bool ReturnVehicle(Guid rentId);
         List<Rent> GetRents();
         Rent GetRent(Guid id);
