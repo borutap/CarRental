@@ -14,6 +14,7 @@ namespace CarRentalApi.Services.Databases
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Rent> Rents { get; set; }
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Audit> Audits { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +50,7 @@ namespace CarRentalApi.Services.Databases
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Server=localhost;Database=RentalDb;Trusted_Connection=True;");
+            => optionsBuilder.UseLazyLoadingProxies();
 
 
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalApi.Services.Migrations
 {
     [DbContext(typeof(RentalDbContext))]
-    [Migration("20220116170455_Init")]
-    partial class Init
+    [Migration("20220118150024_InitialCommit")]
+    partial class InitialCommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace CarRentalApi.Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CarRentalApi.Services.Models.Audit", b =>
+                {
+                    b.Property<int>("AuditID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AuditID");
+
+                    b.ToTable("Audits");
+                });
 
             modelBuilder.Entity("CarRentalApi.Services.Models.Quote", b =>
                 {
@@ -123,7 +138,7 @@ namespace CarRentalApi.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("00d9804c-a5ad-4c44-94fc-d4a2e93c54ab"),
+                            Id = new Guid("93766d8c-9f61-42bf-ac1c-c62346601040"),
                             Capacity = 5,
                             Description = "Fiat Punto",
                             EnginePower = 120,
@@ -133,7 +148,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fc16aa0a-47ca-4bb3-a3cd-083fde26ffe2"),
+                            Id = new Guid("dbe28e09-94ba-4f3d-99e5-7eaa15c2fb02"),
                             Capacity = 6,
                             Description = "Fiat Punto",
                             EnginePower = 140,
@@ -143,7 +158,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("064890bd-84d6-4263-b031-43a7a1641511"),
+                            Id = new Guid("5511e3a6-c900-4e33-b593-1f8d21943882"),
                             Capacity = 7,
                             Description = "Audi RS7",
                             EnginePower = 220,
