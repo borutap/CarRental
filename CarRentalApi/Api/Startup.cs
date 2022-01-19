@@ -34,7 +34,7 @@ namespace Api
 
             services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
-            services.AddControllers((configure =>
+            services.AddControllers(configure =>
                 {
                     AuditConfiguration.ConfigureAudit(services);
                     AuditConfiguration.AddAudit(configure);
