@@ -6,7 +6,6 @@ const storageAccountName = 'testrentalstorageaccount';
 
 const getUploadToken = async () => {
     try {
-        // endpoint dodam pozniej (jest juz zrobiony)
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -25,7 +24,6 @@ const getUploadToken = async () => {
 
 export const getDownloadToken = async () => {
     try {
-        // endpoint dodam pozniej (jest juz zrobiony)
         const requestOptions = {
             method: 'GET',
             headers: {
