@@ -41,11 +41,21 @@ namespace CarRentalApi.WebApi.Attachment
             return ret;
         }
 
-        public (string uploadSAStoken, DateTimeOffset expiresOn) GetUploadSAStoken()
+        public (string uploadSastoken, DateTimeOffset expiresOn) GetUploadSastoken()
+        {
+            return GetTokenWithGivenPermissions(BlobContainerSasPermissions.Write);
+        }
+
+        public (string downloadSastoken, DateTimeOffset expiresOn) GetDownloadSastoken()
+        {
+            return GetTokenWithGivenPermissions(BlobContainerSasPermissions.List | BlobContainerSasPermissions.Read);
+        }
+
+        private (string sasToken, DateTimeOffset expiresOn) GetTokenWithGivenPermissions(BlobContainerSasPermissions permissions)
         {
             if (!containerClient.CanGenerateSasUri)
             {
-                throw new Exception("Container can't generate SasUri");                
+                throw new Exception("Container can't generate SasUri");
             }
 
             var sasBuilder = new BlobSasBuilder
@@ -55,7 +65,7 @@ namespace CarRentalApi.WebApi.Attachment
                 ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(tokenExpirationMinutes)
             };
 
-            sasBuilder.SetPermissions(BlobContainerSasPermissions.Write);
+            sasBuilder.SetPermissions(permissions);
 
             var sasUri = containerClient.GenerateSasUri(sasBuilder);
             return (sasUri.Query.TrimStart('?'), sasBuilder.ExpiresOn);

@@ -4,7 +4,7 @@ import { BlobServiceClient } from '@azure/storage-blob';
 const containerName = `testrentalcontainer`;
 const storageAccountName = 'testrentalstorageaccount';
 
-export const getUploadToken = async () => {
+const getUploadToken = async () => {
     try {
         // endpoint dodam pozniej (jest juz zrobiony)
         const requestOptions = {
@@ -17,9 +17,28 @@ export const getUploadToken = async () => {
         const data = await response.json();
         console.log("Got uploadSasToken");
         console.log(data);
-        return data.uploadSasToken;
+        return data.sasToken;
     } catch (e) {
         alert('Could not fetch upload token: ' + e.message);
+    }
+};
+
+export const getDownloadToken = async () => {
+    try {
+        // endpoint dodam pozniej (jest juz zrobiony)
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            },
+        };
+        const response = await fetch('https://localhost:44329/downloadtoken', requestOptions);
+        const data = await response.json();
+        console.log("Got downloadSasToken");
+        console.log(data);
+        return data.sasToken;
+    } catch (e) {
+        alert('Could not fetch download token: ' + e.message);
     }
 };
 
@@ -50,7 +69,6 @@ export const uploadFilesToBlob = async (files, rentId) => {
     }
 };
 
-// bedzie przyjmowal sasToken
 export const getClient = (sasToken) => {
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
     const blobService = new BlobServiceClient(
@@ -61,7 +79,7 @@ export const getClient = (sasToken) => {
     return containerClient;
 };
 
-export const createBlobInContainer = async (
+const createBlobInContainer = async (
     containerClient,
     file,
     customFileName
@@ -76,7 +94,7 @@ export const createBlobInContainer = async (
     await blobClient.uploadData(file, options);
 };
 
-export const getBlobsUrlsInContainer = async (containerClient) => {
+const getBlobsUrlsInContainer = async (containerClient) => {
     const returnedBlobUrls = [];
 
     // get list of blobs in container
@@ -104,7 +122,7 @@ export const getBlobsNamesInContainer = async (containerClient) => {
     return returnedBlobNames;
 };
 
-export const downloadBlobFromContainer = async (containerClient, fileName) => {
+const downloadBlobFromContainer = async (containerClient, fileName) => {
     const blobClient = containerClient.getBlockBlobClient(fileName);
     // Download and convert a blob to a string
     const downloadBlockBlobResponse = await blobClient.download();

@@ -10,6 +10,7 @@ namespace CarRentalApi.WebApi.Attachment
         void OnStartup(string connectionString, string containerName, int tokenExpirationMinutes);
         Task<List<string>> GetBlobsInContainerAsync();
 
-        (string uploadSAStoken, DateTimeOffset expiresOn) GetUploadSAStoken();
+        (string uploadSastoken, DateTimeOffset expiresOn) GetUploadSastoken();
+        (string downloadSastoken, DateTimeOffset expiresOn) GetDownloadSastoken();
     }
 }

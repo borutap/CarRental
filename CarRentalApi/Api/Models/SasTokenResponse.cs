@@ -2,9 +2,9 @@
 
 namespace CarRentalApi.WebApi.Models
 {
-    public record UploadTokenResponse
+    public record SasTokenResponse
     {
-        public string UploadSasToken { get; init; }
+        public string SasToken { get; init; }
         public DateTimeOffset ExpiresOn { get; init; }
     }
 }

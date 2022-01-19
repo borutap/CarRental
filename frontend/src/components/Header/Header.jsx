@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { UserContext } from '../../app/App'
 import { CarIcon } from '../CarIcon/CarIcon';
-import { getUploadToken } from '../../lib/AzureBlob';
+
 import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
 

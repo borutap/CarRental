@@ -36,10 +36,10 @@ namespace CarRentalApi.WebApi.Controllers
         {
             try
             {
-                (string token, DateTimeOffset expiresOn) = _attachmentService.GetUploadSAStoken();
-                var response = new UploadTokenResponse
+                (string token, DateTimeOffset expiresOn) = _attachmentService.GetUploadSastoken();
+                var response = new SasTokenResponse
                 {
-                    UploadSasToken = token,
+                    SasToken = token,
                     ExpiresOn = expiresOn
                 };
                 return Ok(response);
@@ -48,6 +48,27 @@ namespace CarRentalApi.WebApi.Controllers
             {
                 return NotFound(new { Error = e.Message });
             }            
+        }
+
+        [HttpGet("downloadtoken")]
+        [Authorize("carrentalapi.user")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetDownloadToken()
+        {
+            try
+            {
+                (string token, DateTimeOffset expiresOn) = _attachmentService.GetDownloadSastoken();
+                var response = new SasTokenResponse
+                {
+                    SasToken = token,
+                    ExpiresOn = expiresOn
+                };
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return NotFound(new { Error = e.Message });
+            }
         }
     }
 }
