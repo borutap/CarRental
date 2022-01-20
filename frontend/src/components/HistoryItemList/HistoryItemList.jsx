@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import { HistoryItem } from '../HistoryItem/HistoryItem';
-import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
+import puntoImg from '../../assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './HistoryItemList.module.scss';
 
 export const HistoryItemList = ({ rentInfo, attachments, blobClient }) => {

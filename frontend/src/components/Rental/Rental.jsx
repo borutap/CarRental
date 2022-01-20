@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames';
 import { RentModal } from '../RentModal/RentModal';
-import { UserContext } from '../../app/App';
-import fetchQuoteJson from '@lib/fetchQuoteJson';
+import { UserContext } from '../../App';
+import fetchQuoteJson from '../../lib/fetchQuoteJson';
 
 import styles from './Rental.module.scss';
 

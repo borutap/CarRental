@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { RentedItem } from '../RentedItem/RentedItem';
-import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
+import puntoImg from '../../assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './RentedItemList.module.scss';
 
 export const RentedItemList = ({ rentInfo }) => {

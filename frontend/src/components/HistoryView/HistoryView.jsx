@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import.meta.hot;
-import { Header } from '@components/Header/Header';
-import { HistoryItemList } from '@components/HistoryItemList/HistoryItemList';
-import { UserContext } from '../../app/App'
-import { getDownloadToken, getClient, getBlobsNamesInContainer } from '@lib/AzureBlob';
+
+import { Header } from '../Header/Header';
+import { HistoryItemList } from '../HistoryItemList/HistoryItemList';
+import { UserContext } from '../../App'
+import { getDownloadToken, getClient, getBlobsNamesInContainer } from '../../lib/AzureBlob';
 import styles from './HistoryView.module.scss';
 
 export const HistoryView = ({ setRole }) => {
@@ -16,11 +16,7 @@ export const HistoryView = ({ setRole }) => {
     const fetchVehicles = async () => {
         try {
             const response = await fetch(
-                `${
-                    __SNOWPACK_ENV__.MODE === 'development'
-                        ? __SNOWPACK_ENV__.DEV_API_URL
-                        : __SNOWPACK_ENV__.API_URL
-                }/rentedhistory`,
+                `${process.env.REACT_APP_API_URL}/rentedhistory`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem(

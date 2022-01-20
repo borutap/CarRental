@@ -6,11 +6,11 @@ export const NoIcon = () => {
             width="22px"
             height="22px"
             viewBox="0 0 24 24"
-            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            xmlnsRdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
-            xmlns:cc="http://creativecommons.org/ns#"
-            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlnsCc="http://creativecommons.org/ns#"
+            xmlnsDc="http://purl.org/dc/elements/1.1/"
         >
             <g transform="translate(0 -1028.4)">
                 <path

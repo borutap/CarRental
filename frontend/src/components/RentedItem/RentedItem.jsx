@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import formatJsonDate from '@lib/formatJsonDate';
+import formatJsonDate from '../../lib/formatJsonDate';
 
 import styles from './RentedItem.module.scss';
 
-import { UserContext } from '../../app/App';
+import { UserContext } from '../../App';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { ReturnModal } from '../ReturnModal/ReturnModal';
 import { VehicleDetails } from '../VehicleDetails/VehicleDetails';

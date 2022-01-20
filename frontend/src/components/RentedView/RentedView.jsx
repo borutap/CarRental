@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import.meta.hot;
-import { Header } from '@components/Header/Header';
-import { RentedItemList } from '@components/RentedItemList/RentedItemList';
-import { UserContext } from '../../app/App'
+
+import { Header } from '../Header/Header';
+import { RentedItemList } from '../RentedItemList/RentedItemList';
+import { UserContext } from '../../App'
 import styles from './RentedView.module.scss';
 
 // GET /????
@@ -41,11 +41,7 @@ export const RentedView = ({setRole}) => {
     const fetchVehicles = async () => {
         try {
             const response = await fetch(
-                `${
-                    __SNOWPACK_ENV__.MODE === 'development'
-                        ? __SNOWPACK_ENV__.DEV_API_URL
-                        : __SNOWPACK_ENV__.API_URL
-                }/rentedvehicles`,
+                `${process.env.REACT_APP_API_URL}/rentedvehicles`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem(

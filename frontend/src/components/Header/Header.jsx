@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import.meta.hot;
+
 import styles from './Header.module.scss';
-import { UserContext } from '../../app/App'
+import { UserContext } from '../../App'
 import { CarIcon } from '../CarIcon/CarIcon';
 
 import { GoogleLogin } from 'react-google-login';
@@ -77,11 +77,7 @@ export const Header = ({setRole}) => {
         try {
             console.log(requestOptions);
             const response = await fetch(
-                `${
-                    __SNOWPACK_ENV__.MODE === 'development'
-                        ? __SNOWPACK_ENV__.DEV_API_URL
-                        : __SNOWPACK_ENV__.API_URL
-                }/login`,
+                `${process.env.REACT_APP_API_URL}/login`,
                 requestOptions
             );
             const data = await response.json();            
@@ -170,9 +166,7 @@ export const Header = ({setRole}) => {
                 )}
                 <GoogleLogin
                     clientId={
-                        __SNOWPACK_ENV__.MODE === 'development'
-                            ? __SNOWPACK_ENV__.DEV_GOOGLE_CLIENT
-                            : __SNOWPACK_ENV__.GOOGLE_CLIENT
+                        process.env.REACT_APP_GOOGLE_CLIENT
                     }
                     buttonText="Login"
                     render={(renderProps) => (
