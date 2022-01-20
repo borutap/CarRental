@@ -1,33 +1,51 @@
 {
-  "name": "car_rental-front",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "c_team",
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "snowpack": "^3.8.8"
-  },
+  "name": "cccccccccccccccccc",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "@azure/storage-blob": "^12.8.0",
-    "@snowpack/plugin-sass": "^1.4.0",
     "classnames": "^2.3.1",
     "file-saver": "^2.0.5",
     "history": "^5.1.0",
-    "react": "^17.0.2",
     "react-datepicker": "^4.5.0",
-    "react-dom": "^17.0.2",
     "react-google-button": "^0.7.2",
     "react-google-login": "^5.2.2",
     "react-icons": "^4.3.1",
     "react-modal": "^3.14.4",
     "react-router": "^6.1.1",
-    "react-router-dom": "^5.3.0"
+    "react-router-dom": "^5.3.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "sass": "^1.49.0",
+    "web-vitals": "^2.1.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "prettier": {
     "semi": true,

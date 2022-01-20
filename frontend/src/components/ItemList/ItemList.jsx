@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Item } from '../Item/Item';
-import puntoImg from '@assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
+import puntoImg from '../../assets/640px-2000_Fiat_Punto_1.2_Front.jpg';
 import styles from './ItemList.module.scss';
 
 export const ItemList = ({ vehicles, possibleRentals, query, alphabetically }) => {

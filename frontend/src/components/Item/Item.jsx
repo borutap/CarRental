@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './Item.module.scss';
-import { UserContext } from '../../app/App';
+import { UserContext } from '../../App';
 import { ArrowIcon } from '../ArrowIcon/ArrowIcon';
 import { Rental } from '../Rental/Rental';
 import { VehicleDetails } from '../VehicleDetails/VehicleDetails';

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames';
-import formatJsonDate from '@lib/formatJsonDate';
-import { downloadBlob } from '@lib/AzureBlob';
+import formatJsonDate from '../../lib/formatJsonDate';
+import { downloadBlob } from '../../lib/AzureBlob';
 import { saveAs } from 'file-saver';
-import { UserContext } from '../../app/App'
+import { UserContext } from '../../App'
 import styles from './HistoryItem.module.scss';
 import { OkIcon } from '../OkIcon/OkIcon';
 import { NoIcon } from '../NoIcon/NoIcon';

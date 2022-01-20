@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { MainView } from '@components/MainView/MainView';
-import { HistoryView } from '@components/HistoryView/HistoryView';
-import { RentedView } from '@components/RentedView/RentedView';
+import { MainView } from './components/MainView/MainView';
+import { HistoryView } from './components/HistoryView/HistoryView';
+import { RentedView } from './components/RentedView/RentedView';
 
 export const UserContext = React.createContext();
 

@@ -1,5 +1,5 @@
 import { BlobServiceClient } from '@azure/storage-blob';
-import.meta.hot;
+
 // TODO tu bedzie token tylko do czytania/pobierania
 // on moze wszystko, raczej token juz jest przedawniony, wazny do 13.01.2022 23:59
 const containerName = `testrentalcontainer`;
@@ -14,11 +14,7 @@ const getUploadToken = async () => {
             },
         };
         const response = await fetch(
-            `${
-                __SNOWPACK_ENV__.MODE === 'development'
-                    ? __SNOWPACK_ENV__.DEV_API_URL
-                    : __SNOWPACK_ENV__.API_URL
-            }/uploadtoken`,
+            `${process.env.REACT_APP_API_URL}/uploadtoken`,
             requestOptions
         );
         const data = await response.json();
@@ -39,11 +35,7 @@ export const getDownloadToken = async () => {
             },
         };
         const response = await fetch(
-            `${
-                __SNOWPACK_ENV__.MODE === 'development'
-                    ? __SNOWPACK_ENV__.DEV_API_URL
-                    : __SNOWPACK_ENV__.API_URL
-            }/downloadtoken`,
+            `${process.env.REACT_APP_API_URL}/downloadtoken`,
             requestOptions
         );
         const data = await response.json();

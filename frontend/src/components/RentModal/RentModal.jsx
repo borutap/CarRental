@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import fetchQuoteJson from '@lib/fetchQuoteJson';
+import fetchQuoteJson from '../../lib/fetchQuoteJson';
 import DatePicker from "react-datepicker";
-import.meta.hot;
+
 import styles from './RentModal.module.scss';
 import "react-datepicker/dist/react-datepicker.css";
 //import "./DatePickerStyles.css"
@@ -64,11 +64,7 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
         // TODO - api powinno zwracac inny kod
         try {
             const response = await fetch(
-                `${
-                    __SNOWPACK_ENV__.MODE === 'development'
-                        ? __SNOWPACK_ENV__.DEV_API_URL
-                        : __SNOWPACK_ENV__.API_URL
-                }/vehicle/Rent/${quoteId}`,
+                `${process.env.REACT_APP_API_URL}/vehicle/Rent/${quoteId}`,
                 requestOptions
             );
             
