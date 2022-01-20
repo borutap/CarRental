@@ -92,7 +92,7 @@ namespace CarRentalApi.WebApi.Controllers
                     Capacity = tuple.Item2.Capacity,
                     Description = tuple.Item2.Description,
                     ReturnDescription = tuple.Item1.ReturnDescription,
-                    OdometerValue = (int)tuple.Item1.OdometerValue,
+                    OdometerValue = tuple.Item1.OdometerValue,
                     StartDate = tuple.Item1.StartDate,
                     EndDate = tuple.Item1.EndDate,
                     ReturnTime = tuple.Item1.ReturnTime

@@ -36,7 +36,7 @@ namespace Api
 
             services.AddControllers(configure =>
             {
-                AuditConfiguration.ConfigureAudit(services);
+                AuditConfiguration.ConfigureAudit(services, Configuration);
                 AuditConfiguration.AddAudit(configure);
             });
             services.AddSwaggerGen(c =>
@@ -90,17 +90,18 @@ namespace Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+                               
                 app.UseCors(
                     options => options.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader()
                 );
             }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
 
             app.UseHttpsRedirection();
 

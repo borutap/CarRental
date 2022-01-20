@@ -85,7 +85,7 @@ namespace CarRentalApi.Services.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OdometerValue")
+                    b.Property<int>("OdometerValue")
                         .HasColumnType("int");
 
                     b.Property<string>("ReturnDescription")
@@ -142,7 +142,7 @@ namespace CarRentalApi.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("066bc75d-8adf-4ead-a07b-fa3b0e6711b4"),
+                            Id = new Guid("463fae54-58e4-4dd9-8bd1-0529c10e4132"),
                             Capacity = 5,
                             Description = "Fiat Punto",
                             EnginePower = 120,
@@ -152,7 +152,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("74f07646-4edf-478f-924a-eb017fbb865b"),
+                            Id = new Guid("1b056e2c-7fb7-491d-b3cf-c44136a383b5"),
                             Capacity = 6,
                             Description = "Fiat Punto",
                             EnginePower = 140,
@@ -162,7 +162,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aca9d20f-32f4-4ccf-a4a2-2b0389962412"),
+                            Id = new Guid("39b5a195-8dc4-4341-87c0-6a2f5fd73a84"),
                             Capacity = 7,
                             Description = "Audi RS7",
                             EnginePower = 220,

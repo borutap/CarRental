@@ -12,7 +12,7 @@ namespace CarRentalApi.Services.Models
         public DateTime CreationTime { get; init; }
         public DateTime? ReturnTime { get; set; }
         public string? ReturnDescription { get; set; }
-        public int? OdometerValue { get; set; }
+        public int OdometerValue { get; set; }
         public virtual Quote Quote { get; init; }
         public virtual Vehicle Vehicle { get; set; }
     }

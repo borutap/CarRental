@@ -1,6 +1,7 @@
 ﻿using Audit.Core;
 using Audit.WebApi;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -20,11 +21,11 @@ namespace CarRentalApi.WebApi.AuditConfiguration
         }
 
         // Configures what and how is logged or is not logged
-        public static void ConfigureAudit(IServiceCollection serviceCollection)
+        public static void ConfigureAudit(IServiceCollection serviceCollection, IConfiguration Configuration)
         {
             Audit.Core.Configuration.Setup()
                 .UseSqlServer(_ => _
-                .ConnectionString("Server=localhost;Database=RentalDb;Trusted_Connection=True;")
+                .ConnectionString(Configuration["connectionString"])
                 .TableName("Audits")
                 .IdColumnName("AuditID")
                 .JsonColumnName("Data"));

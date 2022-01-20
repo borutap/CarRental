@@ -16,7 +16,7 @@ namespace CarRentalApi.Services.Databases
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Audit> Audits { get; set; }
 
-
+         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Vehicle>()
