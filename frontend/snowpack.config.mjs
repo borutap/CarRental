@@ -7,7 +7,7 @@ export default {
     DEV_API_URL: 'https://localhost:44329',
     API_URL: 'https://teamcrental.azurewebsites.net',
     DEV_GOOGLE_CLIENT: '438661257726-oqgj0dm34f9cdivvucr4evlf2ppk90je.apps.googleusercontent.com',
-    GOOGLE_CLIENT: '',
+    GOOGLE_CLIENT: '438661257726-hfaujld0s6cukc4rlhhrjofu9tafd6sf.apps.googleusercontent.com',
   },
   packageOptions: {
     polyfillNode: true
