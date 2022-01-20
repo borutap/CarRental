@@ -111,7 +111,7 @@ export const Header = ({setRole}) => {
                 <NavLink exact to="/">
                     <div className={styles.nameContainer}>
                         <CarIcon />
-                        <div className={styles.nameText}>CAR RENTAL</div>
+                        <div className={styles.nameText}>TEAMC RENTAL</div>
                     </div>
                 </NavLink>
                 <div className={styles.menuContainer}>
