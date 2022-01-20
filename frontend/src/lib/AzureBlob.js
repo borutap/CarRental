@@ -1,4 +1,5 @@
 import { BlobServiceClient } from '@azure/storage-blob';
+import.meta.hot;
 // TODO tu bedzie token tylko do czytania/pobierania
 // on moze wszystko, raczej token juz jest przedawniony, wazny do 13.01.2022 23:59
 const containerName = `testrentalcontainer`;
@@ -12,7 +13,14 @@ const getUploadToken = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`
             },
         };
-        const response = await fetch('https://localhost:44329/uploadtoken', requestOptions);
+        const response = await fetch(
+            `${
+                __SNOWPACK_ENV__.MODE === 'development'
+                    ? __SNOWPACK_ENV__.DEV_API_URL
+                    : __SNOWPACK_ENV__.API_URL
+            }/uploadtoken`,
+            requestOptions
+        );
         const data = await response.json();
         console.log("Got uploadSasToken");
         console.log(data);
@@ -30,7 +38,14 @@ export const getDownloadToken = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`
             },
         };
-        const response = await fetch('https://localhost:44329/downloadtoken', requestOptions);
+        const response = await fetch(
+            `${
+                __SNOWPACK_ENV__.MODE === 'development'
+                    ? __SNOWPACK_ENV__.DEV_API_URL
+                    : __SNOWPACK_ENV__.API_URL
+            }/downloadtoken`,
+            requestOptions
+        );
         const data = await response.json();
         console.log("Got downloadSasToken");
         console.log(data);

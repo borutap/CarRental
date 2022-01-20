@@ -17,8 +17,8 @@ export const RentedItemList = ({ rentInfo }) => {
                         power={v.enginePower}
                         capacity={v.capacity}
                         description={v.description}
-                        brand={v.brand}
-                        model={v.model}
+                        brandName={v.brandName}
+                        modelName={v.modelName}
                         rentStart={v.startDate}
                         rentEnd={v.endDate}
                     />

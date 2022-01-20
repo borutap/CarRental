@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-
+import.meta.hot;
 import { Header } from '@components/Header/Header';
 import { HistoryItemList } from '@components/HistoryItemList/HistoryItemList';
 import { UserContext } from '../../app/App'
@@ -15,7 +15,20 @@ export const HistoryView = ({ setRole }) => {
 
     const fetchVehicles = async () => {
         try {
-            const response = await fetch('https://localhost:44329/rentedhistory');
+            const response = await fetch(
+                `${
+                    __SNOWPACK_ENV__.MODE === 'development'
+                        ? __SNOWPACK_ENV__.DEV_API_URL
+                        : __SNOWPACK_ENV__.API_URL
+                }/rentedhistory`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'access_token'
+                        )}`,
+                    },
+                }
+            );
             const data = await response.json();
             setRentInfo(data);
         } catch (e) {

@@ -6,8 +6,8 @@ namespace CarRentalApi.WebApi.Models
     {
         public Guid RentId { get; init; }
         public int Year { get; init; }
-        public string Brand { get; init; }
-        public string Model { get; init; }
+        public string BrandName { get; init; }
+        public string ModelName { get; init; }
         public int EnginePower { get; init; }
         public string EnginePowerType { get; init; }
         public int Capacity { get; init; }

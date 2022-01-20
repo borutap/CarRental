@@ -32,13 +32,13 @@ namespace Api
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
 
-            services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+            services.AddDbContext<RentalDbContext>(x => x.UseSqlServer(Configuration["connectionString"]));
 
             services.AddControllers(configure =>
-                {
-                    AuditConfiguration.ConfigureAudit(services);
-                    AuditConfiguration.AddAudit(configure);
-                });
+            {
+                AuditConfiguration.ConfigureAudit(services, Configuration);
+                AuditConfiguration.AddAudit(configure);
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
@@ -78,21 +78,30 @@ namespace Api
                 {
                     policy.RequireClaim("scope", Configuration["userScope"]);
                 });
+                options.AddPolicy("carrentalapi.logged", policy =>
+                {
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim("scope", Configuration["userScope"]) ||
+                            context.User.HasClaim("scope", Configuration["workerScope"]);
+                    });
+                });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+                               
                 app.UseCors(
                     options => options.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader()
-                ); ;
+                );
             }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
 
             app.UseHttpsRedirection();
 

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames';
 import formatJsonDate from '@lib/formatJsonDate';
 import { downloadBlob } from '@lib/AzureBlob';
 import { saveAs } from 'file-saver';
-
+import { UserContext } from '../../app/App'
 import styles from './HistoryItem.module.scss';
 import { OkIcon } from '../OkIcon/OkIcon';
 import { NoIcon } from '../NoIcon/NoIcon';
@@ -13,21 +13,23 @@ import { VehicleDetails } from '../VehicleDetails/VehicleDetails';
 export const HistoryItem = ({
     imageUrl,
     rentId,
-    brand,
-    model,
+    brandName,
+    modelName,
     rentStart,
     rentEnd,
     year,
     power,
     capacity,
     description,
+    returnDescription,
+    odometerValue,
     returnTime,
     attachments,
     blobClient
 }) => {
     const [expanded, setExpanded] = useState(false);
     const [att, setAtt] = useState([]);
-
+    const role = useContext(UserContext);
     useEffect(() => {
         const tab = attachments.filter((fileName) => {
             return fileName.startsWith(rentId);
@@ -43,7 +45,7 @@ export const HistoryItem = ({
                 </div>
                 <div className={styles.topRight}>
                     <div className={styles.topTextContainer}>
-                        {brand + ' ' + model}
+                        {brandName + ' ' + modelName}
                     </div>
                     <div>
                         From {formatJsonDate(rentStart)}
@@ -77,9 +79,17 @@ export const HistoryItem = ({
                                 description={description}
                             />
                         </div>
+                        {role === "client" &&
                         <div className={styles.bottomDownload}>
                             <Attachments attachments={att} blobClient={blobClient}/>
+                            <div>
+                                {returnDescription}
+                            </div>
+                            <div>
+                                <u>Odometer value</u>: {odometerValue}
+                            </div>
                         </div>
+                        }                        
                     </>
                 )}
             </div>

@@ -22,12 +22,12 @@ namespace CarRentalApi.WebApi.Controllers
                 configuration["blobConnectionString"], configuration["containerName"], int.Parse(configuration["blobTokenExpirationMinutes"]));
         }
 
-        [HttpGet("attachments")]
-        public async Task<IActionResult> GetAttachments()
-        {
-            var attachments = await _attachmentService.GetBlobsInContainerAsync();
-            return Ok(attachments);
-        }
+        //[HttpGet("attachments")]
+        //public async Task<IActionResult> GetAttachments()
+        //{
+        //    var attachments = await _attachmentService.GetBlobsInContainerAsync();
+        //    return Ok(attachments);
+        //}
 
         [HttpGet("uploadtoken")]
         [Authorize("carrentalapi.worker")]

@@ -1,58 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
+import.meta.hot;
 import { Header } from '@components/Header/Header';
 import { ItemList } from '@components/ItemList/ItemList';
 import { SearchBar } from '../SearchBar/SearchBar';
 
 import styles from './MainView.module.scss';
-
-// GET /vehicles
-const mockVehiclesResponse = {
-    vehiclesCount: 3,
-    vehicles: [
-        {
-            id: '3fa85f64-5717-4562-b3fc-2c963f66afa5',
-            brand: 'Fiat',
-            model: 'Punto',
-            year: 1999,
-            enginePower: 696,
-            enginePowerType: 'string',
-            capacity: 42,
-            description:
-                'Dlugi opis hagikawoghawouighjaiguahgiuahgaiughaiughagiuahgaiughawiughaiguahgiauhg',
-        },
-        {
-            id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            brand: 'Aiat',
-            model: 'Szerszen',
-            year: 1969,
-            enginePower: 420,
-            enginePowerType: 'string',
-            capacity: 69,
-            description: 'string',
-        },
-        {
-            id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-            brand: 'Niemam',
-            model: 'Pojecia',
-            year: 2069,
-            enginePower: 0,
-            enginePowerType: 'string',
-            capacity: 0,
-            description: 'string',
-        },
-    ],
-};
-
-// POST /vehicle/{id}/GetPrice response
-const mockPricesResponse = {
-  "price": 1000,
-  "currency": "zł",
-  // "currency": "string",
-  "generatedAt": "2021-12-07T19:20:37.759Z",
-  "expiredAt": "2021-12-07T19:20:37.759Z",
-  "quotaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-};
 
 // CUSTOM
 const mockPossibleRentals = {
@@ -61,12 +13,16 @@ const mockPossibleRentals = {
         {
             "id": "1",
             "name": "Our Rental",
-            "baseApiUrl": "https://localhost:44329"
+            "baseApiUrl": `${
+                __SNOWPACK_ENV__.MODE === 'development'
+                    ? __SNOWPACK_ENV__.DEV_API_URL
+                    : __SNOWPACK_ENV__.API_URL
+            }`
         },
         {
             "id": "2",
-            "name": "Dluzszanazwa",
-            "baseApiUrl": "Dluzszanazwa.com/api/"
+            "name": "Teacher Rental",
+            "baseApiUrl": "https://mini.rentcar.api.snet.com.pl"
         },
         {
             "id": "3",
@@ -91,7 +47,13 @@ export const MainView = ({ setRole }) => {
 
     const fetchVehicles = async () => {
         try {
-            const response = await fetch('https://localhost:44329/vehicles');
+            const response = await fetch(
+                `${
+                    __SNOWPACK_ENV__.MODE === 'development'
+                        ? __SNOWPACK_ENV__.DEV_API_URL
+                        : __SNOWPACK_ENV__.API_URL
+                }/vehicles`
+            );
             const data = await response.json();
             setVehicles(data);
         } catch (e) {

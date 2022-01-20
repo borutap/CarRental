@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalApi.Services.Migrations
 {
     [DbContext(typeof(RentalDbContext))]
-    [Migration("20220118150024_InitialCommit")]
+    [Migration("20220120025503_InitialCommit")]
     partial class InitialCommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,6 +87,12 @@ namespace CarRentalApi.Services.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OdometerValue")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReturnDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ReturnTime")
                         .HasColumnType("datetime2");
 
@@ -138,7 +144,7 @@ namespace CarRentalApi.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("93766d8c-9f61-42bf-ac1c-c62346601040"),
+                            Id = new Guid("463fae54-58e4-4dd9-8bd1-0529c10e4132"),
                             Capacity = 5,
                             Description = "Fiat Punto",
                             EnginePower = 120,
@@ -148,7 +154,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dbe28e09-94ba-4f3d-99e5-7eaa15c2fb02"),
+                            Id = new Guid("1b056e2c-7fb7-491d-b3cf-c44136a383b5"),
                             Capacity = 6,
                             Description = "Fiat Punto",
                             EnginePower = 140,
@@ -158,7 +164,7 @@ namespace CarRentalApi.Services.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5511e3a6-c900-4e33-b593-1f8d21943882"),
+                            Id = new Guid("39b5a195-8dc4-4341-87c0-6a2f5fd73a84"),
                             Capacity = 7,
                             Description = "Audi RS7",
                             EnginePower = 220,

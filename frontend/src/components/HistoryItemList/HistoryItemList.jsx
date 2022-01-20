@@ -21,8 +21,10 @@ export const HistoryItemList = ({ rentInfo, attachments, blobClient }) => {
                         power={v.enginePower}
                         capacity={v.capacity}
                         description={v.description}
-                        brand={v.brand}
-                        model={v.model}
+                        returnDescription={v.returnDescription}
+                        odometerValue={v.odometerValue}
+                        brandName={v.brandName}
+                        modelName={v.modelName}
                         rentStart={v.startDate}
                         rentEnd={v.endDate}
                         returnTime={v.returnTime}

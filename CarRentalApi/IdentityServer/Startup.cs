@@ -3,18 +3,22 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace IdentityServer
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment currentEnvironment)
         {
             Configuration = configuration;
+            CurrentEnvironment = currentEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment CurrentEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -26,11 +30,23 @@ namespace IdentityServer
             Config.introspectionSecret = Configuration["introspectionSecret"];
 
             // DeveloperSigningCredential musi zostac usuniete na produkcji
-            services.AddIdentityServer()
+            var identityServiceBuilder = services.AddIdentityServer()
                 .AddInMemoryClients(Config.Clients)
                 .AddInMemoryApiResources(Config.ApiResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddDeveloperSigningCredential();
+                .AddInMemoryApiScopes(Config.ApiScopes);
+
+            if (CurrentEnvironment.IsProduction())
+            {
+                // pobierany z Azure Key Vault Certificates
+                var key = Configuration["identitycertificate"];
+                var pfxBytes = Convert.FromBase64String(key);
+                var cert = new X509Certificate2(pfxBytes, (string)null, X509KeyStorageFlags.MachineKeySet);
+                identityServiceBuilder.AddSigningCredential(cert);
+            }
+            else
+            {
+                identityServiceBuilder.AddDeveloperSigningCredential();
+            }
 
             services.AddCors();
         }

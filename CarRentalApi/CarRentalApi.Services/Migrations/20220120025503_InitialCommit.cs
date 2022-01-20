@@ -67,6 +67,8 @@ namespace CarRentalApi.Services.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ReturnDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OdometerValue = table.Column<int>(type: "int", nullable: false),
                     VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -123,17 +125,17 @@ namespace CarRentalApi.Services.Migrations
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Capacity", "Description", "EnginePower", "EnginePowerType", "ModelId", "Year" },
-                values: new object[] { new Guid("93766d8c-9f61-42bf-ac1c-c62346601040"), 5, "Fiat Punto", 120, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2005 });
+                values: new object[] { new Guid("463fae54-58e4-4dd9-8bd1-0529c10e4132"), 5, "Fiat Punto", 120, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2005 });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Capacity", "Description", "EnginePower", "EnginePowerType", "ModelId", "Year" },
-                values: new object[] { new Guid("dbe28e09-94ba-4f3d-99e5-7eaa15c2fb02"), 6, "Fiat Punto", 140, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2002 });
+                values: new object[] { new Guid("1b056e2c-7fb7-491d-b3cf-c44136a383b5"), 6, "Fiat Punto", 140, "PB", new Guid("933afee2-fbb1-4174-9fb4-16ac4b27a080"), 2002 });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Capacity", "Description", "EnginePower", "EnginePowerType", "ModelId", "Year" },
-                values: new object[] { new Guid("5511e3a6-c900-4e33-b593-1f8d21943882"), 7, "Audi RS7", 220, "PB", new Guid("84d23d56-6be7-48e7-b0e1-51166a558009"), 2015 });
+                values: new object[] { new Guid("39b5a195-8dc4-4341-87c0-6a2f5fd73a84"), 7, "Audi RS7", 220, "PB", new Guid("84d23d56-6be7-48e7-b0e1-51166a558009"), 2015 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quotes_ModelId",

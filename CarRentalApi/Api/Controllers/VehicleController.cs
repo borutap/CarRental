@@ -5,6 +5,7 @@ using CarRentalApi.WebApi.Helpers;
 using CarRentalApi.Services.Models;
 using System;
 using CarRentalApi.Services.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRentalApi.WebApi.Controllers
 {
@@ -30,8 +31,8 @@ namespace CarRentalApi.WebApi.Controllers
                 var modelFromDb = _rentalService.GetModel(vehicle.Model.Id);
                 results.Add(new VehicleModelResponse
                 {
-                    Brand = modelFromDb.Brand,
-                    Model = modelFromDb.Model,
+                    BrandName = modelFromDb.Brand,
+                    ModelName = modelFromDb.Model,
                     Capacity = vehicle.Capacity,
                     Description = vehicle.Description,
                     EnginePower = vehicle.EnginePower,
@@ -45,6 +46,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("rentedvehicles")]
+        [Authorize("carrentalapi.logged")]
         public IEnumerable<RentedVehiclesResponse> GetRentedVehicles()
         {
             var results = new List<RentedVehiclesResponse>();
@@ -56,8 +58,8 @@ namespace CarRentalApi.WebApi.Controllers
                 {
                     RentId = tuple.Item1.Id,
                     Year = tuple.Item2.Year,
-                    Brand = modelFromDb.Brand,
-                    Model = modelFromDb.Model,
+                    BrandName = modelFromDb.Brand,
+                    ModelName = modelFromDb.Model,
                     EnginePower = tuple.Item2.EnginePower,
                     EnginePowerType = tuple.Item2.EnginePowerType,
                     Capacity = tuple.Item2.Capacity,
@@ -71,6 +73,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("rentedhistory")]
+        [Authorize("carrentalapi.logged")]
         public IEnumerable<HistoricallyRentedVehiclesResponse> GetHistoricallyRentedVehicles()
         {
             var results = new List<HistoricallyRentedVehiclesResponse>();
@@ -82,12 +85,14 @@ namespace CarRentalApi.WebApi.Controllers
                 {
                     RentId = tuple.Item1.Id,
                     Year = tuple.Item2.Year,
-                    Brand = modelFromDb.Brand,
-                    Model = modelFromDb.Model,
+                    BrandName = modelFromDb.Brand,
+                    ModelName = modelFromDb.Model,
                     EnginePower = tuple.Item2.EnginePower,
                     EnginePowerType = tuple.Item2.EnginePowerType,
                     Capacity = tuple.Item2.Capacity,
                     Description = tuple.Item2.Description,
+                    ReturnDescription = tuple.Item1.ReturnDescription,
+                    OdometerValue = tuple.Item1.OdometerValue,
                     StartDate = tuple.Item1.StartDate,
                     EndDate = tuple.Item1.EndDate,
                     ReturnTime = tuple.Item1.ReturnTime
@@ -98,6 +103,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/{brand}/{model}")]
+        [Authorize("carrentalapi.user")]
         public CheckPriceResponse GetModel(string brand, string model, [FromBody] CheckPriceRequest request)
         {
             var modelFromDb = _rentalService.GetModel(brand, model);
@@ -122,6 +128,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/{id}")]
+        [Authorize("carrentalapi.user")]
         public CheckPriceResponse GetModelByID(Guid id, [FromBody] CheckPriceRequest request)
         {
             var modelFromDb = _rentalService.GetModelByVehicleId(id);
@@ -145,6 +152,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/Rent/{quoteId}")]
+        [Authorize("carrentalapi.user")]
         public RentVehicleResponse RentVehicle(Guid quoteId, [FromBody] RentVehicleRequest request)
         {
             var quoteFromDb = _rentalService.GetQuote(quoteId);
@@ -180,9 +188,13 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/Return/{rentId}")]
-        public ActionResult ReturnVehicle(Guid rentId)
+        [Authorize("carrentalapi.worker")]
+        public ActionResult ReturnVehicle(Guid rentId, [FromBody] ReturnVehicleRequest request)
         {
-            if (!_rentalService.ReturnVehicle(rentId)) throw new InvalidOperationException($"Cannot return vehicle with rentId {rentId}");
+            if (!_rentalService.ReturnVehicle(rentId, request.Description, request.OdometerValue))
+            {
+                throw new InvalidOperationException($"Cannot return vehicle with rentId {rentId}");
+            }            
             return Ok();
         }
 

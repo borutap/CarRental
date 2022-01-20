@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import fetchQuoteJson from '@lib/fetchQuoteJson';
 import DatePicker from "react-datepicker";
-
+import.meta.hot;
 import styles from './RentModal.module.scss';
 import "react-datepicker/dist/react-datepicker.css";
 //import "./DatePickerStyles.css"
@@ -35,7 +35,8 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
                 yearsOfHavingLicence,
                 numberOfDays,
                 location,
-                vehicleId
+                vehicleId,
+                true
             );
         } catch (e) {
             alert("In RentModal: " + e.message);
@@ -50,17 +51,24 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
     const fetchRentId = async (quoteId) => {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
             body: JSON.stringify({
                 startDate: startDate,
-                endDate: endDate
+                endDate: endDate,
             }),
         };
         
         // TODO - api powinno zwracac inny kod
         try {
             const response = await fetch(
-                `https://localhost:44329/vehicle/Rent/${quoteId}`,
+                `${
+                    __SNOWPACK_ENV__.MODE === 'development'
+                        ? __SNOWPACK_ENV__.DEV_API_URL
+                        : __SNOWPACK_ENV__.API_URL
+                }/vehicle/Rent/${quoteId}`,
                 requestOptions
             );
             
