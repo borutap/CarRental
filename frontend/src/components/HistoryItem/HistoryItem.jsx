@@ -47,12 +47,8 @@ export const HistoryItem = ({
                     <div className={styles.topTextContainer}>
                         {brandName + ' ' + modelName}
                     </div>
-                    <div>
-                        From {formatJsonDate(rentStart)}
-                    </div>
-                    <div>
-                        Until {formatJsonDate(rentEnd)}
-                    </div>
+                    <div>From {formatJsonDate(rentStart)}</div>
+                    <div>Until {formatJsonDate(rentEnd)}</div>
                 </div>
             </div>
             <div className={styles.midContainer}>
@@ -68,7 +64,7 @@ export const HistoryItem = ({
                     </div>
                 )}
             </div>
-            <div className={styles.bottomContainer}>            
+            <div className={styles.bottomContainer}>
                 {expanded && (
                     <>
                         <div className={styles.bottomCarDetails}>
@@ -79,17 +75,20 @@ export const HistoryItem = ({
                                 description={description}
                             />
                         </div>
-                        {role === "client" &&
-                        <div className={styles.bottomDownload}>
-                            <Attachments attachments={att} blobClient={blobClient}/>
-                            <div>
-                                {returnDescription}
+                        {role === 'client' && (
+                            <div className={styles.bottomDownload}>
+                                <Attachments
+                                    attachments={att}
+                                    blobClient={blobClient}
+                                />
+                                <div>{returnDescription}</div>
+                                {odometerValue !== 0 && (
+                                    <div>
+                                        <u>Odometer value</u>: {odometerValue}
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <u>Odometer value</u>: {odometerValue}
-                            </div>
-                        </div>
-                        }                        
+                        )}
                     </>
                 )}
             </div>
