@@ -63,7 +63,8 @@ export const Rental = ({
                 0,
                 1,
                 '',
-                vehicleId
+                vehicleId,
+                name === "Our Rental"
             );
             const price = quoteJson['price'];
             console.log(`Our price: ${price}`);

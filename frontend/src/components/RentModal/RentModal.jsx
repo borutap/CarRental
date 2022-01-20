@@ -35,7 +35,8 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
                 yearsOfHavingLicence,
                 numberOfDays,
                 location,
-                vehicleId
+                vehicleId,
+                true
             );
         } catch (e) {
             alert("In RentModal: " + e.message);
@@ -50,10 +51,13 @@ export const RentModal = ({ vehicleId, baseApiUrl, pricePerDay, isOpen, onReques
     const fetchRentId = async (quoteId) => {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
             body: JSON.stringify({
                 startDate: startDate,
-                endDate: endDate
+                endDate: endDate,
             }),
         };
         

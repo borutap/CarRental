@@ -4,11 +4,19 @@ export default async function fetchQuoteJson(
     yearsOfHavingDriverLicense,
     rentDuration,
     location,
-    vehicleId
+    vehicleId,
+    isRentalOurs
 ) {    
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${
+                isRentalOurs
+                    ? localStorage.getItem('access_token')
+                    : localStorage.getItem('t_access_token')
+            }`,
+        },
         // TODO prawdziwe body
         body: JSON.stringify({
             age: age,

@@ -20,7 +20,14 @@ export const HistoryView = ({ setRole }) => {
                     __SNOWPACK_ENV__.MODE === 'development'
                         ? __SNOWPACK_ENV__.DEV_API_URL
                         : __SNOWPACK_ENV__.API_URL
-                }/rentedhistory`
+                }/rentedhistory`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'access_token'
+                        )}`,
+                    },
+                }
             );
             const data = await response.json();
             setRentInfo(data);

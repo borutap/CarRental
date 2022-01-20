@@ -78,6 +78,14 @@ namespace Api
                 {
                     policy.RequireClaim("scope", Configuration["userScope"]);
                 });
+                options.AddPolicy("carrentalapi.logged", policy =>
+                {
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim("scope", Configuration["userScope"]) ||
+                            context.User.HasClaim("scope", Configuration["workerScope"]);
+                    });
+                });
             });
         }
 

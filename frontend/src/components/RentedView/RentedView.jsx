@@ -45,7 +45,14 @@ export const RentedView = ({setRole}) => {
                     __SNOWPACK_ENV__.MODE === 'development'
                         ? __SNOWPACK_ENV__.DEV_API_URL
                         : __SNOWPACK_ENV__.API_URL
-                }/rentedvehicles`
+                }/rentedvehicles`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'access_token'
+                        )}`,
+                    },
+                }
             );
             const data = await response.json();
             setRentInfo(data);

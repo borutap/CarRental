@@ -21,10 +21,13 @@ export const ReturnModal = ({ rentId, setHidden, isOpen, onRequestClose }) => {
     const returnRequest = async () => {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
             body: JSON.stringify({
                 description: description,
-                odometerValue: odometerValue
+                odometerValue: odometerValue,
             }),
         };
         const response = await fetch(

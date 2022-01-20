@@ -5,6 +5,7 @@ using CarRentalApi.WebApi.Helpers;
 using CarRentalApi.Services.Models;
 using System;
 using CarRentalApi.Services.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRentalApi.WebApi.Controllers
 {
@@ -45,6 +46,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("rentedvehicles")]
+        [Authorize("carrentalapi.logged")]
         public IEnumerable<RentedVehiclesResponse> GetRentedVehicles()
         {
             var results = new List<RentedVehiclesResponse>();
@@ -71,6 +73,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("rentedhistory")]
+        [Authorize("carrentalapi.logged")]
         public IEnumerable<HistoricallyRentedVehiclesResponse> GetHistoricallyRentedVehicles()
         {
             var results = new List<HistoricallyRentedVehiclesResponse>();
@@ -100,6 +103,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/{brand}/{model}")]
+        [Authorize("carrentalapi.user")]
         public CheckPriceResponse GetModel(string brand, string model, [FromBody] CheckPriceRequest request)
         {
             var modelFromDb = _rentalService.GetModel(brand, model);
@@ -124,6 +128,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/{id}")]
+        [Authorize("carrentalapi.user")]
         public CheckPriceResponse GetModelByID(Guid id, [FromBody] CheckPriceRequest request)
         {
             var modelFromDb = _rentalService.GetModelByVehicleId(id);
@@ -147,6 +152,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/Rent/{quoteId}")]
+        [Authorize("carrentalapi.user")]
         public RentVehicleResponse RentVehicle(Guid quoteId, [FromBody] RentVehicleRequest request)
         {
             var quoteFromDb = _rentalService.GetQuote(quoteId);
@@ -182,6 +188,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicle/Return/{rentId}")]
+        [Authorize("carrentalapi.worker")]
         public ActionResult ReturnVehicle(Guid rentId, [FromBody] ReturnVehicleRequest request)
         {
             if (!_rentalService.ReturnVehicle(rentId, request.Description, request.OdometerValue))

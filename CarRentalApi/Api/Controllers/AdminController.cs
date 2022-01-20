@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CarRentalApi.WebApi.Helpers;
 using Audit.WebApi;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRentalApi.WebApi.Controllers
 {
@@ -21,6 +22,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("team/{teamName}/quote/history")]
+        [Authorize("carrentalapi.logged")]
         public IEnumerable<RentHistoryResponse> GetQuoteHistory(string teamName)
         {
             var quotesFromDb = _rentalService.GetQuotesByTeam(teamName);
@@ -56,6 +58,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicles/AddModel")]
+        [Authorize("carrentalapi.worker")]
         public void AddNewModel([FromBody] AddModelRequest request)
         {
             var vehicleModel = new VehicleModel
@@ -70,6 +73,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpPost("vehicles/AddVehicle")]
+        [Authorize("carrentalapi.worker")]
 
         public void AddNewVehicle([FromBody] AddVehicleRequest request)
         {
@@ -92,6 +96,7 @@ namespace CarRentalApi.WebApi.Controllers
         }
 
         [HttpGet("team/{teamName}/audit")]
+        [Authorize("carrentalapi.logged")]
         [AuditIgnore]
         public List<AuditResponse> GetTeamAudit(string teamName, int count)
         {
@@ -105,6 +110,7 @@ namespace CarRentalApi.WebApi.Controllers
         
 
         [HttpGet("teams/audit")]
+        [Authorize("carrentalapi.logged")]
         [AuditIgnore]
         public List<AuditResponse> GetAllAudit(int count)
         {
